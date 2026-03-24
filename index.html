@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nền tảng Thi Tốt Nghiệp THPT 2026</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            startup: { typeset: false }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        .part3-input { width: 45px; height: 45px; text-align: center; font-size: 1.5rem; border: 2px solid #cbd5e1; border-radius: 0.375rem; font-weight: bold;}
+        .part3-input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+        .locked { opacity: 0.85; pointer-events: none; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .dark ::-webkit-scrollbar-thumb { background: #27272a; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        .radio-custom {
+            appearance: none; -webkit-appearance: none;
+            width: 1.5rem; height: 1.5rem;
+            border: 2px solid #94a3b8; border-radius: 50%;
+            background-color: #fff;
+            display: inline-block; position: relative; cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            margin: 0;
+        }
+        .radio-custom:hover:not(:disabled) { border-color: #64748b; }
+        
+        .radio-true:checked { background-color: #10b981 !important; border: 2px solid #10b981 !important; }
+        .radio-false:checked { background-color: #ef4444 !important; border: 2px solid #ef4444 !important; }
+        .radio-custom:checked::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 0.5rem; height: 0.5rem; background-color: #fff; border-radius: 50%;
+        }
+
+        .dark body { background-color: #000000; color: #e2e8f0; }
+        .dark .part3-input { background-color: #09090b; color: #f8fafc; border-color: #27272a; }
+        .dark .part3-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4); }
+        .dark .radio-custom { background-color: #09090b; border-color: #52525b; }
+        .dark .radio-custom:hover:not(:disabled) { border-color: #71717a; }
+        .dark .radio-custom:checked::after { background-color: #000000; }
+        .dark .radio-true:checked::after, .dark .radio-false:checked::after { background-color: #000; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
+
+    <div class="absolute top-4 right-4 z-50" id="floating-theme-toggle">
+        <button onclick="toggleDarkMode()" class="p-2.5 rounded-full bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-900 shadow-sm transition outline-none">
+            <svg id="moon-icon-float" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            <svg id="sun-icon-float" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        </button>
+    </div>
+
+    <div id="setup-wrapper" class="w-full h-full overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-8">
+        <div id="setup-screen" class="max-w-2xl w-full bg-white dark:bg-black rounded-2xl shadow-xl border border-slate-200 dark:border-zinc-800 p-8 my-auto transition-colors">
+            
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-50 dark:bg-zinc-900 text-blue-600 dark:text-blue-400 mb-4 shadow-sm border border-blue-100 dark:border-zinc-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Hệ Thống Thi Tốt Nghiệp THPT</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 font-medium">Định dạng mô phỏng năm 2026</p>
+            </div>
+
+            <div class="space-y-5">
+                <div id="drop-zone" class="p-8 border-2 border-dashed border-blue-300 dark:border-zinc-700 bg-blue-50/50 dark:bg-zinc-900/50 rounded-xl text-center transition-colors flex flex-col items-center relative group">
+                    <input type="file" id="file-upload" accept=".json" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500 dark:text-slate-400 mb-3 group-hover:scale-110 transition transform pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <label class="block font-bold text-blue-800 dark:text-slate-300 mb-1 text-lg pointer-events-none">Kéo thả file Đề Thi vào đây</label>
+                    <p class="text-sm text-slate-500 dark:text-slate-500 pointer-events-none mb-2">Hoặc click để chọn file <code class="bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">.json</code></p>
+                    
+                    <div id="upload-status" class="mt-2 text-sm font-bold text-emerald-600 dark:text-emerald-500 hidden items-center justify-center gap-1 z-20 relative pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                        Đã tải dữ liệu thành công!
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-2 text-slate-700 dark:text-slate-300">Thời gian làm bài (Phút):</label>
+                    <input type="number" id="custom-time" placeholder="Để trống để dùng thời gian mặc định" class="w-full p-3.5 border border-slate-300 dark:border-zinc-800 rounded-xl bg-slate-50 dark:bg-zinc-900 focus:ring-2 focus:ring-blue-500 focus:outline-none transition font-medium dark:text-white">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-start gap-3 p-4 bg-indigo-50 dark:bg-zinc-900 border border-indigo-200 dark:border-zinc-800 rounded-xl cursor-pointer hover:bg-indigo-100 dark:hover:bg-zinc-800 transition shadow-sm">
+                        <input type="checkbox" id="shuffle-mode" class="w-5 h-5 mt-0.5 cursor-pointer accent-indigo-600 dark:accent-indigo-500">
+                        <div class="font-semibold text-indigo-800 dark:text-slate-200 select-none">
+                            Đảo mã đề <span class="font-normal text-indigo-700/80 dark:text-slate-400 text-xs block mt-0.5 leading-snug">Tự động trộn ngẫu nhiên câu hỏi & đáp án</span>
+                        </div>
+                    </label>
+
+                    <label class="flex items-start gap-3 p-4 bg-amber-50 dark:bg-zinc-900 border border-amber-200 dark:border-zinc-800 rounded-xl cursor-pointer hover:bg-amber-100 dark:hover:bg-zinc-800 transition shadow-sm">
+                        <input type="checkbox" id="practice-mode" class="w-5 h-5 mt-0.5 cursor-pointer accent-amber-600 dark:accent-amber-500">
+                        <div class="font-semibold text-amber-800 dark:text-slate-200 select-none">
+                            Luyện tập <span class="font-normal text-amber-700/80 dark:text-slate-400 text-xs block mt-0.5 leading-snug">Chấm điểm ngay từng câu & hiển thị lời giải</span>
+                        </div>
+                    </label>
+                </div>
+
+                <button id="btn-prepare" onclick="prepareExam()" class="w-full py-4 bg-slate-200 dark:bg-zinc-900 text-slate-400 dark:text-slate-600 font-bold text-lg rounded-xl transition pointer-events-none mt-2 dark:border dark:border-zinc-800" disabled>TẠO PHÒNG THI</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ready-wrapper" class="hidden w-full h-full overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-8">
+        <div id="ready-screen" class="bg-white dark:bg-black p-10 rounded-2xl shadow-xl border border-slate-200 dark:border-zinc-800 text-center max-w-lg w-full my-auto transition-colors">
+            <div class="w-20 h-20 bg-blue-50 dark:bg-zinc-900 border border-blue-100 dark:border-zinc-800 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-2" id="ready-exam-title">Tên đề thi</h2>
+            <p class="text-slate-500 dark:text-slate-400 mb-6 font-medium">Bạn đã sẵn sàng để bắt đầu?</p>
+            
+            <div class="flex justify-center gap-8 mb-6">
+                <div class="text-center">
+                    <p class="text-sm text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider mb-1">Thời gian</p>
+                    <p class="text-2xl font-bold text-blue-700 dark:text-blue-400"><span id="ready-exam-time">0</span>'</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-sm text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider mb-1">Số câu hỏi</p>
+                    <p class="text-2xl font-bold text-blue-700 dark:text-blue-400"><span id="ready-exam-count">0</span></p>
+                </div>
+            </div>
+
+            <button onclick="toggleFullScreen()" id="btn-fullscreen" class="w-full py-3 mb-4 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 border border-slate-300 dark:border-zinc-800 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl shadow-sm transition flex justify-center items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+                BẬT TOÀN MÀN HÌNH
+            </button>
+
+            <button onclick="beginExam()" class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xl rounded-xl shadow-lg transition transform hover:-translate-y-1">BẮT ĐẦU LÀM BÀI</button>
+        </div>
+    </div>
+
+    <div id="exam-screen" class="hidden h-full flex flex-col w-full">
+        
+        <header class="flex-none min-h-[4rem] bg-white dark:bg-black border-b border-slate-200 dark:border-zinc-800 shadow-sm flex items-center justify-between px-6 py-3 z-20 transition-colors">
+            <h2 class="text-lg md:text-xl font-bold text-blue-800 dark:text-blue-400 pr-4 leading-snug flex-1 flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                <span id="exam-title" class="truncate max-w-xs md:max-w-md lg:max-w-xl">Đang tải đề...</span>
+            </h2>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleDarkMode()" title="Giao diện Sáng/Tối" class="p-2 rounded-full bg-slate-100 dark:bg-black border dark:border-zinc-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-zinc-900 transition outline-none">
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                </button>
+
+                <div class="flex-none flex items-center bg-blue-50 dark:bg-zinc-900 border border-blue-200 dark:border-zinc-800 px-4 py-2 rounded-lg shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="text-xl md:text-2xl font-bold text-blue-700 dark:text-blue-400 tracking-wider" id="timer">00:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 flex overflow-hidden w-full">
+            
+            <div class="flex-1 flex flex-col relative bg-white dark:bg-black border-r border-slate-200 dark:border-zinc-800 overflow-hidden transition-colors">
+                
+                <div class="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10 flex flex-col relative" id="scroll-container">
+                    <div class="w-full">
+                        <div class="flex justify-between items-center mb-8 flex-none border-b border-slate-200 dark:border-zinc-800 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-slate-300 border border-indigo-200 dark:border-zinc-800 px-4 py-1.5 rounded-lg font-bold text-sm tracking-wide shadow-sm" id="current-question-label">
+                                    PHẦN 1 - CÂU 1
+                                </div>
+                                <button id="btn-flag-question" onclick="toggleFlag()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-bold transition bg-white dark:bg-black border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-zinc-900 outline-none">
+                                    <svg id="flag-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                                    Đánh dấu
+                                </button>
+                            </div>
+
+                            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-3 py-1.5 rounded-full shadow-sm flex items-center">
+                                <span class="hidden md:inline">Thời gian:</span> <span id="time-spent-current" class="ml-1 md:ml-2 text-indigo-600 dark:text-indigo-400 font-bold text-base tracking-wide">00:00</span>
+                            </span>
+                        </div>
+
+                        <div id="question-container" class="flex-none text-slate-800 dark:text-slate-100"></div>
+                        <div id="explanation-box" class="hidden mt-10 p-6 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/50 shadow-sm flex-none text-slate-700 dark:text-slate-200"></div>
+                    </div>
+                </div>
+
+                <div class="flex-none h-[4.5rem] bg-white dark:bg-black border-t border-slate-200 dark:border-zinc-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex items-center justify-between px-4 md:px-6 z-10 transition-colors">
+                    <button onclick="prevQuestion()" class="px-5 md:px-6 py-2.5 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 border border-slate-300 dark:border-zinc-800 rounded-lg font-semibold transition text-slate-700 dark:text-slate-300 text-sm md:text-base">Câu trước</button>
+                    <button id="btn-check-question" onclick="checkCurrentQuestion()" class="hidden px-6 md:px-8 py-2.5 bg-slate-300 dark:bg-zinc-800 text-slate-500 dark:text-slate-500 rounded-lg font-bold cursor-not-allowed transition text-sm md:text-base" disabled>Chấm Điểm</button>
+                    <button onclick="nextQuestion()" class="px-5 md:px-6 py-2.5 bg-blue-600 dark:bg-blue-600 text-white hover:bg-blue-700 dark:hover:bg-blue-700 rounded-lg font-semibold shadow-md transition text-sm md:text-base border dark:border-blue-500">Câu sau</button>
+                </div>
+            </div>
+
+            <div class="w-[300px] md:w-[340px] flex-none bg-slate-50 dark:bg-black flex flex-col z-20 transition-colors border-l border-slate-200 dark:border-zinc-800">
+                <div class="p-5 border-b border-slate-200 dark:border-zinc-800 bg-white dark:bg-black transition-colors">
+                    <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2 font-bold uppercase tracking-wide">
+                        <span>Tiến độ hoàn thành</span>
+                        <span id="progress-text">0% (0/0)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-zinc-800 rounded-full h-2.5 shadow-inner flex overflow-hidden">
+                        <div id="pb-green" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        <div id="pb-red" class="bg-red-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        <div id="pb-blue" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+
+                    <div id="live-score-container" class="hidden mt-4 pt-4 border-t border-slate-100 dark:border-zinc-800 flex justify-between items-center">
+                        <span class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Điểm hiện tại</span>
+                        <span class="text-2xl font-black text-amber-500 dark:text-amber-500" id="live-score-text">0,0</span>
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-5">
+                    <div class="mb-6">
+                        <h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Phần 1: Trắc nghiệm</h4>
+                        <div id="nav-part1" class="grid grid-cols-5 md:grid-cols-6 gap-2"></div>
+                    </div>
+                    <div class="mb-6">
+                        <h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Phần 2: Đúng/Sai</h4>
+                        <div id="nav-part2" class="grid grid-cols-5 md:grid-cols-6 gap-2"></div>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Phần 3: Trả lời ngắn</h4>
+                        <div id="nav-part3" class="grid grid-cols-5 md:grid-cols-6 gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="p-5 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-black transition-colors">
+                    <button id="btn-submit-exam" onclick="finishExam()" class="w-full py-3.5 bg-red-500 dark:bg-red-600 text-white font-bold rounded-lg hover:bg-red-600 dark:hover:bg-red-700 shadow-md transition text-lg tracking-wide border dark:border-red-500">NỘP BÀI</button>
+                    <div id="final-score-display" class="hidden text-center">
+                        <p class="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 text-sm">Điểm số cuối cùng</p>
+                        <p class="text-5xl font-black text-emerald-600 dark:text-emerald-500" id="final-score-text-end">0,0</p>
+                        
+                        <div class="mt-4 pt-4 border-t border-slate-200 dark:border-zinc-800">
+                            <p class="text-slate-500 dark:text-slate-400 font-semibold text-sm">Thời gian đã làm: <span id="final-time-text" class="text-slate-800 dark:text-slate-200 font-bold ml-1">00:00</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        let originalConfig = null; 
+        let examConfig = null;     
+        let allQuestions = []; 
+        let currentIndex = 0;
+        let userAnswers = {}; 
+        let lockedQuestions = {};
+        let flaggedQuestions = {}; 
+        let totalPossibleScore = 0; 
+        
+        let timeLeft = 0;
+        let totalSecondsSpent = 0; 
+        let timerInterval;
+        let timeSpentPerQuestion = {}; 
+        let isPracticeMode = false;
+        let isExamFinished = false;
+
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('moon-icon').classList.toggle('hidden', isDark);
+            document.getElementById('sun-icon').classList.toggle('hidden', !isDark);
+            document.getElementById('moon-icon-float').classList.toggle('hidden', isDark);
+            document.getElementById('sun-icon-float').classList.toggle('hidden', !isDark);
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcons();
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        updateThemeIcons();
+
+        const fileInput = document.getElementById('file-upload');
+        const dropZone = document.getElementById('drop-zone');
+
+        fileInput.addEventListener('change', handleFileSelection);
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50');
+                dropZone.classList.add('border-blue-600', 'dark:border-blue-500', 'bg-blue-100', 'dark:bg-blue-900/40');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-blue-600', 'dark:border-blue-500', 'bg-blue-100', 'dark:bg-blue-900/40');
+                if (!dropZone.classList.contains('border-emerald-400')) {
+                    dropZone.classList.add('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50');
+                }
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            if(files.length) {
+                fileInput.files = files;
+                handleFileSelection({ target: { files: files } });
+            }
+        });
+
+        function handleFileSelection(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.name.toLowerCase().endsWith('.json')) {
+                alert("Lỗi: Vui lòng chọn file định dạng .json!");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    originalConfig = JSON.parse(e.target.result); 
+                    document.getElementById('upload-status').classList.remove('hidden');
+                    document.getElementById('upload-status').classList.add('flex');
+                    
+                    dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50');
+                    dropZone.classList.add('border-emerald-400', 'bg-emerald-50/50', 'dark:bg-emerald-900/10');
+                    
+                    let btnPrepare = document.getElementById('btn-prepare');
+                    btnPrepare.disabled = false;
+                    btnPrepare.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
+                    btnPrepare.classList.add('bg-blue-600', 'dark:bg-blue-600', 'text-white', 'hover:bg-blue-700', 'shadow-md');
+                } catch(err) {
+                    alert("Lỗi đọc file JSON: Đề thi không đúng định dạng!");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        function shuffleExamData(config) {
+            if (config.part1) {
+                config.part1.forEach(q => {
+                    let correctOpt = q.options[q.ans];
+                    shuffleArray(q.options); 
+                    q.ans = q.options.indexOf(correctOpt); 
+                });
+                shuffleArray(config.part1); 
+            }
+            if (config.part2) {
+                config.part2.forEach(q => {
+                    let combined = q.items.map((item, idx) => ({ item: item, ans: q.ans[idx] }));
+                    shuffleArray(combined); 
+                    q.items = combined.map(c => c.item);
+                    q.ans = combined.map(c => c.ans);
+                });
+                shuffleArray(config.part2); 
+            }
+            if (config.part3) {
+                shuffleArray(config.part3); 
+            }
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Không thể bật chế độ toàn màn hình: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('btn-fullscreen');
+            if (!btn) return;
+            if (document.fullscreenElement) {
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 14h6m0 0v6m0-6l-7 7m17-11h-6m0 0V4m0 6l7-7M4 10h6m0 0V4m0 6l-7-7m17 11h-6m0 0v6m0-6l7 7" /></svg> THOÁT TOÀN MÀN HÌNH`;
+                btn.classList.add('bg-slate-200', 'dark:bg-zinc-800', 'text-slate-800', 'dark:text-slate-200');
+            } else {
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg> BẬT TOÀN MÀN HÌNH`;
+                btn.classList.remove('bg-slate-200', 'dark:bg-zinc-800', 'text-slate-800', 'dark:text-slate-200');
+            }
+        });
+
+        function prepareExam() {
+            if(!originalConfig) return;
+            
+            examConfig = JSON.parse(JSON.stringify(originalConfig)); 
+            
+            let isShuffle = document.getElementById('shuffle-mode').checked;
+            if (isShuffle) {
+                shuffleExamData(examConfig);
+            }
+
+            isPracticeMode = document.getElementById('practice-mode').checked;
+            let customTime = document.getElementById('custom-time').value;
+
+            timeLeft = customTime ? parseInt(customTime) * 60 : examConfig.timeLimit;
+            
+            allQuestions = [];
+            flaggedQuestions = {};
+            totalPossibleScore = 0;
+            totalSecondsSpent = 0; 
+            userAnswers = {}; 
+            lockedQuestions = {};
+            
+            (examConfig.part1 || []).forEach((q, i) => {
+                allQuestions.push({ ...q, type: 1, globalIndex: allQuestions.length, localIndex: i });
+                totalPossibleScore += examConfig.p1_points;
+            });
+            (examConfig.part2 || []).forEach((q, i) => {
+                allQuestions.push({ ...q, type: 2, globalIndex: allQuestions.length, localIndex: i });
+                totalPossibleScore += 1.0;
+            });
+            (examConfig.part3 || []).forEach((q, i) => {
+                allQuestions.push({ ...q, type: 3, globalIndex: allQuestions.length, localIndex: i });
+                totalPossibleScore += examConfig.p3_points;
+            });
+
+            allQuestions.forEach(q => timeSpentPerQuestion[q.globalIndex] = 0);
+
+            document.getElementById('ready-exam-title').innerText = examConfig.title;
+            document.getElementById('ready-exam-time').innerText = Math.floor(timeLeft / 60);
+            document.getElementById('ready-exam-count').innerText = allQuestions.length;
+
+            document.getElementById('setup-wrapper').classList.add('hidden');
+            document.getElementById('floating-theme-toggle').classList.add('hidden');
+            document.getElementById('ready-wrapper').classList.remove('hidden');
+            
+            if (isPracticeMode) {
+                document.getElementById('live-score-container').classList.remove('hidden');
+            }
+            updateProgress(); 
+        }
+
+        function beginExam() {
+            document.getElementById('exam-title').innerText = examConfig.title;
+            document.getElementById('ready-wrapper').classList.add('hidden');
+            document.getElementById('exam-screen').classList.remove('hidden');
+
+            buildNavigation();
+            startTimer();
+            goToQuestion(0);
+        }
+
+        function formatTime(seconds, includeHours = false) {
+            let h = Math.floor(seconds / 3600);
+            let m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+            let s = (seconds % 60).toString().padStart(2, '0');
+            if (includeHours || h > 0) return `${h.toString().padStart(2, '0')}:${m}:${s}`;
+            return `${m}:${s}`;
+        }
+
+        function startTimer() {
+            document.getElementById('timer').innerText = formatTime(timeLeft, true);
+            
+            timerInterval = setInterval(() => {
+                if (isExamFinished) return; 
+                
+                totalSecondsSpent++;
+                timeSpentPerQuestion[currentIndex]++;
+                document.getElementById('time-spent-current').innerText = formatTime(timeSpentPerQuestion[currentIndex]);
+
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    document.getElementById('timer').innerText = formatTime(timeLeft, true);
+                    
+                    if (timeLeft === 0) {
+                        if (isPracticeMode) {
+                            setTimeout(() => {
+                                if (confirm("Đã hết thời gian làm bài!\nBạn có muốn tiếp tục làm thêm không?\n\n- Chọn OK để tiếp tục suy nghĩ.\n- Chọn Hủy (Cancel) để nộp bài ngay.")) {
+                                    let timerEl = document.getElementById('timer');
+                                    timerEl.innerText = "ĐANG LÀM THÊM";
+                                    timerEl.classList.remove('text-blue-700', 'dark:text-blue-400');
+                                    timerEl.classList.add('text-amber-500', 'text-base', 'md:text-lg');
+                                } else {
+                                    finishExam(true); 
+                                }
+                            }, 50); 
+                        } else {
+                            setTimeout(() => {
+                                alert("Đã hết thời gian làm bài! Hệ thống sẽ tự động thu bài.");
+                                finishExam(true); 
+                            }, 50);
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function buildNavigation() {
+            const getBtn = (idx, text) => `<button id="nav-btn-${idx}" onclick="goToQuestion(${idx})" class="w-full py-1.5 px-0.5 text-[0.8rem] font-bold rounded shadow-sm transition cursor-pointer" title="Câu ${text}">${text}</button>`;
+            let p1Html = '', p2Html = '', p3Html = '';
+            
+            allQuestions.forEach(q => {
+                if(q.type === 1) p1Html += getBtn(q.globalIndex, q.localIndex + 1);
+                if(q.type === 2) p2Html += getBtn(q.globalIndex, q.localIndex + 1);
+                if(q.type === 3) p3Html += getBtn(q.globalIndex, q.localIndex + 1);
+            });
+
+            document.getElementById('nav-part1').innerHTML = p1Html;
+            document.getElementById('nav-part2').innerHTML = p2Html;
+            document.getElementById('nav-part3').innerHTML = p3Html;
+            
+            allQuestions.forEach(q => updateNavColor(q.globalIndex));
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentIndex] = !flaggedQuestions[currentIndex];
+            
+            const btnFlag = document.getElementById('btn-flag-question');
+            const iconFlag = document.getElementById('flag-icon');
+            
+            if (flaggedQuestions[currentIndex]) {
+                btnFlag.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-bold transition bg-amber-100 dark:bg-amber-900/40 border-amber-400 dark:border-amber-600 text-amber-700 dark:text-amber-400 outline-none";
+                iconFlag.setAttribute("fill", "currentColor");
+            } else {
+                btnFlag.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-bold transition bg-white dark:bg-black border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-zinc-900 outline-none";
+                iconFlag.setAttribute("fill", "none");
+            }
+            
+            updateNavColor(currentIndex);
+        }
+
+        function updateCheckButtonState() {
+            const btnCheck = document.getElementById('btn-check-question');
+            if (!btnCheck || btnCheck.classList.contains('hidden')) return;
+
+            let isAnswered = false;
+            let q = allQuestions[currentIndex];
+            
+            if(q.type === 1) isAnswered = userAnswers[currentIndex] !== undefined;
+            if(q.type === 2) isAnswered = Object.keys(userAnswers[currentIndex] || {}).length === 4;
+            if(q.type === 3) isAnswered = (userAnswers[currentIndex] || []).join('').trim() !== "";
+
+            if (isAnswered) {
+                btnCheck.disabled = false;
+                btnCheck.className = "px-6 md:px-8 py-2.5 bg-amber-500 text-white hover:bg-amber-600 rounded-lg font-bold shadow-md transition transform hover:scale-105 cursor-pointer text-sm md:text-base border dark:border-amber-600";
+            } else {
+                btnCheck.disabled = true;
+                btnCheck.className = "px-6 md:px-8 py-2.5 bg-slate-300 dark:bg-zinc-800 text-slate-500 dark:text-slate-500 rounded-lg font-bold cursor-not-allowed transition text-sm md:text-base border dark:border-zinc-700";
+            }
+        }
+
+        function goToQuestion(index) {
+            if(index < 0 || index >= allQuestions.length) return;
+            let oldIndex = currentIndex;
+            currentIndex = index;
+            
+            document.getElementById('current-question-label').innerText = `PHẦN ${allQuestions[currentIndex].type} - CÂU ${allQuestions[currentIndex].localIndex + 1}`;
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('time-spent-current').innerText = formatTime(timeSpentPerQuestion[currentIndex]);
+            
+            renderQuestion();
+            if(lockedQuestions[currentIndex] || isExamFinished) showExplanation();
+            
+            document.getElementById('scroll-container').scrollTop = 0;
+            
+            updateNavColor(oldIndex);
+            updateNavColor(currentIndex);
+            
+            const btnFlag = document.getElementById('btn-flag-question');
+            const iconFlag = document.getElementById('flag-icon');
+            if (flaggedQuestions[currentIndex]) {
+                btnFlag.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-bold transition bg-amber-100 dark:bg-amber-900/40 border-amber-400 dark:border-amber-600 text-amber-700 dark:text-amber-400 outline-none";
+                iconFlag.setAttribute("fill", "currentColor");
+            } else {
+                btnFlag.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-bold transition bg-white dark:bg-black border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-zinc-900 outline-none";
+                iconFlag.setAttribute("fill", "none");
+            }
+        }
+
+        function renderQuestion() {
+            const q = allQuestions[currentIndex];
+            const container = document.getElementById('question-container');
+            const isLocked = lockedQuestions[currentIndex] || isExamFinished;
+            
+            let html = `<div class="${isLocked ? 'locked' : ''}">`;
+            html += `<div class="text-[1.15rem] leading-relaxed font-medium mb-6 text-slate-800 dark:text-slate-100">${q.q}</div>`;
+            
+            let imgSrc = q.imageUrl || q.image;
+            if (imgSrc && imgSrc.toString().trim() !== "") {
+                if (imgSrc === "[CẦN_CHÈN_ẢNH]") {
+                    html += `<div class="mb-8 p-4 border-2 border-dashed border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded-xl text-sm mx-auto text-center font-medium shadow-sm max-w-lg">
+                                ⚠️ Câu hỏi này cần có hình ảnh.<br>Vui lòng dùng <b class="text-indigo-600 dark:text-indigo-400">Công cụ Đóng Gói</b> để dán ảnh vào trước nhé!
+                            </div>`;
+                } else if (!imgSrc.startsWith('data:image') && !imgSrc.startsWith('http')) {
+                    html += `<div class="mb-8 p-4 border-2 border-dashed border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded-xl text-sm mx-auto text-center font-medium shadow-sm max-w-xl">
+                                ⚠️ Ảnh chưa được đóng gói (AI đang ghi tên file là: <code class="bg-amber-100 dark:bg-amber-900/50 px-1 rounded">${imgSrc}</code>).<br>
+                                Trình duyệt không thể đọc trực tiếp file từ máy tính của bạn.<br>
+                                Vui lòng mang file này qua <b class="text-indigo-600 dark:text-indigo-400">Công cụ Đóng Gói</b> để dán ảnh!
+                            </div>`;
+                } else {
+                    html += `<img src="${imgSrc}" alt="Hình ảnh câu hỏi" class="mb-8 max-h-[40vh] object-contain rounded-lg border border-slate-200 dark:border-zinc-800 shadow-sm mx-auto dark:bg-zinc-200">`;
+                }
+            }
+
+            if(q.type === 1) {
+                let savedAns = userAnswers[currentIndex] !== undefined ? userAnswers[currentIndex] : null;
+                
+                let hasLongOption = q.options.some(opt => opt.length > 40);
+                let gridClass = hasLongOption ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2";
+                
+                html += `<div class="grid ${gridClass} gap-4 mt-4 mb-2">`;
+                q.options.forEach((opt, i) => {
+                    let checked = savedAns === i ? 'checked' : '';
+                    let optClass = "flex items-start p-4 border border-slate-200 dark:border-zinc-800 rounded-xl cursor-pointer transition hover:bg-blue-50 dark:hover:bg-zinc-900 bg-slate-50/50 dark:bg-black h-full text-slate-700 dark:text-slate-200";
+                    if (isLocked) {
+                        if (i === q.ans) optClass = "flex items-start p-4 border-2 border-emerald-500 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl font-bold h-full text-slate-800 dark:text-slate-100";
+                        else if (savedAns === i && i !== q.ans) optClass = "flex items-start p-4 border-2 border-red-400 dark:border-red-600 bg-red-50 dark:bg-red-900/20 rounded-xl h-full text-slate-800 dark:text-slate-100";
+                    }
+                    html += `<label class="${optClass}">
+                        <input type="radio" name="q${currentIndex}" value="${i}" ${checked} onchange="saveAnswer(${currentIndex}, ${i})" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 mr-3 mt-0.5 flex-none cursor-pointer" ${isLocked ? 'disabled' : ''}> 
+                        <span class="text-base flex-1 leading-relaxed"><span class="font-bold mr-1 text-slate-700 dark:text-slate-400">${String.fromCharCode(65+i)}.</span> ${opt}</span>
+                    </label>`;
+                });
+                html += `</div>`;
+            } 
+            else if(q.type === 2) {
+                let savedAns = userAnswers[currentIndex] || {};
+                html += `<div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm mt-4"><table class="w-full text-left border-collapse bg-white dark:bg-black min-w-[500px]">
+                    <thead class="bg-slate-100 dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800">
+                        <tr>
+                            <th class="w-1.5 p-0"></th>
+                            <th class="p-4 font-bold text-slate-600 dark:text-slate-400">Phát biểu</th>
+                            <th class="p-4 w-28 text-center font-bold text-emerald-600 dark:text-emerald-500 border-l border-slate-200 dark:border-zinc-800">Đúng</th>
+                            <th class="p-4 w-28 text-center font-bold text-red-500 dark:text-red-500 border-l border-slate-200 dark:border-zinc-800">Sai</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-zinc-800">`;
+                
+                q.items.forEach((item, i) => {
+                    let isTrue = savedAns[i] === true ? 'checked' : '';
+                    let isFalse = savedAns[i] === false ? 'checked' : '';
+                    
+                    let rowClass = "hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition-colors";
+                    let statusCol = `<td class="w-1.5 p-0"></td>`; 
+                    let trueBg = "bg-slate-50/50 dark:bg-black hover:bg-emerald-50 dark:hover:bg-emerald-900/20";
+                    let falseBg = "bg-slate-50/50 dark:bg-black hover:bg-red-50 dark:hover:bg-red-900/20";
+
+                    if (isLocked && savedAns[i] !== undefined) {
+                        if (savedAns[i] === q.ans[i]) {
+                            rowClass = "bg-emerald-50/30 dark:bg-emerald-900/10";
+                            statusCol = `<td class="w-1.5 p-0 bg-emerald-500 dark:bg-emerald-500"></td>`; 
+                        } else {
+                            rowClass = "bg-red-50/30 dark:bg-red-900/10";
+                            statusCol = `<td class="w-1.5 p-0 bg-red-500 dark:bg-red-500"></td>`;
+                            
+                            if (q.ans[i] === true) {
+                                trueBg = "bg-emerald-200 dark:bg-emerald-900/60";
+                            } else {
+                                falseBg = "bg-emerald-200 dark:bg-emerald-900/60";
+                            }
+                        }
+                    }
+
+                    html += `<tr class="${rowClass}">
+                        ${statusCol}
+                        <td class="p-4 text-base align-middle"><span class="font-semibold text-slate-500 dark:text-slate-500 mr-2">${String.fromCharCode(97+i)})</span> <span class="text-slate-700 dark:text-slate-300">${item}</span></td>
+                        <td class="p-4 align-middle border-l border-slate-200 dark:border-zinc-800 text-center ${trueBg}"><label class="flex justify-center items-center h-full w-full cursor-pointer m-0"><input type="radio" name="q${currentIndex}_${i}" value="true" class="radio-custom radio-true" onchange="savePart2Answer(${currentIndex}, ${i}, true)" ${isTrue} ${isLocked ? 'disabled' : ''}></label></td>
+                        <td class="p-4 align-middle border-l border-slate-200 dark:border-zinc-800 text-center ${falseBg}"><label class="flex justify-center items-center h-full w-full cursor-pointer m-0"><input type="radio" name="q${currentIndex}_${i}" value="false" class="radio-custom radio-false" onchange="savePart2Answer(${currentIndex}, ${i}, false)" ${isFalse} ${isLocked ? 'disabled' : ''}></label></td>
+                    </tr>`;
+                });
+                html += `</tbody></table></div>`;
+            }
+            else if(q.type === 3) {
+                let savedAns = userAnswers[currentIndex] || ["", "", "", ""];
+                html += `<div class="flex flex-wrap gap-4 items-center mt-6 bg-slate-50 dark:bg-zinc-900/50 p-6 rounded-xl border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-700 dark:text-slate-400 tracking-wide mr-2">ĐÁP ÁN CỦA BẠN:</span>
+                            <div class="flex gap-2">`;
+                for(let i=0; i<4; i++) {
+                    let val = savedAns[i] !== undefined ? savedAns[i] : "";
+                    html += `<input type="text" maxlength="1" id="p3_${currentIndex}_${i}" value="${val}" oninput="savePart3Answer(${currentIndex}, ${i})" onkeydown="handlePart3Key(event, ${currentIndex}, ${i})" class="part3-input bg-white text-blue-800 shadow-sm" ${isLocked ? 'disabled' : ''}>`;
+                }
+                html += `</div></div>`;
+                if (isLocked) html += `<div class="mt-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-800 dark:text-emerald-400 font-bold text-lg shadow-sm">Đáp án đúng: ${q.ans}</div>`;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+            
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetClear([container]);
+                MathJax.typesetPromise([container]);
+            }
+
+            let currentBtn = document.getElementById(`nav-btn-${currentIndex}`);
+            if(currentBtn) {
+                currentBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            const btnCheck = document.getElementById('btn-check-question');
+            if (isPracticeMode && !isLocked && !isExamFinished) {
+                btnCheck.classList.remove('hidden');
+                updateCheckButtonState(); 
+            } else {
+                btnCheck.classList.add('hidden');
+            }
+        }
+
+        function saveAnswer(qIndex, val) { 
+            userAnswers[qIndex] = val; 
+            updateNavColor(qIndex); 
+            updateProgress(); 
+            updateCheckButtonState(); 
+        }
+        function savePart2Answer(qIndex, itemIndex, val) {
+            if(!userAnswers[qIndex]) userAnswers[qIndex] = {};
+            userAnswers[qIndex][itemIndex] = val;
+            updateNavColor(qIndex); 
+            updateProgress(); 
+            updateCheckButtonState();
+        }
+        function savePart3Answer(qIndex, boxIndex) {
+            if(!userAnswers[qIndex]) userAnswers[qIndex] = ["", "", "", ""];
+            let el = document.getElementById(`p3_${qIndex}_${boxIndex}`);
+            el.value = el.value.replace(/[^0-9\,\-]/g, ''); 
+            userAnswers[qIndex][boxIndex] = el.value;
+            if(el.value !== "" && boxIndex < 3) document.getElementById(`p3_${qIndex}_${boxIndex+1}`).focus();
+            updateNavColor(qIndex); 
+            updateProgress(); 
+            updateCheckButtonState();
+        }
+
+        function handlePart3Key(event, qIndex, boxIndex) {
+            if (event.key === 'Backspace') {
+                let el = document.getElementById(`p3_${qIndex}_${boxIndex}`);
+                if (el.value === "" && boxIndex > 0) {
+                    event.preventDefault(); 
+                    let prevEl = document.getElementById(`p3_${qIndex}_${boxIndex - 1}`);
+                    prevEl.focus();
+                    prevEl.value = ""; 
+                    savePart3Answer(qIndex, boxIndex - 1);
+                }
+            }
+        }
+
+        function updateNavColor(index) {
+            let btn = document.getElementById(`nav-btn-${index}`);
+            if (!btn) return;
+
+            let isLocked = lockedQuestions[index] || isExamFinished;
+            let isFlagged = flaggedQuestions[index];
+
+            btn.className = "w-full py-1.5 px-0.5 text-[0.8rem] font-bold rounded shadow-sm transition cursor-pointer border";
+            
+            if (index === currentIndex) btn.classList.add('ring-2', 'ring-offset-1', 'ring-blue-500', 'dark:ring-offset-black');
+
+            if (isLocked) {
+                let score = lockedQuestions[index] ? lockedQuestions[index].score : calculateSingleScore(allQuestions[index]);
+                let maxS = allQuestions[index].type === 1 ? examConfig.p1_points : (allQuestions[index].type === 2 ? 1.0 : examConfig.p3_points);
+                if (score === maxS) {
+                    btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600', 'dark:border-emerald-500');
+                } else if (score > 0) {
+                    btn.classList.add('bg-amber-400', 'text-white', 'border-amber-500', 'dark:border-amber-500');
+                } else {
+                    btn.classList.add('bg-red-500', 'text-white', 'border-red-600', 'dark:border-red-600');
+                }
+            } else {
+                let answered = false;
+                let q = allQuestions[index];
+                if(q.type === 1) answered = userAnswers[index] !== undefined;
+                if(q.type === 2) answered = Object.keys(userAnswers[index] || {}).length === 4;
+                if(q.type === 3) answered = (userAnswers[index] || []).join('').trim() !== "";
+
+                if (answered) {
+                    btn.classList.add('bg-blue-100', 'dark:bg-blue-900/40', 'text-blue-800', 'dark:text-blue-400', 'border-blue-300', 'dark:border-blue-800');
+                } else {
+                    btn.classList.add('bg-white', 'dark:bg-black', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-zinc-800', 'hover:bg-slate-100', 'dark:hover:bg-zinc-900');
+                }
+            }
+
+            if (isFlagged) {
+                btn.classList.remove('border-slate-200', 'dark:border-zinc-800', 'border-blue-300', 'dark:border-blue-800', 'border-emerald-600', 'border-amber-500', 'border-red-600');
+                btn.classList.add('border-2', '!border-amber-500', 'dark:!border-amber-500');
+            }
+        }
+
+        function updateProgress() {
+            let totalCompletedScore = 0;
+            let gradedEarnedScore = 0;
+            let gradedMaxScore = 0;
+
+            allQuestions.forEach(q => {
+                let maxS = q.type === 1 ? examConfig.p1_points : (q.type === 2 ? 1.0 : examConfig.p3_points);
+                let isCompleted = false;
+
+                if(q.type === 1 && userAnswers[q.globalIndex] !== undefined) isCompleted = true;
+                if(q.type === 2) {
+                    let ansCount = Object.keys(userAnswers[q.globalIndex] || {}).length;
+                    if (ansCount === 4) isCompleted = true;
+                }
+                if(q.type === 3 && (userAnswers[q.globalIndex] || []).join('').trim() !== "") isCompleted = true;
+
+                if (isCompleted) {
+                    totalCompletedScore += maxS;
+                }
+
+                if (lockedQuestions[q.globalIndex] !== undefined) {
+                    gradedMaxScore += maxS;
+                    gradedEarnedScore += lockedQuestions[q.globalIndex].score;
+                }
+            });
+            
+            if (totalPossibleScore === 0) return;
+
+            let greenScore = Math.max(0, gradedEarnedScore);
+            let redScore = Math.max(0, gradedMaxScore - gradedEarnedScore);
+            let blueScore = Math.max(0, totalCompletedScore - gradedMaxScore);
+            
+            let greenPct = (greenScore / totalPossibleScore) * 100;
+            let redPct = (redScore / totalPossibleScore) * 100;
+            let bluePct = (blueScore / totalPossibleScore) * 100;
+
+            let totalPct = Math.round((totalCompletedScore / totalPossibleScore) * 100);
+            if (totalPct > 100) totalPct = 100;
+            
+            let formatScore = Number(totalCompletedScore.toFixed(2)).toString().replace('.', ',');
+            let formatTotal = Number(totalPossibleScore.toFixed(2)).toString().replace('.', ',');
+            
+            document.getElementById('pb-green').style.width = `${greenPct}%`;
+            document.getElementById('pb-red').style.width = `${redPct}%`;
+            document.getElementById('pb-blue').style.width = `${bluePct}%`;
+            
+            document.getElementById('progress-text').innerText = `${totalPct}% (${formatScore}/${formatTotal})`;
+        }
+
+        function updateLiveScore() {
+            if (!isPracticeMode) return;
+            let currentScore = 0;
+            for (let k in lockedQuestions) {
+                currentScore += lockedQuestions[k].score;
+            }
+            document.getElementById('live-score-text').innerText = Number(currentScore.toFixed(2)).toString().replace('.', ',');
+        }
+
+        function prevQuestion() { goToQuestion(currentIndex - 1); }
+        function nextQuestion() { goToQuestion(currentIndex + 1); }
+
+        function checkCurrentQuestion() {
+            let q = allQuestions[currentIndex];
+            let score = calculateSingleScore(q);
+            let maxS = q.type === 1 ? examConfig.p1_points : (q.type === 2 ? 1.0 : examConfig.p3_points);
+            
+            if (q.type === 1 && userAnswers[currentIndex] === undefined) return;
+            if (q.type === 2 && Object.keys(userAnswers[currentIndex]||{}).length < 4) return;
+            if (q.type === 3 && (userAnswers[currentIndex]||[]).join('').trim() === "") return;
+
+            lockedQuestions[currentIndex] = { score: score, isFullCorrect: score === maxS };
+            updateNavColor(currentIndex);
+            updateProgress(); 
+            
+            updateLiveScore(); 
+            renderQuestion();
+            showExplanation();
+
+            if (isPracticeMode && Object.keys(lockedQuestions).length === allQuestions.length) {
+                finishExam(true);
+            }
+        }
+
+        function calculateSingleScore(q) {
+            let ans = userAnswers[q.globalIndex];
+            if(q.type === 1) return (ans === q.ans) ? examConfig.p1_points : 0;
+            if(q.type === 2) {
+                let count = 0;
+                for(let i=0; i<4; i++) { if(ans && ans[i] === q.ans[i]) count++; }
+                if(count === 1) return 0.1; if(count === 2) return 0.25; if(count === 3) return 0.5; if(count === 4) return 1.0;
+                return 0;
+            }
+            if(q.type === 3) {
+                return ((ans || []).join('').trim() === q.ans) ? examConfig.p3_points : 0;
+            }
+            return 0;
+        }
+
+        function showExplanation() {
+            let q = allQuestions[currentIndex];
+            let lockData = lockedQuestions[currentIndex];
+            if (!lockData && !isExamFinished) return;
+
+            let box = document.getElementById('explanation-box');
+            let maxScore = q.type === 1 ? examConfig.p1_points : (q.type === 2 ? 1.0 : examConfig.p3_points);
+            let userScore = lockData ? lockData.score : calculateSingleScore(q);
+            
+            let formatUserScore = Number(userScore.toFixed(2)).toString().replace('.', ',');
+            let formatMaxScore = Number(maxScore.toFixed(2)).toString().replace('.', ',');
+
+            let html = `<div class="flex items-center mb-3">
+                            <span class="font-bold text-lg mr-4 text-slate-800 dark:text-slate-100">Điểm: <span class="${userScore === maxScore ? 'text-emerald-600 dark:text-emerald-500' : (userScore > 0 ? 'text-amber-500 dark:text-amber-500' : 'text-red-500 dark:text-red-500')}">${formatUserScore} / ${formatMaxScore}</span></span>
+                        </div>`;
+            if (q.explanation) {
+                html += `<div class="text-[1.05rem] leading-relaxed dark:text-slate-300"><span class="font-bold text-indigo-700 dark:text-indigo-400 mb-1 block uppercase text-sm tracking-wide">Giải thích chi tiết:</span> ${q.explanation}</div>`;
+            } else {
+                html += `<div class="italic opacity-80 text-slate-500 dark:text-slate-500">Không có giải thích chi tiết cho câu hỏi này.</div>`;
+            }
+
+            box.innerHTML = html;
+            box.classList.remove('hidden');
+
+            setTimeout(() => {
+                box.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
+
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([box]);
+        }
+
+        function finishExam(forceSubmit = false) {
+            if(!forceSubmit && !confirm("Bạn có chắc chắn muốn nộp bài? Toàn bộ các câu chưa chốt sẽ được tính điểm.")) return;
+            
+            clearInterval(timerInterval);
+            isExamFinished = true;
+            let totalScore = 0;
+
+            allQuestions.forEach(q => {
+                if (lockedQuestions[q.globalIndex] === undefined) {
+                    let score = calculateSingleScore(q);
+                    totalScore += score;
+                    let maxS = q.type === 1 ? examConfig.p1_points : (q.type === 2 ? 1.0 : examConfig.p3_points);
+                    lockedQuestions[q.globalIndex] = { score: score, isFullCorrect: score === maxS };
+                } else {
+                    totalScore += lockedQuestions[q.globalIndex].score;
+                }
+                updateNavColor(q.globalIndex);
+            });
+
+            updateProgress(); 
+
+            document.getElementById('final-score-text-end').innerText = `${Number(totalScore.toFixed(2)).toString().replace('.', ',')}`;
+            document.getElementById('final-time-text').innerText = formatTime(totalSecondsSpent, true); 
+            
+            document.getElementById('final-score-display').classList.remove('hidden');
+            document.getElementById('btn-submit-exam').classList.add('hidden');
+            
+            let timerEl = document.getElementById('timer');
+            if (timerEl.innerText !== "ĐANG LÀM THÊM") {
+                timerEl.innerText = "ĐÃ NỘP BÀI";
+                timerEl.classList.remove('text-amber-500', 'text-blue-700', 'dark:text-blue-400');
+                timerEl.classList.add('text-emerald-600', 'dark:text-emerald-500');
+            }
+            
+            document.getElementById('live-score-text').innerText = `${Number(totalScore.toFixed(2)).toString().replace('.', ',')}`;
+            
+            renderQuestion();
+            showExplanation();
+        }
+    </script>
+</body>
+</html>

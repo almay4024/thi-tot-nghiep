@@ -87,7 +87,7 @@
             </div>
 
             <div class="space-y-5">
-                <div id="drop-zone" class="p-8 border-2 border-dashed border-blue-300 dark:border-zinc-700 bg-blue-50/50 dark:bg-zinc-900/50 rounded-xl text-center transition-colors flex flex-col items-center relative group">
+                <div id="drop-zone" class="p-8 border-2 border-dashed border-blue-300 dark:border-zinc-700 bg-blue-50/50 dark:bg-zinc-900/50 rounded-xl text-center transition hover:bg-blue-50 dark:hover:bg-zinc-900 flex flex-col items-center relative group">
                     <input type="file" id="file-upload" accept=".json" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                     
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500 dark:text-slate-400 mb-3 group-hover:scale-110 transition transform pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -163,22 +163,22 @@
     <div id="exam-screen" class="hidden h-full flex flex-col w-full">
         
         <header class="flex-none min-h-[4rem] bg-white dark:bg-black border-b border-slate-200 dark:border-zinc-800 shadow-sm flex items-center justify-between px-6 py-3 z-20 transition-colors">
-            <h2 class="text-lg md:text-xl font-bold text-blue-800 dark:text-blue-400 pr-4 leading-snug flex-1 flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                <span id="exam-title" class="truncate max-w-xs md:max-w-md lg:max-w-xl">Đang tải đề...</span>
+            <h2 class="text-lg md:text-xl font-bold text-blue-800 dark:text-blue-400 pr-4 leading-snug flex-1 flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 hidden sm:block flex-none mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                <span id="exam-title" class="line-clamp-2">Đang tải đề...</span>
             </h2>
             
             <div class="flex items-center gap-3">
-                <button onclick="toggleDarkMode()" title="Giao diện Sáng/Tối" class="p-2 rounded-full bg-slate-100 dark:bg-black border dark:border-zinc-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-zinc-900 transition outline-none">
+                <button onclick="toggleDarkMode()" title="Giao diện Sáng/Tối" class="p-2 rounded-full bg-slate-100 dark:bg-black border dark:border-zinc-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-zinc-900 transition outline-none flex-none">
                     <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </button>
 
-                <div class="flex-none flex items-center bg-blue-50 dark:bg-zinc-900 border border-blue-200 dark:border-zinc-800 px-4 py-2 rounded-lg shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="flex-none flex items-center justify-center bg-blue-50 dark:bg-zinc-900 border border-blue-200 dark:border-zinc-800 px-2 md:px-4 py-2 rounded-lg shadow-sm w-[150px] md:w-[200px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-blue-600 dark:text-blue-400 mr-1.5 md:mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span class="text-xl md:text-2xl font-bold text-blue-700 dark:text-blue-400 tracking-wider" id="timer">00:00:00</span>
+                    <span class="text-lg md:text-2xl font-bold text-blue-700 dark:text-blue-400 tracking-wider text-center" id="timer">00:00:00</span>
                 </div>
             </div>
         </header>
@@ -512,8 +512,8 @@
                                 if (confirm("Đã hết thời gian làm bài!\nBạn có muốn tiếp tục làm thêm không?\n\n- Chọn OK để tiếp tục suy nghĩ.\n- Chọn Hủy (Cancel) để nộp bài ngay.")) {
                                     let timerEl = document.getElementById('timer');
                                     timerEl.innerText = "ĐANG LÀM THÊM";
-                                    timerEl.classList.remove('text-blue-700', 'dark:text-blue-400');
-                                    timerEl.classList.add('text-amber-500', 'text-base', 'md:text-lg');
+                                    timerEl.classList.remove('text-blue-700', 'dark:text-blue-400', 'text-lg', 'md:text-2xl');
+                                    timerEl.classList.add('text-amber-500', 'text-sm', 'md:text-base');
                                 } else {
                                     finishExam(true); 
                                 }
@@ -975,8 +975,8 @@
             let timerEl = document.getElementById('timer');
             if (timerEl.innerText !== "ĐANG LÀM THÊM") {
                 timerEl.innerText = "ĐÃ NỘP BÀI";
-                timerEl.classList.remove('text-amber-500', 'text-blue-700', 'dark:text-blue-400');
-                timerEl.classList.add('text-emerald-600', 'dark:text-emerald-500');
+                timerEl.classList.remove('text-amber-500', 'text-sm', 'md:text-base');
+                timerEl.classList.add('text-emerald-600', 'dark:text-emerald-500', 'text-lg', 'md:text-2xl');
             }
             
             document.getElementById('live-score-text').innerText = `${Number(totalScore.toFixed(2)).toString().replace('.', ',')}`;

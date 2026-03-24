@@ -163,8 +163,7 @@
     <div id="exam-screen" class="hidden h-full flex flex-col w-full">
         
         <header class="flex-none min-h-[4rem] bg-white dark:bg-black border-b border-slate-200 dark:border-zinc-800 shadow-sm flex items-center justify-between px-6 py-3 z-20 transition-colors">
-            <h2 class="text-lg md:text-xl font-bold text-blue-800 dark:text-blue-400 pr-4 leading-snug flex-1 flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 hidden sm:block flex-none mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+            <h2 class="text-lg md:text-xl font-bold text-blue-800 dark:text-blue-400 pr-4 leading-snug flex-1 flex items-center">
                 <span id="exam-title" class="line-clamp-2">Đang tải đề...</span>
             </h2>
             
@@ -975,8 +974,8 @@
             let timerEl = document.getElementById('timer');
             if (timerEl.innerText !== "ĐANG LÀM THÊM") {
                 timerEl.innerText = "ĐÃ NỘP BÀI";
-                timerEl.classList.remove('text-amber-500', 'text-sm', 'md:text-base');
-                timerEl.classList.add('text-emerald-600', 'dark:text-emerald-500', 'text-lg', 'md:text-2xl');
+                timerEl.classList.remove('text-amber-500', 'text-blue-700', 'dark:text-blue-400');
+                timerEl.classList.add('text-emerald-600', 'dark:text-emerald-500');
             }
             
             document.getElementById('live-score-text').innerText = `${Number(totalScore.toFixed(2)).toString().replace('.', ',')}`;

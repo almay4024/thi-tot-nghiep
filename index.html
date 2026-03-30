@@ -460,7 +460,9 @@
                 
                 let html = "";
                 files.filter(f => f.name.endsWith('.json')).forEach(file => {
-                    let name = file.name.replace('.json', '').replace(/_/g, ' ');
+                    // GIỮ NGUYÊN GẠCH DƯỚI, CHỈ XÓA ĐUÔI .JSON
+                    let name = file.name.replace('.json', '');
+                    
                     html += `
                     <button onclick="loadFromLibrary('${file.download_url}', this)" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all font-medium text-slate-700 dark:text-slate-300 text-sm flex items-start justify-between group outline-none">
                         <span class="pr-2 leading-relaxed">${name}</span>
@@ -521,6 +523,7 @@
             } catch (e) { 
                 alert("Lỗi tải đề! (File JSON bị hỏng hoặc mạng có vấn đề)"); 
             } finally {
+                // Luôn khôi phục lại nút dù tải thành công hay thất bại
                 btn.innerHTML = originalHTML;
                 btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
             }

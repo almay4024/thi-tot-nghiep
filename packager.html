@@ -90,7 +90,12 @@
 - Phần 2 (Đúng/Sai): mảng "items" KHÔNG kèm chữ cái "a)", "b)".
 - Phần 3: Số thập phân BẮT BUỘC dùng dấu phẩy (VD: "12,5").
 
+5. Xử lý Câu hỏi chùm (Dữ liệu dùng chung cho nhiều câu):
+- Hệ thống hiển thị từng câu độc lập và có tính năng đảo đề ngẫu nhiên.
+- Do đó, nếu đề có đoạn văn, bảng dữ liệu hoặc hình ảnh dùng chung cho một nhóm câu hỏi (VD: "Dựa vào thông tin sau để trả lời câu 15 và 16"), bạn BẮT BUỘC phải SAO CHÉP toàn bộ đoạn thông tin/hình ảnh dùng chung đó và gắn trực tiếp vào đầu trường "q" (hoặc "image") của TỪNG câu hỏi liên quan. 
+- Tuyệt đối không được ghi trổng không là "Dựa vào đoạn văn trên" khiến câu hỏi bị thiếu dữ kiện khi đứng một mình.
 Cấu trúc JSON bắt buộc (Ví dụ):
+
 {
     "timeLimit": 3000,
     "subject": "Toán Học",

@@ -88,8 +88,13 @@
                 <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Hệ Thống Thi<br>Tốt Nghiệp THPT</h1>
                 <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Định dạng mô phỏng năm 2026</p>
                 
-                <div class="mt-8 w-full max-w-xs">
-                    <a href="packager.html" target="_blank" class="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm md:text-base">
+                <div class="mt-8 w-full space-y-3">
+                    <button onclick="openLibraryModal()" class="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-md group text-sm md:text-base outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        CHỌN ĐỀ TỪ THƯ VIỆN ONLINE
+                    </button>
+
+                    <a href="packager.html" target="_blank" class="w-full flex items-center justify-center gap-2 px-5 py-3 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm md:text-base">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                         MỞ BỘ ĐÓNG GÓI ĐỀ
                     </a>
@@ -97,15 +102,17 @@
             </div>
 
             <div class="md:w-7/12 flex flex-col justify-center space-y-5">
-                <div class="bg-slate-50 dark:bg-zinc-900/50 p-5 rounded-xl border border-slate-200 dark:border-zinc-800 flex flex-col">
-                    <h3 class="font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                        Thư viện đề trực tuyến
-                    </h3>
-                    <div id="github-library-list" class="overflow-y-auto max-h-[160px] pr-2 space-y-2 mb-1">
-                        <div class="p-3 text-center text-sm text-slate-500 dark:text-slate-400">Đang tải danh sách...</div>
+                
+                <div id="drop-zone" class="p-6 md:p-8 border-2 border-dashed border-blue-300 dark:border-zinc-700 bg-blue-50/50 dark:bg-zinc-900/50 rounded-xl text-center transition hover:bg-blue-50 dark:hover:bg-zinc-900 flex flex-col items-center justify-center relative group cursor-pointer min-h-[140px]">
+                    <input type="file" id="file-upload" accept=".json" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    
+                    <div id="drop-zone-content" class="flex flex-col items-center pointer-events-none transition-all">
+                        <svg id="drop-zone-icon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500 dark:text-slate-400 mb-2 group-hover:scale-110 transition transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <label id="drop-zone-title" class="block font-bold text-blue-800 dark:text-slate-300 mb-1">Kéo thả file .json đề thi vào đây</label>
+                        <p id="drop-zone-desc" class="text-sm text-slate-500 dark:text-slate-500">Hoặc click để chọn file từ máy tính</p>
                     </div>
-                    <p class="text-xs text-slate-400 mt-2 text-center hidden" id="github-status">Lấy dữ liệu từ Github</p>
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -131,22 +138,38 @@
                     <label class="col-span-2 flex items-start gap-2 p-3 bg-cyan-50 dark:bg-zinc-900 border border-cyan-200 dark:border-zinc-800 rounded-lg cursor-pointer hover:bg-cyan-100 dark:hover:bg-zinc-800 transition shadow-sm">
                         <input type="checkbox" id="countup-mode" class="w-4 h-4 mt-0.5 cursor-pointer accent-cyan-600 dark:accent-cyan-500">
                         <div class="font-semibold text-sm text-cyan-800 dark:text-slate-200 select-none">
-                            Đồng hồ đếm tiến <span class="font-normal text-cyan-700/80 dark:text-slate-400 text-[0.7rem] block mt-0.5 leading-snug">Tính thời gian chạy từ 00:00:00</span>
+                            Đồng hồ đếm tiến <span class="font-normal text-cyan-700/80 dark:text-slate-400 text-[0.7rem] block mt-0.5 leading-snug">Tính thời gian chạy từ 00:00:00 thay vì lùi</span>
                         </div>
                     </label>
                 </div>
 
-                <div class="grid grid-cols-5 gap-3 mt-2 relative">
-                    <button type="button" onclick="document.getElementById('file-upload').click()" title="Tải lên đề từ máy tính" class="col-span-1 flex items-center justify-center bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-xl hover:bg-slate-200 dark:hover:bg-zinc-700 transition text-slate-600 dark:text-slate-300 shadow-sm cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                    </button>
-                    <input type="file" id="file-upload" accept=".json" class="hidden">
-                    
-                    <button id="btn-prepare" onclick="prepareExam()" class="col-span-4 py-3 bg-slate-200 dark:bg-zinc-900 text-slate-400 dark:text-slate-600 font-bold text-lg rounded-xl transition pointer-events-none dark:border dark:border-zinc-800 shadow-sm" disabled>TẠO PHÒNG THI</button>
+                <button id="btn-prepare" onclick="prepareExam()" class="w-full mt-2 py-3.5 bg-slate-200 dark:bg-zinc-900 text-slate-400 dark:text-slate-600 font-bold text-lg rounded-xl transition pointer-events-none dark:border dark:border-zinc-800 shadow-sm" disabled>TẠO PHÒNG THI</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="library-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-white dark:bg-black w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] border border-slate-200 dark:border-zinc-800 transform scale-95 transition-transform duration-300" id="library-modal-content">
+            
+            <div class="flex items-center justify-between p-5 md:p-6 border-b border-slate-200 dark:border-zinc-800 flex-none">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        Thư Viện Đề Thi
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1" id="github-status">Dữ liệu được tải trực tiếp từ GitHub</p>
                 </div>
-                <div id="upload-status" class="text-sm font-bold text-emerald-600 dark:text-emerald-500 hidden items-center justify-center gap-1 z-20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                    Đã tải dữ liệu thành công!
+                <button onclick="closeLibraryModal()" class="p-2 rounded-full bg-slate-100 dark:bg-zinc-900 text-slate-500 hover:bg-slate-200 dark:hover:bg-zinc-800 transition outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+
+            <div class="p-4 md:p-6 overflow-y-auto flex-1 bg-slate-50/50 dark:bg-zinc-950/50">
+                <div id="modal-library-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                    <div class="col-span-full py-10 text-center text-slate-500 dark:text-slate-400 flex flex-col items-center">
+                        <svg class="animate-spin h-8 w-8 mb-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        Đang kết nối máy chủ GitHub...
+                    </div>
                 </div>
             </div>
         </div>
@@ -311,7 +334,7 @@
     </div>
 
     <script>
-        // CẤU HÌNH GITHUB (ĐÃ CẬP NHẬT THÔNG TIN CỦA BẠN)
+        // CẤU HÌNH GITHUB 
         const GITHUB_OWNER = "almay4024"; 
         const GITHUB_REPO = "thi-tot-nghiep";       
         
@@ -357,7 +380,6 @@
         }
         updateThemeIcons();
 
-        // Menu trượt trên Mobile
         function toggleMobileMenu() {
             const sidebar = document.getElementById('sidebar-menu');
             const overlay = document.getElementById('mobile-menu-overlay');
@@ -373,7 +395,6 @@
             }
         }
 
-        // Tự động bật Toàn màn hình
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(() => {});
@@ -395,10 +416,42 @@
         });
 
         // ==========================================
-        // FETCH DỮ LIỆU TỪ GITHUB
+        // FETCH DỮ LIỆU TỪ GITHUB (MODAL)
         // ==========================================
+        let hasFetchedLibrary = false;
+
+        function openLibraryModal() {
+            const modal = document.getElementById('library-modal');
+            const content = document.getElementById('library-modal-content');
+            
+            modal.classList.remove('hidden');
+            // Delay slighty for transition
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+
+            if (!hasFetchedLibrary) {
+                fetchLibraryFiles();
+            }
+        }
+
+        function closeLibraryModal() {
+            const modal = document.getElementById('library-modal');
+            const content = document.getElementById('library-modal-content');
+            
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
         async function fetchLibraryFiles() {
-            const listEl = document.getElementById('github-library-list');
+            const listEl = document.getElementById('modal-library-list');
             const statusEl = document.getElementById('github-status');
             
             try {
@@ -410,62 +463,164 @@
                 files.filter(f => f.name.endsWith('.json')).forEach(file => {
                     let name = file.name.replace('.json', '').replace(/_/g, ' ');
                     html += `
-                    <button onclick="loadFromLibrary('${file.download_url}', this)" class="library-item w-full text-left p-3 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-indigo-400 transition font-medium text-slate-700 dark:text-slate-300 text-sm flex items-center justify-between group">
+                    <button onclick="loadFromLibrary('${file.download_url}', this)" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all font-medium text-slate-700 dark:text-slate-300 text-sm flex items-center justify-between group">
                         <span class="truncate pr-2">${name}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300 group-hover:text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                        <div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-none group-hover:bg-blue-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                        </div>
                     </button>`;
                 });
-                listEl.innerHTML = html || `<div class="p-3 text-center text-xs text-slate-400">Thư mục /data đang trống.</div>`;
+                
+                listEl.innerHTML = html || `<div class="col-span-full py-10 text-center text-slate-500">Thư mục /data trên GitHub đang trống.</div>`;
+                hasFetchedLibrary = true;
+                statusEl.innerText = "Đã tải xong dữ liệu từ GitHub";
+                statusEl.classList.replace('text-slate-500', 'text-emerald-500');
+                statusEl.classList.replace('dark:text-slate-400', 'dark:text-emerald-400');
+                
             } catch (e) {
-                listEl.innerHTML = `<div class="p-3 text-center text-xs text-red-500">Giới hạn GitHub API. Hãy thử lại sau 1 giờ, dùng 4G hoặc tải file từ máy tính.</div>`;
+                listEl.innerHTML = `<div class="col-span-full py-10 text-center text-red-500">Giới hạn GitHub API. Hãy thử lại sau 1 giờ, dùng 4G hoặc dùng chức năng Kéo thả file.</div>`;
+                statusEl.innerText = "Lỗi kết nối GitHub API";
+                statusEl.classList.replace('text-slate-500', 'text-red-500');
+                statusEl.classList.replace('dark:text-slate-400', 'dark:text-red-400');
             }
         }
-        
-        window.addEventListener('DOMContentLoaded', fetchLibraryFiles);
 
         async function loadFromLibrary(url, btn) {
-            document.querySelectorAll('.library-item').forEach(b => {
-                b.classList.remove('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/30', 'text-indigo-700', 'dark:text-indigo-300');
-            });
-            btn.classList.add('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/30', 'text-indigo-700', 'dark:text-indigo-300');
-            
             const btnP = document.getElementById('btn-prepare'); 
-            btnP.innerText = "ĐANG TẢI..."; 
-            btnP.disabled = true;
+            const originalText = btn.innerHTML;
+            
+            // Loading effect on the button inside modal
+            btn.innerHTML = `<span class="truncate pr-2">Đang tải xuống...</span><svg class="animate-spin h-5 w-5 text-blue-500 flex-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            btn.classList.add('border-blue-500', 'ring-2', 'ring-blue-200');
             
             try {
                 const res = await fetch(url); 
                 originalConfig = await res.json();
-                document.getElementById('upload-status').classList.remove('hidden');
-                document.getElementById('upload-status').classList.add('flex');
+                
+                // Update Main Screen Dropzone to show success
+                const dropZone = document.getElementById('drop-zone');
+                dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50', 'border-dashed');
+                dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
+                
+                const icon = document.getElementById('drop-zone-icon');
+                icon.classList.remove('text-blue-500', 'dark:text-slate-400', 'group-hover:scale-110');
+                icon.classList.add('text-emerald-500', 'dark:text-emerald-500');
+                icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+                
+                const title = document.getElementById('drop-zone-title');
+                title.classList.remove('text-blue-800', 'dark:text-slate-300');
+                title.classList.add('text-emerald-800', 'dark:text-emerald-400');
+                title.innerText = "Đã lấy dữ liệu từ Thư viện";
+                
+                const desc = document.getElementById('drop-zone-desc');
+                desc.classList.remove('text-slate-500');
+                desc.classList.add('text-emerald-600', 'dark:text-emerald-500', 'font-semibold', 'mt-1');
+                desc.innerText = originalConfig.title || "Đề thi sẵn sàng";
+
+                // Enable Prepare button
                 btnP.innerText = "TẠO PHÒNG THI"; 
                 btnP.disabled = false;
-                btnP.className = "col-span-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl shadow-md transition cursor-pointer";
+                btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
+                btnP.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-md', 'cursor-pointer');
+                
+                // Close modal on success
+                closeLibraryModal();
+                
             } catch (e) { 
                 alert("Lỗi tải đề! (File JSON bị hỏng hoặc mạng có vấn đề)"); 
-                btnP.innerText = "LỖI TẢI ĐỀ"; 
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200');
             }
         }
 
-        // Upload file tay (Tùy chọn phụ)
-        document.getElementById('file-upload').addEventListener('change', (e) => {
-            const file = e.target.files[0]; 
+        // ==========================================
+        // DROPZONE: XỬ LÝ KÉO THẢ FILE
+        // ==========================================
+        const fileInput = document.getElementById('file-upload');
+        const dropZone = document.getElementById('drop-zone');
+
+        fileInput.addEventListener('change', handleFileSelection);
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                if(!dropZone.classList.contains('border-emerald-500')) {
+                    dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50');
+                    dropZone.classList.add('border-blue-600', 'dark:border-blue-500', 'bg-blue-100', 'dark:bg-blue-900/40');
+                }
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                if(!dropZone.classList.contains('border-emerald-500')) {
+                    dropZone.classList.remove('border-blue-600', 'dark:border-blue-500', 'bg-blue-100', 'dark:bg-blue-900/40');
+                    dropZone.classList.add('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50');
+                }
+            }, false);
+        });
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            if(files.length) {
+                fileInput.files = files;
+                handleFileSelection({ target: { files: files } });
+            }
+        });
+
+        function handleFileSelection(event) {
+            const file = event.target.files[0]; 
             if (!file) return;
+
+            if (!file.name.toLowerCase().endsWith('.json')) {
+                alert("Lỗi: Vui lòng chọn file định dạng .json!");
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = (ev) => {
                 try {
                     originalConfig = JSON.parse(ev.target.result);
-                    document.getElementById('upload-status').classList.remove('hidden');
-                    document.getElementById('upload-status').classList.add('flex');
+                    
+                    // Update Main Screen Dropzone to show success
+                    dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50', 'border-dashed', 'border-blue-600', 'dark:border-blue-500', 'bg-blue-100', 'dark:bg-blue-900/40');
+                    dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
+                    
+                    const icon = document.getElementById('drop-zone-icon');
+                    icon.classList.remove('text-blue-500', 'dark:text-slate-400', 'group-hover:scale-110');
+                    icon.classList.add('text-emerald-500', 'dark:text-emerald-500');
+                    icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+                    
+                    const title = document.getElementById('drop-zone-title');
+                    title.classList.remove('text-blue-800', 'dark:text-slate-300');
+                    title.classList.add('text-emerald-800', 'dark:text-emerald-400');
+                    title.innerText = "Tải file lên thành công";
+                    
+                    const desc = document.getElementById('drop-zone-desc');
+                    desc.classList.remove('text-slate-500');
+                    desc.classList.add('text-emerald-600', 'dark:text-emerald-500', 'font-semibold', 'mt-1');
+                    desc.innerText = file.name;
+
+                    // Enable Prepare button
                     const btnP = document.getElementById('btn-prepare');
                     btnP.disabled = false; 
-                    btnP.className = "col-span-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl shadow-md transition cursor-pointer";
+                    btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
+                    btnP.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-md', 'cursor-pointer');
+                    
                 } catch(err) { 
                     alert("Lỗi: File JSON bị hỏng cấu trúc!"); 
                 }
             };
             reader.readAsText(file);
-        });
+        }
 
         // ==========================================
         // LOGIC TRỘN ĐỀ VÀ KHỞI TẠO BÀI THI
@@ -659,7 +814,6 @@
                 iconF.setAttribute("fill", "none"); 
             }
             
-            // Đóng menu trên Mobile sau khi chọn câu
             if (window.innerWidth < 768 && !document.getElementById('sidebar-menu').classList.contains('translate-x-full')) {
                 toggleMobileMenu();
             }
@@ -680,7 +834,6 @@
                 html += `<img src="${img}" class="question-img mx-auto" alt="Hình ảnh câu hỏi">`;
             }
 
-            // --- RENDER PHẦN 1 ---
             if(q.type === 1) {
                 let savedAns = userAnswers[currentIndex] !== undefined ? userAnswers[currentIndex] : null;
                 let correctAnsArray = Array.isArray(q.ans) ? q.ans : [q.ans];
@@ -706,7 +859,6 @@
                 });
                 html += `</div>`;
             } 
-            // --- RENDER PHẦN 2 ---
             else if(q.type === 2) {
                 let savedAns = userAnswers[currentIndex] || {};
                 html += `<div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm mt-4">
@@ -750,7 +902,6 @@
                 });
                 html += `</tbody></table></div>`;
             } 
-            // --- RENDER PHẦN 3 ---
             else if(q.type === 3) {
                 let savedAns = userAnswers[currentIndex] || ["","","",""];
                 html += `
@@ -771,7 +922,6 @@
             
             container.innerHTML = html;
             
-            // Xử lý MathJax mượt mà không bị lỗi đè
             if (window.MathJax && MathJax.typesetPromise) {
                 MathJax.typesetClear([container]);
                 MathJax.typesetPromise([container]);
@@ -800,16 +950,13 @@
         function saveP3Answer(idx, i) { 
             if(!userAnswers[idx]) userAnswers[idx] = ["","","",""];
             let el = document.getElementById(`p3_${idx}_${i}`); 
-            // Cực kỳ quan trọng: Chỉ cho phép số, dấu trừ, dấu phẩy, dấu gạch chéo
             el.value = el.value.replace(/[^0-9\,\-\/]/g, ''); 
             userAnswers[idx][i] = el.value;
-            // Tự động nhảy sang ô tiếp theo
             if(el.value !== "" && i < 3) document.getElementById(`p3_${idx}_${i+1}`).focus();
             updateNavColor(idx); updateProgress(); updateCheckState();
         }
 
         function handleP3Key(event, idx, i) {
-            // Xóa lùi tự động quay lại ô trước
             if (event.key === 'Backspace') {
                 let el = document.getElementById(`p3_${idx}_${i}`);
                 if (el.value === "" && i > 0) {
@@ -866,7 +1013,6 @@
             if (flaggedQuestions[idx]) btn.classList.add('!border-2', '!border-amber-500');
         }
 
-        // Tối ưu thuật toán chấm điểm từng câu (Bảo vệ lỗi Ép kiểu)
         function calculateSingleScore(q) {
             let ans = userAnswers[q.globalIndex];
             
@@ -882,7 +1028,6 @@
             }
             if(q.type === 3) { 
                 let correctAnswers = Array.isArray(q.ans) ? q.ans : [q.ans];
-                // Ép kiểu toàn bộ mảng đáp án gốc về dạng Chuỗi (String) để đảm bảo so sánh tuyệt đối an toàn
                 let stringCorrectAnswers = correctAnswers.map(String); 
                 let userStr = (ans || []).join('').trim();
                 return stringCorrectAnswers.includes(userStr) ? examConfig.p3_points : 0; 
@@ -890,7 +1035,6 @@
             return 0;
         }
 
-        // Hàm rút gọn số 0 thập phân thừa thãi (vd: 7.50 -> 7,5)
         function formatNumberClean(num) {
             let str = num.toFixed(2).replace('.', ',');
             if (str.endsWith(',00')) return str.slice(0, -3);
@@ -948,7 +1092,6 @@
             renderQuestion(); 
             showExplanation();
             
-            // Nếu đã chấm xong hết câu trong chế độ Luyện tập thì tự động nộp bài
             if (isPracticeMode && Object.keys(lockedQuestions).length === allQuestions.length) {
                 finishExam(true);
             }
@@ -1021,7 +1164,6 @@
                 document.getElementById('live-score-text').innerText = formatNumberClean(finalScore);
             }
             
-            // Ẩn menu mobile nếu đang mở để xem trọn vẹn điểm
             const sidebar = document.getElementById('sidebar-menu');
             if (window.innerWidth < 768 && !sidebar.classList.contains('translate-x-full')) {
                 toggleMobileMenu();

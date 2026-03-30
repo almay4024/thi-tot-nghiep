@@ -68,11 +68,11 @@
                 <div class="bg-white dark:bg-black p-5 rounded-lg border border-indigo-200 dark:border-zinc-700 text-sm text-slate-600 dark:text-slate-300 font-mono h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner select-all" id="prompt-content">Đóng vai trò là chuyên gia số hóa dữ liệu và giáo viên luyện thi Tốt nghiệp THPT. Tôi sẽ tải lên một tài liệu chứa đề thi. Nhiệm vụ của bạn là trích xuất và chuyển đổi thành tệp data.json.
 
 1. Định danh và Tính điểm:
-- Tự động nhận diện môn học ghi vào "subject".
+- Tự động nhận diện môn học ghi vào "subject". BẮT BUỘC chỉ dùng các tên chuẩn sau để đồng bộ hệ thống: "Toán", "Vật lí", "Hóa học", "Sinh học", "Ngữ văn", "Lịch sử", "Địa lí", "Tin học", "Công nghệ", "GDKT & PL", "Tiếng Anh". (Tuyệt đối không dùng các từ như "Vật lý" hay "Môn Toán").
 - Ghi tên đề rõ ràng vào "title" (VD: Đề thi thử Sở Hà Nội Lần 1 - Toán - Mã đề 101).
 - Điểm Phần 1 (Mặc định cho mọi môn): "p1_points": 0.25.
 - Điểm Phần 2 (Mặc định cho mọi môn): "p2_points": [0.1, 0.25, 0.5, 1.0].
-- Điểm Phần 3 (Phụ thuộc môn học): Môn Toán đặt "p3_points": 0.5. Các môn khác (Lý, Hóa, Sinh...) đặt "p3_points": 0.25.
+- Điểm Phần 3 (Phụ thuộc môn học): Môn Toán đặt "p3_points": 0.5. Các môn khác đặt "p3_points": 0.25.
 
 2. Xử lý Lời giải & Hình ảnh (CỰC KỲ QUAN TRỌNG):
 - NẾU TÀI LIỆU GỐC CÓ LỜI GIẢI: Trích xuất NGUYÊN VĂN vào "explanation". Nếu lời giải có hình minh họa/đồ thị, thêm "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".

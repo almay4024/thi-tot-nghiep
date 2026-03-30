@@ -149,7 +149,7 @@
     </div>
 
     <div id="library-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
-        <div class="bg-white dark:bg-black w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] border border-slate-200 dark:border-zinc-800 transform scale-95 transition-transform duration-300" id="library-modal-content">
+        <div class="bg-white dark:bg-black w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] border border-slate-200 dark:border-zinc-800 transform scale-95 transition-transform duration-300" id="library-modal-content">
             
             <div class="flex items-center justify-between p-5 md:p-6 border-b border-slate-200 dark:border-zinc-800 flex-none">
                 <div>
@@ -164,13 +164,25 @@
                 </button>
             </div>
 
-            <div class="p-4 md:p-6 overflow-y-auto flex-1 bg-slate-50/50 dark:bg-zinc-950/50">
-                <div id="modal-library-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-                    <div class="col-span-full py-10 text-center text-slate-500 dark:text-slate-400 flex flex-col items-center">
+            <div class="flex-1 flex flex-col overflow-hidden bg-slate-50/50 dark:bg-zinc-950/50 p-4 md:p-6">
+                
+                <div class="mb-4 flex flex-col sm:flex-row sm:items-center gap-3 flex-none" id="filter-container" style="display: none;">
+                    <label class="font-bold text-slate-700 dark:text-slate-300 text-sm whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1 mb-0.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+                        Lọc theo môn học:
+                    </label>
+                    <select id="library-subject-filter" onchange="filterLibrary()" class="w-full sm:w-auto p-2.5 border border-slate-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-black focus:ring-2 focus:ring-blue-500 outline-none font-semibold text-slate-700 dark:text-slate-300 text-sm shadow-sm cursor-pointer transition">
+                        <option value="all">Tất cả các môn</option>
+                    </select>
+                </div>
+
+                <div id="modal-library-list" class="flex-1 overflow-y-auto pr-2 space-y-3">
+                    <div class="py-10 text-center text-slate-500 dark:text-slate-400 flex flex-col items-center">
                         <svg class="animate-spin h-8 w-8 mb-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         Đang kết nối máy chủ GitHub...
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -416,9 +428,10 @@
         });
 
         // ==========================================
-        // FETCH DỮ LIỆU TỪ GITHUB (MODAL)
+        // FETCH DỮ LIỆU TỪ GITHUB (MODAL & FILTER)
         // ==========================================
         let hasFetchedLibrary = false;
+        let cachedLibraryFiles = [];
 
         function openLibraryModal() {
             const modal = document.getElementById('library-modal');
@@ -458,36 +471,90 @@
                 if (!response.ok) throw new Error("GitHub Limit");
                 const files = await response.json();
                 
-                let html = "";
-                files.filter(f => f.name.endsWith('.json')).forEach(file => {
-                    // GIỮ NGUYÊN GẠCH DƯỚI, CHỈ XÓA ĐUÔI .JSON
-                    let name = file.name.replace('.json', '');
+                cachedLibraryFiles = files.filter(f => f.name.endsWith('.json')).map(f => {
+                    let cleanName = f.name.replace('.json', ''); // Giữ nguyên khoảng trắng và gạch dưới
+                    let subject = "Khác";
+                    let title = cleanName;
                     
-                    html += `
-                    <button onclick="loadFromLibrary('${file.download_url}', this)" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all font-medium text-slate-700 dark:text-slate-300 text-sm flex items-start justify-between group outline-none">
-                        <span class="pr-2 leading-relaxed">${name}</span>
-                    </button>`;
+                    // Tự động phân tách môn học dựa trên định dạng: Môn học _ Tên đề thi
+                    if (cleanName.includes(' _ ')) {
+                        let parts = cleanName.split(' _ ');
+                        subject = parts[0].trim();
+                        title = parts.slice(1).join(' _ ').trim();
+                    } else if (cleanName.includes('_')) { // Backup cho file cũ chỉ có gạch dưới sát chữ
+                        let parts = cleanName.split('_');
+                        subject = parts[0].trim();
+                        title = parts.slice(1).join('_').trim();
+                    }
+
+                    return {
+                        originalName: cleanName,
+                        subject: subject,
+                        title: title,
+                        url: f.download_url
+                    };
                 });
+
+                // Tự động gom các Môn học để tạo Menu Filter
+                if (cachedLibraryFiles.length > 0) {
+                    let subjects = [...new Set(cachedLibraryFiles.map(f => f.subject))].sort();
+                    let selectHtml = `<option value="all">Tất cả các môn (${cachedLibraryFiles.length})</option>`;
+                    subjects.forEach(sub => {
+                        let count = cachedLibraryFiles.filter(f => f.subject === sub).length;
+                        selectHtml += `<option value="${sub}">${sub} (${count})</option>`;
+                    });
+                    document.getElementById('library-subject-filter').innerHTML = selectHtml;
+                    document.getElementById('filter-container').style.display = "flex";
+                }
                 
-                listEl.innerHTML = html || `<div class="col-span-full py-10 text-center text-slate-500">Thư mục /data trên GitHub đang trống.</div>`;
                 hasFetchedLibrary = true;
                 statusEl.innerText = "Đã tải xong dữ liệu từ GitHub";
                 statusEl.classList.replace('text-slate-500', 'text-emerald-500');
                 statusEl.classList.replace('dark:text-slate-400', 'dark:text-emerald-400');
                 
+                renderLibraryList('all'); // Khởi tạo hiển thị danh sách
+                
             } catch (e) {
-                listEl.innerHTML = `<div class="col-span-full py-10 text-center text-red-500">Giới hạn GitHub API. Hãy thử lại sau 1 giờ, dùng 4G hoặc dùng chức năng Kéo thả file.</div>`;
+                listEl.innerHTML = `<div class="col-span-full py-10 text-center text-red-500 font-medium">Giới hạn GitHub API.<br>Hãy kết nối 4G hoặc dùng chức năng Kéo thả file thay thế.</div>`;
                 statusEl.innerText = "Lỗi kết nối GitHub API";
                 statusEl.classList.replace('text-slate-500', 'text-red-500');
                 statusEl.classList.replace('dark:text-slate-400', 'dark:text-red-400');
             }
         }
 
+        // Kích hoạt khi người dùng đổi môn trong Menu Dropdown
+        function filterLibrary() {
+            let filter = document.getElementById('library-subject-filter').value;
+            renderLibraryList(filter);
+        }
+
+        // Render giao diện danh sách đề 1 cột
+        function renderLibraryList(filterSubject) {
+            const listEl = document.getElementById('modal-library-list');
+            let filteredFiles = filterSubject === 'all' ? cachedLibraryFiles : cachedLibraryFiles.filter(f => f.subject === filterSubject);
+
+            let html = "";
+            filteredFiles.forEach(file => {
+                html += `
+                <button onclick="loadFromLibrary('${file.url}', this)" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all outline-none flex items-center justify-between group">
+                    <div class="flex flex-col md:flex-row md:items-center gap-1.5 md:gap-3 pr-4 flex-1 overflow-hidden">
+                        <span class="inline-block px-2.5 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-[0.65rem] md:text-xs font-bold rounded-md uppercase tracking-wide border border-indigo-200 dark:border-indigo-800/50 flex-none w-max">${file.subject}</span>
+                        <span class="text-sm md:text-base font-medium text-slate-700 dark:text-slate-200 leading-snug break-words">${file.title}</span>
+                    </div>
+                </button>`;
+            });
+
+            if (html === "") {
+                html = `<div class="py-10 text-center text-slate-500 font-medium">Không tìm thấy đề thi nào cho môn học này.</div>`;
+            }
+            listEl.innerHTML = html;
+        }
+
         async function loadFromLibrary(url, btn) {
             const btnP = document.getElementById('btn-prepare'); 
             const originalHTML = btn.innerHTML; 
             
-            btn.innerHTML = `<span class="pr-2 leading-relaxed">Đang tải xuống...</span><svg class="animate-spin h-5 w-5 text-blue-500 flex-none mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            btn.innerHTML = `<span class="pr-2 leading-relaxed text-blue-600 font-bold">Đang tải xuống dữ liệu...</span><svg class="animate-spin h-5 w-5 text-blue-500 flex-none mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
             btn.classList.add('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
             
             try {
@@ -523,14 +590,14 @@
             } catch (e) { 
                 alert("Lỗi tải đề! (File JSON bị hỏng hoặc mạng có vấn đề)"); 
             } finally {
-                // Luôn khôi phục lại nút dù tải thành công hay thất bại
+                // Luôn khôi phục lại giao diện nút dù tải thành công hay thất bại
                 btn.innerHTML = originalHTML;
                 btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
             }
         }
 
         // ==========================================
-        // DROPZONE: XỬ LÝ KÉO THẢ FILE
+        // DROPZONE: XỬ LÝ KÉO THẢ FILE TỪ MÁY
         // ==========================================
         const fileInput = document.getElementById('file-upload');
         const dropZone = document.getElementById('drop-zone');

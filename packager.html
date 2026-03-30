@@ -6,9 +6,14 @@
     <title>Trung Tâm Xử Lý Đề Thi (Packager & Editor)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; }
         
         .paste-area:focus { outline: none; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3); border-color: #6366f1 !important; }
         .paste-area:focus .focus-overlay { opacity: 1 !important; background-color: rgba(79, 70, 229, 0.85); }
@@ -17,16 +22,27 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .dark ::-webkit-scrollbar-thumb { background: #27272a; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+        .dark body { background-color: #000000; color: #e2e8f0; }
     </style>
 </head>
-<body class="text-slate-800 h-screen flex flex-col">
+<body class="bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
 
-    <header class="bg-white border-b border-slate-200 px-6 py-4 shadow-sm flex-none">
+    <div class="absolute top-4 right-4 z-50" id="floating-theme-toggle">
+        <button onclick="toggleDarkMode()" class="p-2.5 rounded-full bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-900 shadow-sm transition outline-none">
+            <svg id="moon-icon-float" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            <svg id="sun-icon-float" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        </button>
+    </div>
+
+    <header class="bg-white dark:bg-black border-b border-slate-200 dark:border-zinc-800 px-6 py-4 shadow-sm flex-none transition-colors">
         <div class="flex items-center">
             <span class="text-3xl mr-3">📦</span>
             <div>
-                <h1 class="text-2xl font-bold text-indigo-700">Trung Tâm Xử Lý & Đóng Gói Đề Thi</h1>
-                <p class="text-sm text-slate-500 mt-1">Đóng gói ảnh Base64, Sửa từng câu độc lập, Cập nhật hình ảnh trực tiếp</p>
+                <h1 class="text-2xl font-bold text-indigo-700 dark:text-indigo-400">Công Cụ Đóng Gói Đề Thi</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Đóng gói ảnh Câu hỏi/Lời giải, xử lý đa đáp án, tự động tinh chỉnh mã JSON</p>
             </div>
         </div>
     </header>
@@ -34,56 +50,57 @@
     <main class="flex-1 overflow-y-auto p-6 md:p-10">
         <div class="max-w-5xl mx-auto space-y-8">
 
-            <div class="bg-indigo-50 p-6 md:p-8 rounded-xl shadow-sm border border-indigo-200">
+            <div class="bg-indigo-50 dark:bg-zinc-900 p-6 md:p-8 rounded-xl shadow-sm border border-indigo-200 dark:border-zinc-800 transition-colors">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
                     <div>
-                        <h2 class="text-xl font-bold flex items-center text-indigo-800"><span class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">0</span> Lấy lệnh (Prompt) cho AI</h2>
-                        <p class="text-sm text-indigo-600 mt-1 ml-10">Copy đoạn lệnh này, gửi cho AI (Gemini/ChatGPT) kèm theo file đề gốc để lấy mã JSON.</p>
+                        <h2 class="text-xl font-bold flex items-center text-indigo-800 dark:text-indigo-300"><span class="bg-indigo-600 dark:bg-indigo-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">0</span> Lấy lệnh (Prompt) cho AI</h2>
+                        <p class="text-sm text-indigo-600 dark:text-slate-400 mt-1 ml-10">Copy đoạn lệnh này, gửi cho AI (Gemini/ChatGPT) kèm theo file đề gốc để lấy mã JSON.</p>
                     </div>
-                    <button onclick="copyPrompt()" id="btn-copy-prompt" class="flex-none flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition transform hover:-translate-y-0.5">
+                    <button onclick="copyPrompt()" id="btn-copy-prompt" class="flex-none flex items-center gap-2 px-5 py-2.5 bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold rounded-lg shadow-md transition transform hover:-translate-y-0.5">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                         <span>COPY PROMPT</span>
                     </button>
                 </div>
-                <div class="bg-white p-5 rounded-lg border border-indigo-200 text-sm text-slate-600 font-mono h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner select-all" id="prompt-content">Đóng vai trò là một chuyên gia số hóa dữ liệu và giáo viên luyện thi Tốt nghiệp THPT. Tôi sẽ tải lên một file tài liệu (PDF/Word/Ảnh) chứa đề thi mô phỏng định dạng năm 2026. Nhiệm vụ của bạn là đọc toàn bộ đề thi, trích xuất nguyên văn và chuyển đổi nó thành một tệp data.json.
+                <div class="bg-white dark:bg-black p-5 rounded-lg border border-indigo-200 dark:border-zinc-700 text-sm text-slate-600 dark:text-slate-300 font-mono h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner select-all" id="prompt-content">Đóng vai trò là chuyên gia số hóa dữ liệu và giáo viên luyện thi Tốt nghiệp THPT. Tôi sẽ tải lên một tài liệu chứa đề thi mô phỏng định dạng 2026. Nhiệm vụ của bạn là trích xuất NGUYÊN VĂN và chuyển đổi thành tệp data.json.
 
-1. Yêu cầu phân loại và tính điểm:
-Tự động nhận diện môn học và thiết lập trường "p3_points":
-- Đề Toán: Đặt "p1_points": 0.25 và "p3_points": 0.5.
-- Đề Thường (Lý, Hóa, Sinh...): Đặt "p1_points": 0.25 và "p3_points": 0.25.
+1. Định danh và Tính điểm:
+- Tự động nhận diện môn học ghi vào "subject".
+- Ghi tên đề rõ ràng vào "title" (VD: Đề thi thử Sở Hà Nội Lần 1 - Toán - Mã đề 101).
+- Môn Toán: "p1_points": 0.25, "p3_points": 0.5. Môn khác: "p1_points": 0.25, "p3_points": 0.25.
+- Cấu hình điểm Phần 2: "p2_points": [0.1, 0.25, 0.5, 1.0].
 
-2. Xử lý Hình ảnh (CỰC KỲ QUAN TRỌNG):
-- Nếu câu hỏi có chứa hình ảnh, đồ thị hoặc bảng biểu phức tạp, hãy thêm trường "image": "[CẦN_CHÈN_ẢNH]" vào đối tượng JSON của câu đó.
-- Tuyệt đối giữ nguyên văn chữ của đề bài, không được tự ý tóm tắt bỏ qua chữ.
+2. Xử lý Hình ảnh & Lời giải (CỰC KỲ QUAN TRỌNG):
+- Hình ảnh trong CÂU HỎI: Thêm "image": "[CẦN_CHÈN_ẢNH]".
+- Hình ảnh trong LỜI GIẢI: Thêm "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
+- Trích xuất NGUYÊN VĂN lời giải chi tiết vào "explanation" (không được bỏ bớt chữ).
 
-3. Xử lý Đáp án:
-- Nếu file có đáp án: Dùng đáp án đó điền vào trường "ans".
-- Nếu không có đáp án: Tự giải, điền "ans" và ghi lời giải chi tiết vào "explanation".
+3. Xử lý Đáp án (Hỗ trợ Đa Đáp Án):
+- Nếu có nhiều đáp án được chấp thuận (do sai đề hoặc nhiều cách ghi), hãy dùng MẢNG.
+- VD Trắc nghiệm: "ans": [0, 1]. Trả lời ngắn: "ans": ["1,5", "3/2"].
+- Nếu chỉ có 1 đáp án, có thể ghi bình thường (VD: "ans": 0).
 
-4. Định dạng Phần 2 và Phần 3:
-- Phần 2 (Đúng/Sai): Trong mảng "items", KHÔNG ghi kèm các chữ cái "a)", "b)", "c)", "d)".
-- Phần 3 (Trả lời ngắn): Đáp án là một chuỗi (String). BẮT BUỘC dùng dấu phẩy (,) cho số thập phân (VD: "12,5" hoặc "-3,14"). Tuyệt đối không dùng dấu chấm.
-
-5. Quy tắc Toán học (QUAN TRỌNG):
-- Tất cả công thức toán/lý/hóa phải được bọc trong cặp dấu $ (ví dụ: $x^2 + 2x = 0$).
-- BẮT BUỘC phải có khoảng trắng ở hai bên các dấu quan hệ (như &lt; , &gt; , =, \\le , \\ge) để tránh lỗi biên dịch trên Web. Ví dụ: viết $x &lt; y + 1$ thay vì $x&lt;y+1$.
-
-6. Tên đề thi: 
-- Viết ngắn gọn, rõ ràng vào trường "title" (VD: Đề khảo sát/Đề chính thức + Địa điểm + Môn thi + Mã đề + Ghi chú nếu có).
+4. Quy tắc Toán học và Trình bày:
+- Công thức toán/lý/hóa bọc trong dấu $ (VD: $x^2 + 2x = 0$).
+- BẮT BUỘC có khoảng trắng hai bên các dấu quan hệ (như &lt; , &gt; , =, \\le , \\ge) để tránh lỗi biên dịch Web. Ví dụ: viết $x &lt; y + 1$ thay vì $x&lt;y+1$.
+- Phần 2 (Đúng/Sai): mảng "items" KHÔNG kèm chữ cái "a)", "b)".
+- Phần 3: Số thập phân BẮT BUỘC dùng dấu phẩy (VD: "12,5").
 
 Cấu trúc JSON bắt buộc (Ví dụ):
 {
     "timeLimit": 3000,
-    "title": "[Tên đề thi]",
+    "subject": "Toán Học",
+    "title": "Đề Khảo Sát - THPT Chuyên - Môn Toán",
     "p1_points": 0.25,
-    "p3_points": 0.25,
+    "p2_points": [0.1, 0.25, 0.5, 1.0],
+    "p3_points": 0.5,
     "part1": [
         { 
             "q": "Nội dung câu trắc nghiệm?",
             "image": "[CẦN_CHÈN_ẢNH]",
             "options": ["A", "B", "C", "D"], 
-            "ans": 0, 
-            "explanation": "Giải thích"
+            "ans": [0, 1], 
+            "explanation": "Giải thích chi tiết",
+            "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]"
         }
     ],
     "part2": [
@@ -91,74 +108,74 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             "q": "Nội dung câu đúng/sai?",
             "items": ["Phát biểu 1", "Phát biểu 2", "Phát biểu 3", "Phát biểu 4"],
             "ans": [true, false, true, false],
-            "explanation": "Giải thích"
+            "explanation": "Giải thích chi tiết"
         }
     ],
     "part3": [
         { 
             "q": "Nội dung câu trả lời ngắn?",
-            "ans": "-1,5", 
-            "explanation": "Giải thích"
+            "ans": ["-1,5", "-3/2"], 
+            "explanation": "Giải thích chi tiết"
         }
     ]
 }</div>
             </div>
             
-            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-xl font-bold mb-6 flex items-center text-slate-800"><span class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">1</span> Nạp Dữ Liệu (Đề Thô hoặc Đề Đã Đóng Gói)</h2>
+            <div class="bg-white dark:bg-black p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800 transition-colors">
+                <h2 class="text-xl font-bold mb-6 flex items-center text-slate-800 dark:text-slate-200"><span class="bg-indigo-600 dark:bg-indigo-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">1</span> Nạp Dữ Liệu (Đề Thô hoặc Đề Đã Đóng Gói)</h2>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div id="drop-zone" class="border-2 border-dashed border-indigo-300 bg-indigo-50/50 p-6 rounded-xl flex flex-col items-center justify-center text-center transition hover:bg-indigo-50 relative group cursor-pointer">
+                    <div id="drop-zone" class="border-2 border-dashed border-indigo-300 dark:border-zinc-700 bg-indigo-50/50 dark:bg-zinc-900/50 p-6 rounded-xl flex flex-col items-center justify-center text-center transition hover:bg-indigo-50 dark:hover:bg-zinc-900 relative group cursor-pointer">
                         <input type="file" id="json-upload" accept=".json" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                         
                         <div id="drop-zone-content" class="flex flex-col items-center pointer-events-none">
-                            <svg id="drop-zone-icon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-500 mb-3 group-hover:scale-110 transition transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg id="drop-zone-icon" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-500 dark:text-slate-400 mb-3 group-hover:scale-110 transition transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                             </svg>
-                            <p id="drop-zone-title" class="font-bold text-indigo-800 mb-1">Kéo thả file .json vào đây</p>
-                            <p id="drop-zone-desc" class="text-sm text-indigo-600/80">Hoặc click để chọn file từ máy tính</p>
+                            <p id="drop-zone-title" class="font-bold text-indigo-800 dark:text-slate-300 mb-1">Kéo thả file .json vào đây</p>
+                            <p id="drop-zone-desc" class="text-sm text-indigo-600/80 dark:text-slate-500">Hoặc click để chọn file từ máy tính</p>
                         </div>
                     </div>
 
-                    <div id="paste-container" class="border-2 border-dashed border-slate-200 p-6 rounded-xl bg-slate-50 flex flex-col transition hover:border-indigo-300">
-                        <p class="font-bold text-slate-700 mb-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    <div id="paste-container" class="border-2 border-dashed border-slate-200 dark:border-zinc-700 p-6 rounded-xl bg-slate-50 dark:bg-zinc-900/50 flex flex-col transition hover:border-indigo-300 dark:hover:border-zinc-600">
+                        <p class="font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                             Dán trực tiếp Code JSON
                         </p>
-                        <textarea id="json-paste" class="w-full flex-1 p-3 border border-slate-200 rounded-lg text-sm font-mono text-slate-600 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 mb-3 bg-white shadow-inner resize-none min-h-[100px]" placeholder='{&#10;    "timeLimit": 3000,&#10;    ...&#10;}'></textarea>
-                        <button id="btn-paste-submit" onclick="processPastedJson()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition shadow-md flex justify-center items-center">
+                        <textarea id="json-paste" class="w-full flex-1 p-3 border border-slate-200 dark:border-zinc-800 rounded-lg text-sm font-mono text-slate-600 dark:text-slate-300 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 bg-white dark:bg-black shadow-inner resize-none min-h-[100px]" placeholder='{&#10;    "timeLimit": 3000,&#10;    ...&#10;}'></textarea>
+                        <button id="btn-paste-submit" onclick="processPastedJson()" class="w-full py-2.5 bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold rounded-lg transition shadow-md flex justify-center items-center">
                             XỬ LÝ CODE JSON
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div id="edit-container" class="hidden bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200">
+            <div id="edit-container" class="hidden bg-white dark:bg-black p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800 transition-colors">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h2 class="text-xl font-bold flex items-center text-slate-800">
-                            <span class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">
+                        <h2 class="text-xl font-bold flex items-center text-slate-800 dark:text-slate-200">
+                            <span class="bg-indigo-600 dark:bg-indigo-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
                             </span> 
                             Quản lý & Sửa nội dung đề
                         </h2>
-                        <p class="text-sm text-slate-500 mt-1 ml-10">Chọn câu hỏi bị sai và sửa lại chữ/đáp án một cách độc lập, không sợ lỗi cả file.</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 ml-10">Chọn câu hỏi bị sai và sửa lại chữ/đáp án một cách độc lập.</p>
                     </div>
-                    <button onclick="toggleEditor()" id="btn-toggle-editor" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg text-sm transition shadow-sm border border-slate-300">
+                    <button onclick="toggleEditor()" id="btn-toggle-editor" class="px-5 py-2.5 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 text-slate-700 dark:text-slate-300 font-bold rounded-lg text-sm transition shadow-sm border border-slate-300 dark:border-zinc-700 outline-none">
                         MỞ TRÌNH SỬA CODE
                     </button>
                 </div>
                 
-                <div id="editor-wrapper" class="hidden mt-6 flex flex-col gap-4 border-t border-slate-100 pt-6">
-                    <div class="flex items-center gap-4">
-                        <label class="font-bold text-slate-700 whitespace-nowrap">Chọn phần cần sửa:</label>
-                        <select id="question-selector" onchange="loadQuestionCode()" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-slate-700 cursor-pointer shadow-sm">
-                            </select>
+                <div id="editor-wrapper" class="hidden mt-6 flex flex-col gap-4 border-t border-slate-100 dark:border-zinc-800 pt-6">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+                        <label class="font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">Chọn phần cần sửa:</label>
+                        <select id="question-selector" onchange="loadQuestionCode()" class="w-full p-3 border border-slate-300 dark:border-zinc-700 rounded-lg bg-slate-50 dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm">
+                        </select>
                     </div>
                     
-                    <textarea id="live-editor" class="w-full h-72 p-5 font-mono text-sm border-2 border-slate-300 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-slate-900 text-green-400 shadow-inner resize-y leading-relaxed" spellcheck="false"></textarea>
+                    <textarea id="live-editor" class="w-full h-72 p-5 font-mono text-sm border-2 border-slate-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:border-indigo-500 bg-slate-900 dark:bg-zinc-950 text-green-400 dark:text-emerald-400 shadow-inner resize-y leading-relaxed" spellcheck="false"></textarea>
                     
-                    <button onclick="saveQuestionCode()" class="py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md text-lg flex justify-center items-center gap-2">
+                    <button onclick="saveQuestionCode()" class="py-3.5 bg-indigo-600 dark:bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md text-lg flex justify-center items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
                         LƯU CÂU HỎI NÀY
                     </button>
@@ -166,12 +183,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             </div>
 
             <div id="image-tasks-container" class="hidden space-y-4">
-                <h2 class="text-xl font-bold flex items-center mb-4 text-slate-800"><span class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">2</span> Quản lý Hình Ảnh (Chèn mới / Thay thế)</h2>
-                <div class="bg-blue-50 border border-blue-200 text-blue-800 p-5 rounded-xl text-sm mb-6 shadow-sm flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 flex-none mt-0.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <h2 class="text-xl font-bold flex items-center mb-4 text-slate-800 dark:text-slate-200"><span class="bg-indigo-600 dark:bg-indigo-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm mr-3 shadow-sm">2</span> Quản lý Hình Ảnh (Chèn mới / Thay thế)</h2>
+                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 p-5 rounded-xl text-sm mb-6 shadow-sm flex items-start transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 flex-none mt-0.5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                     <div>
-                        <strong class="text-base block mb-1">Thao tác dán ảnh:</strong> 
-                        Sử dụng công cụ chụp màn hình. Sau đó <b>CLICK CHUỘT</b> vào ô tương ứng bên dưới (viền sẽ sáng lên) và ấn <b>Ctrl + V</b>. Bạn có thể chèn ảnh mới hoặc ghi đè lên ảnh cũ tùy ý.
+                        <strong class="text-base block mb-1 text-blue-900 dark:text-blue-200">Thao tác dán ảnh:</strong> 
+                        Sử dụng công cụ chụp màn hình. Sau đó <b>CLICK CHUỘT</b> vào ô tương ứng bên dưới (viền sẽ sáng lên) và ấn <b>Ctrl + V</b>. Bạn có thể chèn ảnh mới hoặc ghi đè lên ảnh cũ tùy ý. Chú ý đọc kỹ nhãn màu tím để biết dán ảnh cho Câu Hỏi hay Lời Giải.
                     </div>
                 </div>
                 
@@ -179,13 +196,13 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     </div>
             </div>
 
-            <div id="download-container" class="hidden bg-emerald-50 p-8 rounded-xl shadow-sm border border-emerald-200 text-center mt-10">
-                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <div id="download-container" class="hidden bg-emerald-50 dark:bg-emerald-900/20 p-8 rounded-xl shadow-sm border border-emerald-200 dark:border-emerald-800 text-center mt-10 transition-colors">
+                <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                 </div>
-                <h2 class="text-2xl font-bold mb-2 text-emerald-800">Tuyệt vời! Đề thi đã hoàn thiện</h2>
-                <p class="text-emerald-600/80 mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được mã hóa. Bạn tải file này về và Upload lên Web Thi nhé!</p>
-                <button onclick="downloadFinalJson()" class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                <h2 class="text-2xl font-bold mb-2 text-emerald-800 dark:text-emerald-300">Tuyệt vời! Đề thi đã hoàn thiện</h2>
+                <p class="text-emerald-600/80 dark:text-emerald-400/80 mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được mã hóa. Bạn tải file này về và Upload lên Web Thi nhé!</p>
+                <button onclick="downloadFinalJson()" class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-bold text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1">
                     TẢI XUỐNG FILE .JSON 
                 </button>
             </div>
@@ -198,18 +215,38 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         let imagePointers = [];
         let currentEditTarget = { part: null, index: null };
 
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('moon-icon-float').classList.toggle('hidden', isDark);
+            document.getElementById('sun-icon-float').classList.toggle('hidden', !isDark);
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcons();
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        updateThemeIcons();
+
         function copyPrompt() {
             const promptText = document.getElementById('prompt-content').innerText;
             navigator.clipboard.writeText(promptText).then(() => {
                 const btn = document.getElementById('btn-copy-prompt');
                 const originalHTML = btn.innerHTML;
                 btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> <span>ĐÃ COPY!</span>`;
-                btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                btn.classList.remove('bg-indigo-600', 'dark:bg-indigo-500', 'hover:bg-indigo-700', 'dark:hover:bg-indigo-600');
                 btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
                     btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
-                    btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                    btn.classList.add('bg-indigo-600', 'dark:bg-indigo-500', 'hover:bg-indigo-700', 'dark:hover:bg-indigo-600');
                 }, 2000);
             }).catch(err => {
                 alert('Không thể copy, vui lòng copy thủ công!');
@@ -229,11 +266,19 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
 
         ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.add('border-indigo-500', 'bg-indigo-100'));
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-indigo-300', 'dark:border-zinc-700', 'bg-indigo-50/50', 'dark:bg-zinc-900/50');
+                dropZone.classList.add('border-indigo-600', 'dark:border-indigo-500', 'bg-indigo-100', 'dark:bg-indigo-900/40');
+            }, false);
         });
 
         ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-indigo-500', 'bg-indigo-100'));
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-indigo-600', 'dark:border-indigo-500', 'bg-indigo-100', 'dark:bg-indigo-900/40');
+                if (!dropZone.classList.contains('border-emerald-400')) {
+                    dropZone.classList.add('border-indigo-300', 'dark:border-zinc-700', 'bg-indigo-50/50', 'dark:bg-zinc-900/50');
+                }
+            }, false);
         });
 
         dropZone.addEventListener('drop', (e) => {
@@ -260,23 +305,22 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     examData = JSON.parse(e.target.result);
                     scanForImages();
                     
-                    // HIỂN THỊ UI BÁO TẢI LÊN THÀNH CÔNG VỚI TÊN FILE
-                    dropZone.classList.remove('border-indigo-300', 'bg-indigo-50/50', 'hover:bg-indigo-50', 'border-dashed');
-                    dropZone.classList.add('border-emerald-500', 'bg-emerald-50', 'border-solid');
+                    dropZone.classList.remove('border-indigo-300', 'dark:border-zinc-700', 'bg-indigo-50/50', 'dark:bg-zinc-900/50', 'border-dashed');
+                    dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
                     
                     const icon = document.getElementById('drop-zone-icon');
-                    icon.classList.remove('text-indigo-500', 'group-hover:scale-110');
-                    icon.classList.add('text-emerald-500');
+                    icon.classList.remove('text-indigo-500', 'dark:text-slate-400', 'group-hover:scale-110');
+                    icon.classList.add('text-emerald-500', 'dark:text-emerald-500');
                     icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`;
                     
                     const title = document.getElementById('drop-zone-title');
-                    title.classList.remove('text-indigo-800');
-                    title.classList.add('text-emerald-800');
+                    title.classList.remove('text-indigo-800', 'dark:text-slate-300');
+                    title.classList.add('text-emerald-800', 'dark:text-emerald-400');
                     title.innerText = "Tải file lên thành công!";
                     
                     const desc = document.getElementById('drop-zone-desc');
-                    desc.classList.remove('text-indigo-600/80');
-                    desc.classList.add('text-emerald-600', 'font-semibold', 'mt-1');
+                    desc.classList.remove('text-indigo-600/80', 'dark:text-slate-500');
+                    desc.classList.add('text-emerald-600', 'dark:text-emerald-500', 'font-semibold', 'mt-1');
                     desc.innerText = file.name;
 
                     document.getElementById('edit-container').classList.remove('hidden'); 
@@ -303,12 +347,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 scanForImages();
                 
                 const pasteContainer = document.getElementById('paste-container');
-                pasteContainer.classList.remove('border-slate-200', 'border-dashed', 'bg-slate-50');
-                pasteContainer.classList.add('border-emerald-500', 'border-solid', 'bg-emerald-50');
+                pasteContainer.classList.remove('border-slate-200', 'dark:border-zinc-700', 'border-dashed', 'bg-slate-50', 'dark:bg-zinc-900/50');
+                pasteContainer.classList.add('border-emerald-500', 'dark:border-emerald-600', 'border-solid', 'bg-emerald-50', 'dark:bg-emerald-900/10');
                 
                 const btn = document.getElementById('btn-paste-submit');
-                btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-                btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+                btn.classList.remove('bg-indigo-600', 'dark:bg-indigo-500', 'hover:bg-indigo-700', 'dark:hover:bg-indigo-600');
+                btn.classList.add('bg-emerald-500', 'dark:bg-emerald-600', 'hover:bg-emerald-600', 'dark:hover:bg-emerald-500');
                 btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> ĐÃ XỬ LÝ THÀNH CÔNG`;
 
                 document.getElementById('edit-container').classList.remove('hidden'); 
@@ -326,17 +370,17 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             if (wrapper.classList.contains('hidden')) {
                 wrapper.classList.remove('hidden');
                 btn.innerText = "ĐÓNG TRÌNH SỬA CODE";
-                btn.classList.add('bg-slate-200');
+                btn.classList.add('bg-slate-200', 'dark:bg-zinc-700');
             } else {
                 wrapper.classList.add('hidden');
                 btn.innerText = "MỞ TRÌNH SỬA CODE";
-                btn.classList.remove('bg-slate-200');
+                btn.classList.remove('bg-slate-200', 'dark:bg-zinc-700');
             }
         }
 
         function populateQuestionSelector() {
             const sel = document.getElementById('question-selector');
-            sel.innerHTML = '<option value="root">Cấu hình chung (Tiêu đề, Thời gian, Điểm số...)</option>';
+            sel.innerHTML = '<option value="root">Cấu hình chung (Tiêu đề, Môn học, Thời gian, Điểm số...)</option>';
             
             ['part1', 'part2', 'part3'].forEach(part => {
                 if(examData[part]) {
@@ -388,6 +432,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             }
         }
 
+        // ĐÃ NÂNG CẤP: Quét cả Ảnh câu hỏi (image) và Ảnh lời giải (explanationImage)
         function scanForImages() {
             imagePointers = [];
             let hasAnyImages = false;
@@ -395,16 +440,33 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             const scanPart = (partArray, partName) => {
                 if (!partArray) return;
                 partArray.forEach((q, index) => {
-                    let needsImage = q.image && q.image.toString().trim() !== "";
-                    let hasExistingImage = q.imageUrl && q.imageUrl.toString().trim() !== "";
+                    // 1. Ảnh Câu Hỏi
+                    let needsQImage = q.image && q.image.toString().trim() !== "" && !q.image.toString().startsWith("data:image");
+                    let hasExistingQImage = q.imageUrl && q.imageUrl.toString().trim() !== "";
 
-                    if (needsImage || hasExistingImage) {
+                    if (needsQImage || hasExistingQImage) {
                         hasAnyImages = true;
                         imagePointers.push({
                             ref: q, 
-                            label: `${partName} - Câu ${index + 1}`,
+                            propKey: 'image', // Đánh dấu là cập nhật vào imageUrl
+                            label: `${partName} - Câu ${index + 1} (Ảnh Câu Hỏi)`,
                             text: q.q,
-                            existingBase64: hasExistingImage ? q.imageUrl : null
+                            existingBase64: hasExistingQImage ? q.imageUrl : null
+                        });
+                    }
+
+                    // 2. Ảnh Lời Giải
+                    let needsEImage = q.explanationImage && q.explanationImage.toString().includes("[CẦN_CHÈN");
+                    let hasExistingEImage = q.explanationImage && q.explanationImage.toString().startsWith("data:image");
+                    
+                    if (needsEImage || hasExistingEImage) {
+                        hasAnyImages = true;
+                        imagePointers.push({
+                            ref: q, 
+                            propKey: 'explanationImage', // Đánh dấu là cập nhật trực tiếp vào explanationImage
+                            label: `${partName} - Câu ${index + 1} (Ảnh Lời Giải)`,
+                            text: q.explanation ? "Chi tiết: " + q.explanation : "Khu vực này cần chèn một ảnh cho lời giải.",
+                            existingBase64: hasExistingEImage ? q.explanationImage : null
                         });
                     }
                 });
@@ -431,26 +493,28 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 let shortText = task.text.replace(/<[^>]*>?/gm, '');
                 if(shortText.length > 150) shortText = shortText.substring(0, 150) + "...";
 
-                let boxClasses = "border-dashed border-slate-300 hover:border-indigo-400 bg-slate-50";
+                let boxClasses = "border-dashed border-slate-300 dark:border-zinc-700 hover:border-indigo-400 dark:hover:border-indigo-500 bg-slate-50 dark:bg-zinc-900/50";
                 let imageContent = ``;
                 
+                // NẾU LÀ CÂU CẦN CHÈN ẢNH MỚI
                 if (!task.existingBase64) {
                     imageContent = `
                         <div class="text-center px-4 z-10">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto text-slate-400 group-hover:text-indigo-500 mb-2 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                            <span class="text-[0.8rem] text-slate-600 font-bold block leading-relaxed hint-text">CLICK VÀO ĐÂY & ẤN CTRL + V<br>ĐỂ DÁN ẢNH VÀO</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 mb-2 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            <span class="text-[0.8rem] text-slate-600 dark:text-slate-400 font-bold block leading-relaxed hint-text">CLICK VÀO ĐÂY & ẤN CTRL + V<br>ĐỂ DÁN ẢNH VÀO</span>
                         </div>
-                        <img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white hidden p-2 z-0" src="" alt="Preview">
+                        <img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white dark:bg-black hidden p-2 z-0" src="" alt="Preview">
                         <div class="focus-overlay hidden absolute inset-0 bg-indigo-600 flex-col items-center justify-center text-white z-20 transition-opacity">
                             <span class="font-bold text-sm block">SẴN SÀNG DÁN!</span>
                             <span class="text-xs">Bấm Ctrl+V ngay</span>
                         </div>
                     `;
                 } 
+                // NẾU CÂU ĐÃ CÓ ẢNH TỪ TRƯỚC (LOAD LẠI)
                 else {
-                    boxClasses = "border-solid border-emerald-400 shadow-sm";
+                    boxClasses = "border-solid border-emerald-400 dark:border-emerald-600 shadow-sm";
                     imageContent = `
-                        <img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white p-2 z-0" src="${task.existingBase64}" alt="Preview">
+                        <img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white dark:bg-zinc-900 p-2 z-0" src="${task.existingBase64}" alt="Preview">
                         <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 focus-overlay flex flex-col items-center justify-center text-white z-10 transition-opacity duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mb-2 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                             <span class="font-bold text-sm drop-shadow-md tracking-wide">ẢNH ĐÃ CÓ SẴN</span>
@@ -459,11 +523,14 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     `;
                 }
 
+                // Phân biệt màu nhãn cho rõ Câu hỏi hay Lời giải
+                let labelBg = task.propKey === 'image' ? 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300' : 'bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-800 dark:text-fuchsia-300';
+
                 const itemHtml = `
-                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 items-start transition hover:border-indigo-300">
+                    <div class="bg-white dark:bg-black p-6 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row gap-6 items-start transition hover:border-indigo-300 dark:hover:border-zinc-600">
                         <div class="flex-1">
-                            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1.5 rounded-md mb-3 tracking-wide uppercase">${task.label}</span>
-                            <p class="text-[0.95rem] font-medium text-slate-700 italic border-l-4 border-indigo-300 pl-4 leading-relaxed">"${shortText}"</p>
+                            <span class="inline-block ${labelBg} text-xs font-bold px-3 py-1.5 rounded-md mb-3 tracking-wide uppercase border border-current opacity-80">${task.label}</span>
+                            <p class="text-[0.95rem] font-medium text-slate-700 dark:text-slate-300 italic border-l-4 border-indigo-300 dark:border-indigo-600 pl-4 leading-relaxed">"${shortText}"</p>
                         </div>
                         
                         <div class="w-full md:w-[320px] flex-none">
@@ -472,7 +539,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                             </div>
                             
                             <div class="text-center mt-3">
-                                <label class="text-[0.8rem] text-slate-500 hover:text-indigo-600 font-bold cursor-pointer transition flex items-center justify-center">
+                                <label class="text-[0.8rem] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-bold cursor-pointer transition flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                                     Hoặc tải ảnh từ máy tính
                                     <input type="file" accept="image/*" class="hidden" onchange="handleFileUpload(event, ${index})">
@@ -524,20 +591,26 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             const reader = new FileReader();
             reader.onload = function(event) {
                 const base64String = event.target.result;
+                const task = imagePointers[index];
                 
-                imagePointers[index].ref.imageUrl = base64String;
-                delete imagePointers[index].ref.image; 
+                if (task.propKey === 'image') {
+                    task.ref.imageUrl = base64String;
+                    delete task.ref.image; 
+                } else if (task.propKey === 'explanationImage') {
+                    task.ref.explanationImage = base64String;
+                }
                 
+                // Cập nhật lại UI sau khi dán ảnh
                 const pasteArea = document.getElementById(`paste-area-${index}`);
                 pasteArea.innerHTML = `
-                    <img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white p-2 z-0" src="${base64String}" alt="Preview">
+                    <img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white dark:bg-zinc-900 p-2 z-0" src="${base64String}" alt="Preview">
                     <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 focus-overlay flex flex-col items-center justify-center text-white z-10 transition-opacity duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mb-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                         <span class="font-bold text-sm text-emerald-300">ĐÃ CẬP NHẬT ẢNH MỚI</span>
                         <span class="text-xs text-slate-300 mt-1">Click & ấn Ctrl+V để đổi tiếp</span>
                     </div>
                 `;
-                pasteArea.className = "paste-area w-full h-40 border-2 rounded-xl flex flex-col items-center justify-center cursor-pointer relative overflow-hidden group transition border-solid border-emerald-500 shadow-md focus:ring-4 focus:ring-emerald-300";
+                pasteArea.className = "paste-area w-full h-40 border-2 rounded-xl flex flex-col items-center justify-center cursor-pointer relative overflow-hidden group transition border-solid border-emerald-500 dark:border-emerald-600 shadow-md focus:ring-4 focus:ring-emerald-300 dark:focus:ring-emerald-900/50";
                 
                 document.activeElement.blur();
             };

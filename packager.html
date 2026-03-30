@@ -46,7 +46,7 @@
                     </button>
                 </div>
                 <div class="bg-white p-5 rounded-lg border border-indigo-200 text-sm text-slate-600 font-mono h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner select-all" id="prompt-content">Đóng vai trò là một chuyên gia số hóa dữ liệu và giáo viên luyện thi Tốt nghiệp THPT. Tôi sẽ tải lên một file tài liệu (PDF/Word/Ảnh) chứa đề thi mô phỏng định dạng năm 2026. Nhiệm vụ của bạn là đọc toàn bộ đề thi, trích xuất nguyên văn và chuyển đổi nó thành một tệp data.json.
-Chú ý: Trong các công thức toán học, BẮT BUỘC phải có khoảng trắng ở hai bên các dấu quan hệ (như < , > , =, \\le , \\ge) để tránh lỗi biên dịch trên Web. Ví dụ: viết $x < y + 1$ thay vì $x<y+1$.
+
 1. Yêu cầu phân loại và tính điểm:
 Tự động nhận diện môn học và thiết lập trường "p3_points":
 - Đề Toán: Đặt "p1_points": 0.25 và "p3_points": 0.5.
@@ -64,10 +64,12 @@ Tự động nhận diện môn học và thiết lập trường "p3_points":
 - Phần 2 (Đúng/Sai): Trong mảng "items", KHÔNG ghi kèm các chữ cái "a)", "b)", "c)", "d)".
 - Phần 3 (Trả lời ngắn): Đáp án là một chuỗi (String). BẮT BUỘC dùng dấu phẩy (,) cho số thập phân (VD: "12,5" hoặc "-3,14"). Tuyệt đối không dùng dấu chấm.
 
-5. Quy tắc Toán học:
+5. Quy tắc Toán học (QUAN TRỌNG):
 - Tất cả công thức toán/lý/hóa phải được bọc trong cặp dấu $ (ví dụ: $x^2 + 2x = 0$).
+- BẮT BUỘC phải có khoảng trắng ở hai bên các dấu quan hệ (như &lt; , &gt; , =, \\le , \\ge) để tránh lỗi biên dịch trên Web. Ví dụ: viết $x &lt; y + 1$ thay vì $x&lt;y+1$.
 
-6. Tên đề thi: Viết ngắn gọn rõ ràng (VD: Đề khảo sát/Đề chính thức + Địa điểm + Môn thi + Mã đề + Ghi chú nếu có) 
+6. Tên đề thi: 
+- Viết ngắn gọn, rõ ràng vào trường "title" (VD: Đề khảo sát/Đề chính thức + Địa điểm + Môn thi + Mã đề + Ghi chú nếu có).
 
 Cấu trúc JSON bắt buộc (Ví dụ):
 {

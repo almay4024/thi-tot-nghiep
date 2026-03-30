@@ -62,6 +62,10 @@
         .dark .radio-custom:hover:not(:disabled) { border-color: #71717a; }
         .dark .radio-custom:checked::after { background-color: #000000; }
         .dark .radio-true:checked::after, .dark .radio-false:checked::after { background-color: #000; }
+        
+        /* Căn chỉnh ảnh trong bài */
+        .question-img { max-height: 40vh; object-fit: contain; margin-bottom: 2rem; border-radius: 0.5rem; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .dark .question-img { border-color: #27272a; background-color: #e2e8f0; }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
@@ -76,20 +80,26 @@
     <div id="setup-wrapper" class="w-full h-full overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-8">
         <div id="setup-screen" class="max-w-5xl w-full bg-white dark:bg-black rounded-2xl shadow-xl border border-slate-200 dark:border-zinc-800 p-6 md:p-10 my-auto transition-colors flex flex-col md:flex-row gap-8 items-stretch">
             
-            <div class="md:w-5/12 flex flex-col justify-center items-center md:items-start text-center md:text-left border-b md:border-b-0 md:border-r border-slate-200 dark:border-zinc-800 pb-6 md:pb-0 md:pr-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-50 dark:bg-zinc-900 text-blue-600 dark:text-blue-400 mb-5 shadow-sm border border-blue-100 dark:border-zinc-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
+            <div class="md:w-5/12 flex flex-col border-b md:border-b-0 md:border-r border-slate-200 dark:border-zinc-800 pb-6 md:pb-0 md:pr-8">
+                <div class="flex flex-col items-center md:items-start text-center md:text-left mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-50 dark:bg-zinc-900 text-blue-600 dark:text-blue-400 mb-5 shadow-sm border border-blue-100 dark:border-zinc-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Hệ Thống Thi<br>Tốt Nghiệp THPT</h1>
+                    <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Định dạng mô phỏng năm 2026</p>
                 </div>
-                <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Hệ Thống Thi<br>Tốt Nghiệp THPT</h1>
-                <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Định dạng mô phỏng năm 2026</p>
-                
-                <div class="mt-8 w-full max-w-xs">
-                    <a href="packager.html" target="_blank" class="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                        MỞ BỘ ĐÓNG GÓI ĐỀ
-                    </a>
+
+                <div class="mt-auto bg-slate-50 dark:bg-zinc-900/50 p-5 rounded-xl border border-slate-200 dark:border-zinc-800">
+                    <h3 class="font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        Thư viện đề trực tuyến
+                    </h3>
+                    <select id="github-library-select" onchange="loadFromLibrary()" class="w-full p-3 border border-slate-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm text-sm">
+                        <option value="">Đang kết nối thư viện Github...</option>
+                    </select>
+                    <p class="text-xs text-slate-400 mt-2 italic text-center" id="github-status">Lấy dữ liệu từ thư mục /data</p>
                 </div>
             </div>
 
@@ -100,7 +110,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500 dark:text-slate-400 mb-2 group-hover:scale-110 transition transform pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    <label class="block font-bold text-blue-800 dark:text-slate-300 mb-1 pointer-events-none">Kéo thả file Đề Thi vào đây</label>
+                    <label class="block font-bold text-blue-800 dark:text-slate-300 mb-1 pointer-events-none">Kéo thả file Đề Thi cá nhân</label>
                     <p class="text-sm text-slate-500 dark:text-slate-500 pointer-events-none">Hoặc click để chọn file <code class="bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">.json</code></p>
                     
                     <div id="upload-status" class="mt-2 text-sm font-bold text-emerald-600 dark:text-emerald-500 hidden items-center justify-center gap-1 z-20 relative pointer-events-none">
@@ -137,7 +147,12 @@
                     </label>
                 </div>
 
-                <button id="btn-prepare" onclick="prepareExam()" class="w-full py-3.5 bg-slate-200 dark:bg-zinc-900 text-slate-400 dark:text-slate-600 font-bold text-lg rounded-xl transition pointer-events-none dark:border dark:border-zinc-800" disabled>TẠO PHÒNG THI</button>
+                <div class="grid grid-cols-5 gap-3 mt-2">
+                    <button id="btn-prepare" onclick="prepareExam()" class="col-span-4 py-3.5 bg-slate-200 dark:bg-zinc-900 text-slate-400 dark:text-slate-600 font-bold text-lg rounded-xl transition pointer-events-none dark:border dark:border-zinc-800" disabled>TẠO PHÒNG THI</button>
+                    <a href="packager.html" target="_blank" title="Mở bộ đóng gói (Sửa đề/Nhúng ảnh)" class="col-span-1 flex items-center justify-center bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-xl hover:bg-slate-200 dark:hover:bg-zinc-700 transition text-slate-600 dark:text-slate-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -150,7 +165,7 @@
                 </svg>
             </div>
             <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-2" id="ready-exam-title">Tên đề thi</h2>
-            <p class="text-slate-500 dark:text-slate-400 mb-6 font-medium">Bạn đã sẵn sàng để bắt đầu?</p>
+            <div class="inline-block bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300 font-bold px-3 py-1 rounded-md text-sm mb-6 uppercase tracking-wider border border-indigo-200 dark:border-indigo-800" id="ready-exam-subject">Môn Học</div>
             
             <div class="flex justify-center gap-8 mb-6">
                 <div class="text-center">
@@ -164,9 +179,7 @@
             </div>
 
             <button onclick="toggleFullScreen()" id="btn-fullscreen" class="w-full py-3 mb-4 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 border border-slate-300 dark:border-zinc-800 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl shadow-sm transition flex justify-center items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
                 BẬT TOÀN MÀN HÌNH
             </button>
 
@@ -187,7 +200,7 @@
                     <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </button>
 
-                <div class="flex-none flex items-center justify-center bg-blue-50 dark:bg-zinc-900 border border-blue-200 dark:border-zinc-800 px-2 md:px-4 py-2 rounded-lg shadow-sm w-[150px] md:w-[180px] overflow-hidden">
+                <div class="flex-none flex items-center justify-center bg-blue-50 dark:bg-zinc-900 border border-blue-200 dark:border-zinc-800 px-2 md:px-4 py-2 rounded-lg shadow-sm w-[150px] md:w-[200px] overflow-hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-blue-600 dark:text-blue-400 mr-1.5 md:mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -280,6 +293,10 @@
     </div>
 
     <script>
+        // CẤU HÌNH GITHUB (THAY ĐỔI Ở ĐÂY NẾU CẦN DÙNG REPO KHÁC)
+        const GITHUB_OWNER = "your-github-username"; // Thay username của bạn
+        const GITHUB_REPO = "your-repo-name";       // Thay tên repo chứa folder /data
+
         let originalConfig = null; 
         let examConfig = null;     
         let allQuestions = []; 
@@ -300,6 +317,7 @@
         let isOvertime = false;
         let isExamFinished = false;
 
+        // --- GIAO DIỆN & TẢI FILE ---
         function updateThemeIcons() {
             const isDark = document.documentElement.classList.contains('dark');
             document.getElementById('moon-icon').classList.toggle('hidden', isDark);
@@ -322,6 +340,81 @@
         }
         updateThemeIcons();
 
+        // XỬ LÝ FETCH GITHUB LIBRARY
+        async function fetchLibraryFiles() {
+            const selectEl = document.getElementById('github-library-select');
+            const statusEl = document.getElementById('github-status');
+            
+            // Nếu bạn chưa điền thông tin Github thì ẩn phần này đi cho đỡ báo lỗi
+            if (GITHUB_OWNER === "your-github-username") {
+                selectEl.innerHTML = `<option value="">Tính năng đang tắt (Chưa cấu hình Github)</option>`;
+                selectEl.disabled = true;
+                statusEl.innerText = "Sửa GITHUB_OWNER và GITHUB_REPO trong mã nguồn để kích hoạt.";
+                return;
+            }
+
+            try {
+                // Lấy danh sách file trong thư mục /data từ nhánh main
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data?ref=main`);
+                if (!response.ok) throw new Error("Không thể tải dữ liệu từ Github");
+                
+                const files = await response.json();
+                let optionsHtml = `<option value="">-- Chọn đề từ thư viện --</option>`;
+                
+                // Lọc các file .json
+                files.filter(f => f.name.endsWith('.json')).forEach(file => {
+                    // Biến tên file thành tên hiển thị cho đẹp (Bỏ đuôi .json, đổi _ thành dấu cách)
+                    let displayName = file.name.replace('.json', '').replace(/_/g, ' ');
+                    optionsHtml += `<option value="${file.download_url}">${displayName}</option>`;
+                });
+
+                selectEl.innerHTML = optionsHtml;
+                statusEl.innerText = "Đã tải xong danh sách. Hãy chọn 1 đề để bắt đầu!";
+                statusEl.classList.replace('text-slate-400', 'text-emerald-500');
+            } catch (error) {
+                selectEl.innerHTML = `<option value="">Lỗi kết nối thư viện</option>`;
+                selectEl.disabled = true;
+                statusEl.innerText = "Lỗi: " + error.message;
+                statusEl.classList.replace('text-slate-400', 'text-red-500');
+            }
+        }
+
+        // Tải danh sách thư viện ngay khi vào trang
+        window.addEventListener('DOMContentLoaded', fetchLibraryFiles);
+
+        async function loadFromLibrary() {
+            const selectEl = document.getElementById('github-library-select');
+            const url = selectEl.value;
+            if (!url) return;
+
+            const btnPrepare = document.getElementById('btn-prepare');
+            btnPrepare.innerText = "ĐANG TẢI ĐỀ...";
+            btnPrepare.disabled = true;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Không thể tải file json");
+                originalConfig = await response.json();
+                
+                // Báo hiệu trên UI
+                document.getElementById('upload-status').classList.remove('hidden');
+                document.getElementById('upload-status').classList.add('flex');
+                
+                document.getElementById('drop-zone').classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50');
+                document.getElementById('drop-zone').classList.add('border-emerald-400', 'bg-emerald-50/50', 'dark:bg-emerald-900/10');
+                
+                btnPrepare.innerText = "TẠO PHÒNG THI";
+                btnPrepare.disabled = false;
+                btnPrepare.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
+                btnPrepare.classList.add('bg-blue-600', 'dark:bg-blue-600', 'text-white', 'hover:bg-blue-700', 'shadow-md');
+            } catch (error) {
+                alert("Đã có lỗi xảy ra khi tải file từ Cloud: " + error.message);
+                btnPrepare.innerText = "TẠO PHÒNG THI";
+            }
+        }
+
+
+        // Upload file cục bộ
         const fileInput = document.getElementById('file-upload');
         const dropZone = document.getElementById('drop-zone');
 
@@ -366,6 +459,9 @@
                 alert("Lỗi: Vui lòng chọn file định dạng .json!");
                 return;
             }
+            
+            // Xóa lựa chọn dropdown nếu user chuyển sang upload file tay
+            document.getElementById('github-library-select').value = "";
 
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -388,6 +484,7 @@
             reader.readAsText(file);
         }
 
+        // --- ĐẢO ĐỀ ---
         function shuffleArray(arr) {
             for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -398,9 +495,15 @@
         function shuffleExamData(config) {
             if (config.part1) {
                 config.part1.forEach(q => {
-                    let correctOpt = q.options[q.ans];
-                    shuffleArray(q.options); 
-                    q.ans = q.options.indexOf(correctOpt); 
+                    // XỬ LÝ ĐA ĐÁP ÁN: ans có thể là mảng [0,1] hoặc số nguyên 0
+                    let ansArray = Array.isArray(q.ans) ? q.ans : [q.ans];
+                    let correctOpts = ansArray.map(idx => q.options[idx]); // Lưu lại giá trị text của đáp án đúng
+                    
+                    shuffleArray(q.options); // Đảo A B C D
+                    
+                    // Tìm lại index mới của các đáp án đúng đó
+                    let newAnsArray = correctOpts.map(val => q.options.indexOf(val));
+                    q.ans = newAnsArray.length === 1 ? newAnsArray[0] : newAnsArray; // Nếu có 1 đáp án thì trả về số, nhiều thì trả mảng
                 });
                 shuffleArray(config.part1); 
             }
@@ -480,6 +583,16 @@
             allQuestions.forEach(q => timeSpentPerQuestion[q.globalIndex] = 0);
 
             document.getElementById('ready-exam-title').innerText = examConfig.title;
+            
+            // Xử lý hiển thị môn học (nếu có)
+            let subjectEl = document.getElementById('ready-exam-subject');
+            if (examConfig.subject) {
+                subjectEl.innerText = examConfig.subject;
+                subjectEl.classList.remove('hidden');
+            } else {
+                subjectEl.classList.add('hidden');
+            }
+
             document.getElementById('ready-exam-time').innerText = Math.floor(timeLimitSeconds / 60);
             document.getElementById('ready-exam-count').innerText = allQuestions.length;
 
@@ -659,12 +772,10 @@
                             </div>`;
                 } else if (!imgSrc.startsWith('data:image') && !imgSrc.startsWith('http')) {
                     html += `<div class="mb-8 p-4 border-2 border-dashed border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded-xl text-sm mx-auto text-center font-medium shadow-sm max-w-xl">
-                                ⚠️ Ảnh chưa được đóng gói (AI đang ghi tên file là: <code class="bg-amber-100 dark:bg-amber-900/50 px-1 rounded">${imgSrc}</code>).<br>
-                                Trình duyệt không thể đọc trực tiếp file từ máy tính của bạn.<br>
-                                Vui lòng mang file này qua <b class="text-indigo-600 dark:text-indigo-400">Công cụ Đóng Gói</b> để dán ảnh!
+                                ⚠️ Ảnh chưa được đóng gói.<br>Vui lòng mang file này qua <b class="text-indigo-600 dark:text-indigo-400">Công cụ Đóng Gói</b> để dán ảnh!
                             </div>`;
                 } else {
-                    html += `<img src="${imgSrc}" alt="Hình ảnh câu hỏi" class="mb-8 max-h-[40vh] object-contain rounded-lg border border-slate-200 dark:border-zinc-800 shadow-sm mx-auto dark:bg-zinc-200">`;
+                    html += `<img src="${imgSrc}" alt="Hình ảnh câu hỏi" class="question-img mx-auto">`;
                 }
             }
 
@@ -674,14 +785,26 @@
                 let hasLongOption = q.options.some(opt => opt.length > 40);
                 let gridClass = hasLongOption ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2";
                 
+                // Mảng chứa các index đáp án đúng (Xử lý đa đáp án)
+                let correctAnsArray = Array.isArray(q.ans) ? q.ans : [q.ans];
+
                 html += `<div class="grid ${gridClass} gap-4 mt-4 mb-2">`;
                 q.options.forEach((opt, i) => {
                     let checked = savedAns === i ? 'checked' : '';
                     let optClass = "flex items-start p-4 border border-slate-200 dark:border-zinc-800 rounded-xl cursor-pointer transition hover:bg-blue-50 dark:hover:bg-zinc-900 bg-slate-50/50 dark:bg-black h-full text-slate-700 dark:text-slate-200";
+                    
                     if (isLocked) {
-                        if (i === q.ans) optClass = "flex items-start p-4 border-2 border-emerald-500 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl font-bold h-full text-slate-800 dark:text-slate-100";
-                        else if (savedAns === i && i !== q.ans) optClass = "flex items-start p-4 border-2 border-red-400 dark:border-red-600 bg-red-50 dark:bg-red-900/20 rounded-xl h-full text-slate-800 dark:text-slate-100";
+                        let isCorrectOption = correctAnsArray.includes(i);
+                        
+                        if (isCorrectOption) {
+                            // Đây là 1 trong những đáp án đúng -> Bôi Xanh lá
+                            optClass = "flex items-start p-4 border-2 border-emerald-500 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl font-bold h-full text-slate-800 dark:text-slate-100";
+                        } else if (savedAns === i && !isCorrectOption) {
+                            // Người dùng chọn sai -> Bôi Đỏ
+                            optClass = "flex items-start p-4 border-2 border-red-400 dark:border-red-600 bg-red-50 dark:bg-red-900/20 rounded-xl h-full text-slate-800 dark:text-slate-100";
+                        }
                     }
+                    
                     html += `<label class="${optClass}">
                         <input type="radio" name="q${currentIndex}" value="${i}" ${checked} onchange="saveAnswer(${currentIndex}, ${i})" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 mr-3 mt-0.5 flex-none cursor-pointer" ${isLocked ? 'disabled' : ''}> 
                         <span class="text-base flex-1 leading-relaxed"><span class="font-bold mr-1 text-slate-700 dark:text-slate-400">${String.fromCharCode(65+i)}.</span> ${opt}</span>
@@ -746,7 +869,11 @@
                     html += `<input type="text" maxlength="1" id="p3_${currentIndex}_${i}" value="${val}" oninput="savePart3Answer(${currentIndex}, ${i})" onkeydown="handlePart3Key(event, ${currentIndex}, ${i})" class="part3-input bg-white text-blue-800 shadow-sm" ${isLocked ? 'disabled' : ''}>`;
                 }
                 html += `</div></div>`;
-                if (isLocked) html += `<div class="mt-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-800 dark:text-emerald-400 font-bold text-lg shadow-sm">Đáp án đúng: ${q.ans}</div>`;
+                if (isLocked) {
+                    // Hiển thị các đáp án được chấp nhận
+                    let ansArray = Array.isArray(q.ans) ? q.ans : [q.ans];
+                    html += `<div class="mt-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-800 dark:text-emerald-400 font-bold text-lg shadow-sm">Đáp án đúng: ${ansArray.join(' hoặc ')}</div>`;
+                }
             }
             html += `</div>`;
             container.innerHTML = html;
@@ -786,7 +913,7 @@
         function savePart3Answer(qIndex, boxIndex) {
             if(!userAnswers[qIndex]) userAnswers[qIndex] = ["", "", "", ""];
             let el = document.getElementById(`p3_${qIndex}_${boxIndex}`);
-            el.value = el.value.replace(/[^0-9\,\-]/g, ''); 
+            el.value = el.value.replace(/[^0-9\,\-\/]/g, ''); 
             userAnswers[qIndex][boxIndex] = el.value;
             if(el.value !== "" && boxIndex < 3) document.getElementById(`p3_${qIndex}_${boxIndex+1}`).focus();
             updateNavColor(qIndex); 
@@ -932,23 +1059,32 @@
             updateLiveScore(); 
             renderQuestion();
             showExplanation();
-
-            if (isPracticeMode && Object.keys(lockedQuestions).length === allQuestions.length) {
-                finishExam(true);
-            }
         }
 
         function calculateSingleScore(q) {
             let ans = userAnswers[q.globalIndex];
-            if(q.type === 1) return (ans === q.ans) ? examConfig.p1_points : 0;
+            
+            // XỬ LÝ ĐA ĐÁP ÁN PHẦN 1
+            if(q.type === 1) {
+                let correctAnswers = Array.isArray(q.ans) ? q.ans : [q.ans];
+                return correctAnswers.includes(ans) ? examConfig.p1_points : 0;
+            }
+            
+            // XỬ LÝ TÙY CHỈNH THANG ĐIỂM PHẦN 2
             if(q.type === 2) {
                 let count = 0;
                 for(let i=0; i<4; i++) { if(ans && ans[i] === q.ans[i]) count++; }
-                if(count === 1) return 0.1; if(count === 2) return 0.25; if(count === 3) return 0.5; if(count === 4) return 1.0;
+                // Đọc từ config JSON, nếu không có thì mặc định
+                let p2_scores = examConfig.p2_points || [0.1, 0.25, 0.5, 1.0];
+                if (count > 0 && count <= 4) return p2_scores[count - 1];
                 return 0;
             }
+            
+            // XỬ LÝ ĐA ĐÁP ÁN PHẦN 3
             if(q.type === 3) {
-                return ((ans || []).join('').trim() === q.ans) ? examConfig.p3_points : 0;
+                let correctAnswers = Array.isArray(q.ans) ? q.ans : [q.ans];
+                let userStr = (ans || []).join('').trim();
+                return correctAnswers.includes(userStr) ? examConfig.p3_points : 0;
             }
             return 0;
         }
@@ -968,8 +1104,17 @@
             let html = `<div class="flex items-center mb-3">
                             <span class="font-bold text-lg mr-4 text-slate-800 dark:text-slate-100">Điểm: <span class="${userScore === maxScore ? 'text-emerald-600 dark:text-emerald-500' : (userScore > 0 ? 'text-amber-500 dark:text-amber-500' : 'text-red-500 dark:text-red-500')}">${formatUserScore} / ${formatMaxScore}</span></span>
                         </div>`;
-            if (q.explanation) {
-                html += `<div class="text-[1.05rem] leading-relaxed dark:text-slate-300"><span class="font-bold text-indigo-700 dark:text-indigo-400 mb-1 block uppercase text-sm tracking-wide">Giải thích chi tiết:</span> ${q.explanation}</div>`;
+            
+            if (q.explanation || q.explanationImage) {
+                html += `<div class="text-[1.05rem] leading-relaxed dark:text-slate-300">
+                            <span class="font-bold text-indigo-700 dark:text-indigo-400 mb-1 block uppercase text-sm tracking-wide">Giải thích chi tiết:</span> 
+                            ${q.explanation || ''}
+                         </div>`;
+                         
+                // XỬ LÝ ẢNH TRONG LỜI GIẢI
+                if (q.explanationImage) {
+                    html += `<img src="${q.explanationImage}" class="question-img mt-4 mx-auto" alt="Ảnh lời giải">`;
+                }
             } else {
                 html += `<div class="italic opacity-80 text-slate-500 dark:text-slate-500">Không có giải thích chi tiết cho câu hỏi này.</div>`;
             }
@@ -1014,10 +1159,8 @@
             let timerEl = document.getElementById('timer');
             if (timerEl.innerText !== "ĐANG LÀM THÊM") {
                 timerEl.innerText = "ĐÃ NỘP BÀI";
-                
-                timerEl.classList.remove('text-lg', 'md:text-2xl', 'text-amber-500', 'text-blue-700', 'dark:text-blue-400');
-                
-                timerEl.classList.add('text-base', 'md:text-xl', 'whitespace-nowrap', 'text-emerald-600', 'dark:text-emerald-500');
+                timerEl.classList.remove('text-amber-500', 'text-blue-700', 'dark:text-blue-400');
+                timerEl.classList.add('text-emerald-600', 'dark:text-emerald-500');
             }
             
             document.getElementById('live-score-text').innerText = `${cleanZeroes(totalScore.toFixed(2))}`;

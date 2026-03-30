@@ -425,7 +425,6 @@
             const content = document.getElementById('library-modal-content');
             
             modal.classList.remove('hidden');
-            // Delay slighty for transition
             requestAnimationFrame(() => {
                 modal.classList.remove('opacity-0');
                 content.classList.remove('scale-95');
@@ -463,11 +462,8 @@
                 files.filter(f => f.name.endsWith('.json')).forEach(file => {
                     let name = file.name.replace('.json', '').replace(/_/g, ' ');
                     html += `
-                    <button onclick="loadFromLibrary('${file.download_url}', this)" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all font-medium text-slate-700 dark:text-slate-300 text-sm flex items-center justify-between group">
-                        <span class="truncate pr-2">${name}</span>
-                        <div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-none group-hover:bg-blue-500 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                        </div>
+                    <button onclick="loadFromLibrary('${file.download_url}', this)" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-black hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all font-medium text-slate-700 dark:text-slate-300 text-sm flex items-start justify-between group outline-none">
+                        <span class="pr-2 leading-relaxed">${name}</span>
                     </button>`;
                 });
                 
@@ -487,17 +483,15 @@
 
         async function loadFromLibrary(url, btn) {
             const btnP = document.getElementById('btn-prepare'); 
-            const originalText = btn.innerHTML;
+            const originalHTML = btn.innerHTML; 
             
-            // Loading effect on the button inside modal
-            btn.innerHTML = `<span class="truncate pr-2">Đang tải xuống...</span><svg class="animate-spin h-5 w-5 text-blue-500 flex-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-            btn.classList.add('border-blue-500', 'ring-2', 'ring-blue-200');
+            btn.innerHTML = `<span class="pr-2 leading-relaxed">Đang tải xuống...</span><svg class="animate-spin h-5 w-5 text-blue-500 flex-none mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            btn.classList.add('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
             
             try {
                 const res = await fetch(url); 
                 originalConfig = await res.json();
                 
-                // Update Main Screen Dropzone to show success
                 const dropZone = document.getElementById('drop-zone');
                 dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50', 'border-dashed');
                 dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
@@ -517,19 +511,18 @@
                 desc.classList.add('text-emerald-600', 'dark:text-emerald-500', 'font-semibold', 'mt-1');
                 desc.innerText = originalConfig.title || "Đề thi sẵn sàng";
 
-                // Enable Prepare button
                 btnP.innerText = "TẠO PHÒNG THI"; 
                 btnP.disabled = false;
                 btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
                 btnP.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-md', 'cursor-pointer');
                 
-                // Close modal on success
                 closeLibraryModal();
                 
             } catch (e) { 
                 alert("Lỗi tải đề! (File JSON bị hỏng hoặc mạng có vấn đề)"); 
+            } finally {
                 btn.innerHTML = originalHTML;
-                btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200');
+                btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
             }
         }
 
@@ -590,7 +583,6 @@
                 try {
                     originalConfig = JSON.parse(ev.target.result);
                     
-                    // Update Main Screen Dropzone to show success
                     dropZone.classList.remove('border-blue-300', 'dark:border-zinc-700', 'bg-blue-50/50', 'dark:bg-zinc-900/50', 'border-dashed', 'border-blue-600', 'dark:border-blue-500', 'bg-blue-100', 'dark:bg-blue-900/40');
                     dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
                     
@@ -609,7 +601,6 @@
                     desc.classList.add('text-emerald-600', 'dark:text-emerald-500', 'font-semibold', 'mt-1');
                     desc.innerText = file.name;
 
-                    // Enable Prepare button
                     const btnP = document.getElementById('btn-prepare');
                     btnP.disabled = false; 
                     btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');

@@ -126,7 +126,7 @@
                     </div>
                     <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Hệ Thống Thi<br>Tốt Nghiệp THPT</h1>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Định dạng mô phỏng 2026</p>
-                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 3.12</span></div>
+                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 3.13</span></div>
                     
                     <div class="mt-8 w-full">
                         <a href="packager.html" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-3 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm w-full md:w-auto">
@@ -955,7 +955,7 @@
                     let tBg = "hover:bg-emerald-50 dark:hover:bg-emerald-900/20", fBg = "hover:bg-red-50 dark:hover:bg-red-900/20";
                     let rowClass = "hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition-colors";
 
-                    // LOGIC HIGHLIGHT ĐÚNG/SAI CỰC KỲ NHẸ NHÀNG, KHÔNG VIỀN (VERSION 3.12)
+                    // LOGIC HIGHLIGHT ĐÚNG/SAI CỰC KỲ NHẸ NHÀNG, KHÔNG VIỀN (VERSION 3.10)
                     if (isLocked) {
                         tBg = ""; 
                         fBg = "";
@@ -987,18 +987,55 @@
             } 
             else if(q.type === 3) {
                 let savedAns = userAnswers[currentIndex] || ["","","",""];
+                let currentStr = savedAns.join('');
+
                 html += `
-                <div class="mt-6 p-4 md:p-6 bg-slate-50 dark:bg-zinc-900/50 rounded-xl border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4">
-                    <span class="font-bold text-slate-700 dark:text-slate-400 tracking-wide text-xs md:text-sm">ĐÁP ÁN:</span>
-                    <div class="flex gap-2">`;
+                <div class="mt-6 p-4 md:p-6 bg-slate-50 dark:bg-zinc-900/50 rounded-xl border border-slate-200 dark:border-zinc-800 flex flex-col items-center gap-4 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-slate-700 dark:text-slate-400 tracking-wide text-xs md:text-sm mr-2">ĐÁP ÁN:</span>
+                        <div class="flex gap-2">`;
+                
+                let activeIdx = isLocked ? -1 : (currentStr.length < 4 ? currentStr.length : 3);
+
+                // DÙNG THẺ DIV THAY VÌ INPUT ĐỂ KHÔNG BỊ BẬT BÀN PHÍM ĐIỆN THOẠI
                 for(let i=0; i<4; i++) {
-                    html += `<input type="text" maxlength="1" id="p3_${currentIndex}_${i}" value="${savedAns[i]||''}" oninput="saveP3Answer(${currentIndex}, ${i})" onkeydown="handleP3Key(event, ${currentIndex}, ${i})" class="part3-input bg-white dark:bg-zinc-900 text-blue-800 dark:text-blue-300 shadow-sm" ${isLocked ? 'disabled' : ''}>`;
+                    let val = currentStr[i] || '';
+                    let activeClass = (i === activeIdx && !isLocked) ? 'ring-2 ring-blue-500 border-blue-500 dark:border-blue-400' : 'border-slate-300 dark:border-zinc-700';
+                    let lockedClass = isLocked ? 'bg-slate-200 dark:bg-zinc-800 text-slate-500' : 'bg-white dark:bg-zinc-900 text-blue-800 dark:text-blue-300';
+                    
+                    html += `<div id="p3_box_${i}" class="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 border-2 rounded-md font-bold text-lg sm:text-xl shadow-sm transition-all ${activeClass} ${lockedClass}">${val}</div>`;
                 }
                 html += `</div></div>`;
                 
+                // HIỂN THỊ BÀN PHÍM ẢO NẾU CHƯA NỘP BÀI
+                if (!isLocked) {
+                    html += `
+                    <div class="w-full max-w-xs mt-3 select-none">
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                            <button onclick="handleVirtualKey('1')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">1</button>
+                            <button onclick="handleVirtualKey('2')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">2</button>
+                            <button onclick="handleVirtualKey('3')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">3</button>
+                            <button onclick="handleVirtualKey('4')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">4</button>
+                            <button onclick="handleVirtualKey('5')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">5</button>
+                            <button onclick="handleVirtualKey('6')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">6</button>
+                            <button onclick="handleVirtualKey('7')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">7</button>
+                            <button onclick="handleVirtualKey('8')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">8</button>
+                            <button onclick="handleVirtualKey('9')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">9</button>
+                            <button onclick="handleVirtualKey('-')" class="py-2.5 sm:py-3 bg-slate-200 dark:bg-zinc-700 border border-slate-300 dark:border-zinc-600 rounded-xl text-2xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-300 dark:active:bg-zinc-600 transition outline-none hover:border-blue-400">-</button>
+                            <button onclick="handleVirtualKey('0')" class="py-2.5 sm:py-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-100 dark:active:bg-zinc-700 transition outline-none hover:border-blue-300">0</button>
+                            <button onclick="handleVirtualKey(',')" class="py-2.5 sm:py-3 bg-slate-200 dark:bg-zinc-700 border border-slate-300 dark:border-zinc-600 rounded-xl text-2xl font-bold text-slate-700 dark:text-slate-200 shadow-sm active:bg-slate-300 dark:active:bg-zinc-600 transition outline-none hover:border-blue-400">,</button>
+                            <button onclick="handleVirtualKey('DEL')" class="col-span-3 py-2.5 sm:py-3 bg-rose-100 dark:bg-red-900/40 border border-rose-200 dark:border-red-800 rounded-xl text-rose-600 dark:text-rose-400 font-bold text-base sm:text-lg shadow-sm active:bg-rose-200 dark:active:bg-red-900/60 transition flex justify-center items-center gap-2 outline-none hover:border-rose-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" /></svg>
+                                XÓA BỎ
+                            </button>
+                        </div>
+                    </div>`;
+                }
+                html += `</div>`;
+
                 if (isLocked) { 
                     let correctAnsArray = Array.isArray(q.ans) ? q.ans : [q.ans]; 
-                    html += `<div class="mt-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-800 dark:text-emerald-400 font-bold text-sm md:text-base shadow-sm">Đáp án đúng: ${correctAnsArray.join(' hoặc ')}</div>`; 
+                    html += `<div class="mt-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-800 dark:text-emerald-400 font-bold text-sm md:text-base shadow-sm mx-auto text-center w-full max-w-sm">Đáp án đúng: ${correctAnsArray.join(' hoặc ')}</div>`; 
                 }
             }
             html += `</div>`; 
@@ -1023,39 +1060,59 @@
             userAnswers[idx][i] = val; 
             updateNavColor(idx); updateProgress(); updateCheckState(); 
         }
-        
-        function saveP3Answer(idx, i) { 
-            if(!userAnswers[idx]) userAnswers[idx] = ["","","",""];
-            let el = document.getElementById(`p3_${idx}_${i}`); 
-            el.value = el.value.replace(/[^0-9\,\-]/g, ''); 
-            userAnswers[idx][i] = el.value;
-            
-            // Dùng setTimeout để fix triệt để lỗi giật lag bàn phím ảo trên mobile
-            if(el.value !== "" && i < 3) {
-                setTimeout(() => {
-                    let nextEl = document.getElementById(`p3_${idx}_${i+1}`);
-                    if (nextEl) nextEl.focus();
-                }, 10);
-            }
-            
-            updateNavColor(idx); 
-            updateCheckState();
-            
-            // Trì hoãn tính toán điểm để không làm khựng quá trình gõ chữ
-            clearTimeout(window.p3Timeout);
-            window.p3Timeout = setTimeout(updateProgress, 200);
-        }
 
-        function handleP3Key(event, idx, i) {
-            if (event.key === 'Backspace') {
-                let el = document.getElementById(`p3_${idx}_${i}`);
-                if (el.value === "" && i > 0) {
-                    event.preventDefault(); 
-                    let prevEl = document.getElementById(`p3_${idx}_${i - 1}`);
-                    prevEl.focus(); prevEl.value = ""; 
-                    saveP3Answer(idx, i - 1);
+        function handleVirtualKey(key) {
+            let ansArray = userAnswers[currentIndex] || ["", "", "", ""];
+            let currentStr = ansArray.join('');
+
+            if (key === 'DEL') {
+                currentStr = currentStr.slice(0, -1); // Xóa ký tự cuối
+            } else {
+                if (currentStr.length >= 4) return; // Tối đa 4 ký tự
+
+                if (key === '-') {
+                    // Dấu âm (-) CHỈ được gõ đầu tiên
+                    if (currentStr.length === 0) currentStr += key;
+                } else if (key === ',') {
+                    // Dấu phẩy (,) CHỈ được ở vị trí thứ 2 hoặc 3 (độ dài hiện tại là 1 hoặc 2)
+                    // Bắt buộc trước đó phải là số (không được là "-,") và chưa có phẩy nào
+                    if ((currentStr.length === 1 || currentStr.length === 2) && !currentStr.includes(',') && currentStr !== '-') {
+                        currentStr += key;
+                    }
+                } else if (key >= '0' && key <= '9') {
+                    // Số thì gõ thoải mái
+                    currentStr += key;
                 }
             }
+
+            // Chia chuỗi ngược lại vào 4 ô
+            ansArray = ["", "", "", ""];
+            for(let i=0; i<currentStr.length; i++) {
+                ansArray[i] = currentStr[i];
+            }
+            userAnswers[currentIndex] = ansArray;
+
+            // Cập nhật lại UI 4 ô (Đổi màu viền nhấp nháy cho ô tiếp theo)
+            let activeIdx = currentStr.length < 4 ? currentStr.length : 3;
+            for(let i=0; i<4; i++) {
+                let el = document.getElementById(`p3_box_${i}`);
+                if (el) {
+                    el.innerText = ansArray[i] || "";
+                    if (i === activeIdx) {
+                        el.classList.add('ring-2', 'ring-blue-500', 'border-blue-500', 'dark:border-blue-400');
+                        el.classList.remove('border-slate-300', 'dark:border-zinc-700');
+                    } else {
+                        el.classList.remove('ring-2', 'ring-blue-500', 'border-blue-500', 'dark:border-blue-400');
+                        el.classList.add('border-slate-300', 'dark:border-zinc-700');
+                    }
+                }
+            }
+
+            updateNavColor(currentIndex); 
+            updateCheckState();
+            
+            clearTimeout(window.p3Timeout);
+            window.p3Timeout = setTimeout(updateProgress, 100);
         }
 
         function updateCheckState() {
@@ -1269,6 +1326,30 @@
             renderQuestion(); 
             showExplanation();
         }
+
+        // ==========================================
+        // HỖ TRỢ GÕ PHÍM VẬT LÝ TRÊN MÁY TÍNH (PHẦN 3)
+        // ==========================================
+        document.addEventListener('keydown', function(event) {
+            // Nếu không ở màn hình làm bài, hoặc đã nộp bài thì bỏ qua
+            if (document.getElementById('exam-screen').classList.contains('hidden') || isExamFinished) return;
+            
+            let q = allQuestions[currentIndex];
+            // Chỉ bắt phím khi đang ở Phần 3 và câu hỏi đó chưa bị khóa
+            if (q && q.type === 3 && !lockedQuestions[currentIndex]) {
+                let key = event.key;
+                
+                if ((key >= '0' && key <= '9') || key === '-') {
+                    handleVirtualKey(key);
+                } 
+                else if (key === ',' || key === '.') { // Ấn chấm hay phẩy đều hiểu là phẩy
+                    handleVirtualKey(',');
+                } 
+                else if (key === 'Backspace' || key === 'Delete') {
+                    handleVirtualKey('DEL');
+                }
+            }
+        });
     </script>
 </body>
 </html>

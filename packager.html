@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V4.4)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager Version 4.5)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -70,7 +70,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Bộ Đóng Gói Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">V4.4</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">Version 4.5</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý đa đáp án, đóng gói ảnh, Preview và xuất PDF</p>
                         </div>
@@ -660,12 +660,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             }
         }
 
-        // XUẤT WORD (.DOC) CÓ HIỂN THỊ ĐÁP ÁN & CÔNG THỨC TOÁN HỌC (V4.4)
+        // XUẤT WORD (.DOC) CÓ HIỂN THỊ ĐÁP ÁN & CÔNG THỨC TOÁN HỌC (V4.5)
         function exportToWord() {
             if (!examData) return;
             const printArea = document.getElementById('print-area');
             
-            // Xây dựng khung HTML cho Word (Đã bỏ Sở GDĐT, hiện Tên đề tập trung)
+            // Xây dựng khung HTML cho Word
             let html = `
                 <div style="text-align: center; margin-bottom: 30px; font-family: 'Times New Roman', serif;">
                     <h2 style="font-size: 18pt; text-transform: uppercase; margin-bottom: 5px;">${examData.title || "ĐỀ THI MÔ PHỎNG ĐỊNH DẠNG 2026"}</h2>
@@ -687,8 +687,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // FIX ẢNH TRÀN KHUNG: Ép width="450" để Word tự động bóp ảnh vừa với chiều ngang tờ giấy A4
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="450" style="margin: 10px 0;">`;
+                    // FIX V4.5: Ép kích thước tối đa Ngang 500px, Dọc 300px
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-width: 500px; max-height: 300px; width: auto; height: auto; margin: 10px 0;">`;
                     html += `<table style="width: 100%; margin-top: 8px;"><tr>`;
                     q.options.forEach((opt, j) => {
                         html += `<td style="width: 50%; vertical-align: top; padding-bottom: 5px;"><strong>${String.fromCharCode(65+j)}.</strong> ${opt}</td>`;
@@ -706,8 +706,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // FIX ẢNH TRÀN KHUNG
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="450" style="margin: 10px 0;">`;
+                    // FIX V4.5: Ép kích thước tối đa
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-width: 500px; max-height: 300px; width: auto; height: auto; margin: 10px 0;">`;
                     html += `<ul style="list-style-type: none; padding-left: 15px; margin-top: 8px;">`;
                     q.items.forEach((item, j) => {
                         html += `<li style="margin-bottom: 5px;"><strong>${String.fromCharCode(97+j)})</strong> ${item}</li>`;
@@ -724,8 +724,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // FIX ẢNH TRÀN KHUNG
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="450" style="margin: 10px 0;">`;
+                    // FIX V4.5: Ép kích thước tối đa
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-width: 500px; max-height: 300px; width: auto; height: auto; margin: 10px 0;">`;
                     html += `</div>`;
                 });
             }
@@ -779,7 +779,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
             printArea.innerHTML = html;
 
-            // Xử lý MathJax TRƯỚC khi tải Word để công thức được render thành dạng HTML/SVG
+            // Xử lý MathJax TRƯỚC khi tải Word
             if(window.MathJax) {
                 MathJax.typesetClear([printArea]);
                 MathJax.typesetPromise([printArea]).then(() => {

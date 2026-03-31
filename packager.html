@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V4.1)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V4.2)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -70,7 +70,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Bộ Đóng Gói Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">V4.1</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">V4.2</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý đa đáp án, đóng gói ảnh, Preview và xuất PDF</p>
                         </div>
@@ -210,17 +210,17 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     </div>
                     
                     <div id="edit-content" class="hidden mt-6 border-t border-slate-100 dark:border-zinc-800 pt-6">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                             <label class="font-bold text-sm text-slate-700 dark:text-slate-300 whitespace-nowrap">Chọn phần cần xem/sửa:</label>
                             <div class="w-full sm:w-[350px]">
                                 <select id="question-selector" onchange="loadQuestionCode()" class="w-full p-2.5 border border-slate-300 dark:border-zinc-700 rounded-lg bg-slate-50 dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-sm text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm"></select>
                             </div>
                         </div>
                         
-                        <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <div class="flex flex-col gap-3">
                                 <label class="text-sm font-bold text-slate-500 dark:text-slate-400">TRÌNH SOẠN THẢO JSON:</label>
-                                <textarea id="live-editor" onkeyup="delayPreviewUpdate()" class="w-full h-64 md:h-[400px] p-4 font-mono text-xs md:text-sm border-2 border-slate-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:border-indigo-500 bg-slate-900 dark:bg-zinc-950 text-green-400 dark:text-emerald-400 shadow-inner resize-y leading-relaxed" spellcheck="false"></textarea>
+                                <textarea id="live-editor" onkeydown="handleEditorTab(event)" onkeyup="delayPreviewUpdate()" class="w-full h-64 md:h-[400px] p-4 font-mono text-xs md:text-sm border-2 border-slate-300 dark:border-zinc-700 rounded-xl focus:outline-none focus:border-indigo-500 bg-slate-900 dark:bg-zinc-950 text-green-400 dark:text-emerald-400 shadow-inner resize-y leading-relaxed" spellcheck="false"></textarea>
                                 <button onclick="saveQuestionCode()" class="py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md text-sm md:text-base flex justify-center items-center gap-2 outline-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
                                     LƯU CHỈNH SỬA VÀO ĐỀ
@@ -257,9 +257,9 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                         <button onclick="downloadFinalJson()" class="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base md:text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none">
                             TẢI XUỐNG FILE .JSON 
                         </button>
-                        <button onclick="exportToPDF()" class="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-rose-500 hover:bg-rose-600 text-white font-bold text-base md:text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                            IN ĐỀ RA PDF
+                        <button onclick="exportToWord()" class="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-base md:text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            XUẤT FILE WORD (.DOC)
                         </button>
                     </div>
                 </div>
@@ -448,9 +448,10 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             if(currentEditTarget.part === 'root') {
                 try {
                     const q = JSON.parse(text);
-                    const p1 = q.part1 ? q.part1.length : 0;
-                    const p2 = q.part2 ? q.part2.length : 0;
-                    const p3 = q.part3 ? q.part3.length : 0;
+                    // SỬA LỖI Ở ĐÂY: Đếm trực tiếp từ examData thay vì từ text editor
+                    const p1 = examData.part1 ? examData.part1.length : 0;
+                    const p2 = examData.part2 ? examData.part2.length : 0;
+                    const p3 = examData.part3 ? examData.part3.length : 0;
                     
                     pane.innerHTML = `
                         <div class="flex flex-col items-center justify-center text-center h-full animation-fade-in">
@@ -462,8 +463,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                                 <div><span class="text-slate-500 block mb-1">Thời gian thi:</span><b class="text-lg text-slate-800 dark:text-slate-200">${q.timeLimit ? q.timeLimit/60 + ' Phút' : '--'}</b></div>
                                 <div><span class="text-slate-500 block mb-1">Tổng số câu:</span><b class="text-lg text-slate-800 dark:text-slate-200">${p1 + p2 + p3} Câu</b></div>
                                 <div class="col-span-2 border-t border-slate-100 dark:border-zinc-800 pt-3 mt-1">
-                                    <span class="text-slate-500 block mb-1">Cấu trúc đề (P1 - P2 - P3):</span>
-                                    <b class="text-slate-800 dark:text-slate-200">${p1} câu Trắc nghiệm | ${p2} câu Đúng/Sai | ${p3} câu Điền số</b>
+                                    <span class="text-slate-500 block mb-1">Cấu trúc (P1 - P2 - P3):</span>
+                                    <b class="text-slate-800 dark:text-slate-200">${p1} Trắc nghiệm | ${p2} Đúng/Sai | ${p3} Điền số</b>
                                 </div>
                             </div>
                         </div>
@@ -645,13 +646,28 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
         }
 
-        // 7. XUẤT PDF (TRỰC TIẾP TỪ TRÌNH DUYỆT)
-        function exportToPDF() {
+        // Bắt phím Tab trong ô nhập liệu
+        function handleEditorTab(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const editor = e.target;
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                // Chèn 4 dấu cách (spaces) thay cho Tab
+                editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                delayPreviewUpdate();
+            }
+        }
+
+        // XUẤT WORD (.DOC) CÓ HIỂN THỊ ĐÁP ÁN & CÔNG THỨC TOÁN HỌC
+        function exportToWord() {
             if (!examData) return;
             const printArea = document.getElementById('print-area');
             
+            // Xây dựng khung HTML cho Word
             let html = `
-                <div style="text-align: center; margin-bottom: 30px;">
+                <div style="text-align: center; margin-bottom: 30px; font-family: 'Times New Roman', serif;">
                     <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 20px;">
                         <div>SỞ GD&ĐT................................<br>TRƯỜNG....................................</div>
                         <div>KỲ THI KHẢO SÁT CHẤT LƯỢNG NĂM 2026<br>Môn thi: ${examData.subject || "..."}<br><em>(Thời gian làm bài: ${examData.timeLimit ? examData.timeLimit/60 : "..."} phút)</em></div>
@@ -663,30 +679,33 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 </div>
             `;
 
+            // PHẦN 1
             if (examData.part1 && examData.part1.length > 0) {
                 html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase;">PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn.</div>`;
                 html += `<div>Thí sinh trả lời từ câu 1 đến câu ${examData.part1.length}. Mỗi câu hỏi thí sinh chỉ chọn một phương án.</div>`;
                 examData.part1.forEach((q, i) => {
-                    html += `<div class="print-page-break" style="margin-top: 15px;">`;
+                    html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<img src="${img}" class="print-q-img">`;
-                    html += `<div class="print-grid" style="margin-top: 8px;">`;
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-height: 250px; margin: 10px 0;">`;
+                    html += `<table style="width: 100%; margin-top: 8px;"><tr>`;
                     q.options.forEach((opt, j) => {
-                        html += `<div><strong>${String.fromCharCode(65+j)}.</strong> ${opt}</div>`;
+                        html += `<td style="width: 50%; vertical-align: top; padding-bottom: 5px;"><strong>${String.fromCharCode(65+j)}.</strong> ${opt}</td>`;
+                        if(j === 1) html += `</tr><tr>`; // Xống dòng sau 2 đáp án (chia 2 cột)
                     });
-                    html += `</div></div>`;
+                    html += `</tr></table></div>`;
                 });
             }
 
+            // PHẦN 2
             if (examData.part2 && examData.part2.length > 0) {
                 html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 30px; margin-bottom: 10px; text-transform: uppercase;">PHẦN II. Câu trắc nghiệm đúng sai.</div>`;
                 html += `<div>Thí sinh trả lời từ câu 1 đến câu ${examData.part2.length}. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</div>`;
                 examData.part2.forEach((q, i) => {
-                    html += `<div class="print-page-break" style="margin-top: 15px;">`;
+                    html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<img src="${img}" class="print-q-img">`;
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-height: 250px; margin: 10px 0;">`;
                     html += `<ul style="list-style-type: none; padding-left: 15px; margin-top: 8px;">`;
                     q.items.forEach((item, j) => {
                         html += `<li style="margin-bottom: 5px;"><strong>${String.fromCharCode(97+j)})</strong> ${item}</li>`;
@@ -695,22 +714,23 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 });
             }
 
+            // PHẦN 3
             if (examData.part3 && examData.part3.length > 0) {
                 html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 30px; margin-bottom: 10px; text-transform: uppercase;">PHẦN III. Câu trắc nghiệm trả lời ngắn.</div>`;
                 html += `<div>Thí sinh trả lời từ câu 1 đến câu ${examData.part3.length}.</div>`;
                 examData.part3.forEach((q, i) => {
-                    html += `<div class="print-page-break" style="margin-top: 15px;">`;
+                    html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<img src="${img}" class="print-q-img">`;
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-height: 250px; margin: 10px 0;">`;
                     html += `</div>`;
                 });
             }
 
             html += `<div style="text-align: center; margin-top: 50px; font-weight: bold;">------------- HẾT -------------</div>`;
 
-            // NÂNG CẤP 4.1: TỰ ĐỘNG SINH TRANG ĐÁP ÁN (ANSWER KEY)
-            html += `<div style="page-break-before: always; font-family: 'Times New Roman', serif;">`;
+            // BẢNG ĐÁP ÁN (CUỐI FILE)
+            html += `<br style="page-break-before: always; clear: both;" />`; // Ngắt trang cho MS Word
             html += `<h2 style="text-align: center; font-size: 16pt; margin-bottom: 5px;">ĐÁP ÁN ĐỀ THI: ${examData.title || ""}</h2>`;
             html += `<div style="text-align: center; font-weight: bold; margin-bottom: 30px; font-size: 14pt;">MÔN: ${examData.subject || "..."}</div>`;
             
@@ -720,7 +740,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 let cols = 10;
                 for(let i=0; i<examData.part1.length; i++) {
                     let ans = examData.part1[i].ans;
-                    let letter = Array.isArray(ans) ? ans.map(a => String.fromCharCode(65+a)).join(' hoặc ') : String.fromCharCode(65+ans);
+                    let letter = Array.isArray(ans) ? ans.map(a => String.fromCharCode(65+a)).join(' / ') : String.fromCharCode(65+ans);
                     html += `<td style="padding: 8px;"><strong>${i+1}</strong><br>${letter}</td>`;
                     if ((i+1) % cols === 0 && i !== examData.part1.length -1) html += `</tr><tr>`;
                 }
@@ -734,7 +754,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 examData.part2.forEach((q, i) => {
                     html += `<tr><td style="padding: 8px;"><strong>${i+1}</strong></td>`;
                     for(let j=0; j<4; j++) {
-                        let text = q.ans[j] === true ? "Đúng" : (q.ans[j] === false ? "Sai" : "");
+                        let text = q.ans[j] === true ? "Đ" : (q.ans[j] === false ? "S" : "");
                         html += `<td style="padding: 8px;">${text}</td>`;
                     }
                     html += `</tr>`;
@@ -747,25 +767,41 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 html += `<table style="width: 100%; border-collapse: collapse; text-align: center;" border="1"><tr>`;
                 let cols = 5;
                 for(let i=0; i<examData.part3.length; i++) {
-                    let ans = Array.isArray(examData.part3[i].ans) ? examData.part3[i].ans.join(' hoặc ') : examData.part3[i].ans;
+                    let ans = Array.isArray(examData.part3[i].ans) ? examData.part3[i].ans.join(' / ') : examData.part3[i].ans;
                     html += `<td style="padding: 8px;"><strong>Câu ${i+1}</strong><br>${ans}</td>`;
                     if ((i+1) % cols === 0 && i !== examData.part3.length -1) html += `</tr><tr>`;
                 }
                 html += `</tr></table>`;
             }
-            html += `</div>`; // Kết thúc trang đáp án
 
             printArea.innerHTML = html;
-            
-            // Xử lý MathJax trước khi gọi lệnh In
+
+            // Xử lý MathJax TRƯỚC khi tải Word để công thức được render thành dạng HTML/SVG
             if(window.MathJax) {
                 MathJax.typesetClear([printArea]);
                 MathJax.typesetPromise([printArea]).then(() => {
-                    setTimeout(() => window.print(), 500);
+                    executeWordDownload(printArea.innerHTML);
                 });
             } else {
-                window.print();
+                executeWordDownload(printArea.innerHTML);
             }
+        }
+
+        // Tạo cục dữ liệu DOC và kích hoạt tải về
+        function executeWordDownload(content) {
+            let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export Word</title></head><body style='font-family: Times New Roman, serif; font-size: 13pt;'>";
+            let footer = "</body></html>";
+            let sourceHTML = header + content + footer;
+            
+            let blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = (examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "De_Thi") + '.doc';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>

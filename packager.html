@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager Version 4.5)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager Version 4.6)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -70,7 +70,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Bộ Đóng Gói Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 4.5</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 4.6</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý đa đáp án, đóng gói ảnh, Preview và xuất PDF</p>
                         </div>
@@ -102,13 +102,13 @@
 - Điểm Phần 2 (Mặc định cho mọi môn): "p2_points": [0.1, 0.25, 0.5, 1.0].
 - Điểm Phần 3 (Phụ thuộc môn học): Môn Toán đặt "p3_points": 0.5. Các môn khác đặt "p3_points": 0.25.
 
-2. Xử lý Lời giải & Hình ảnh (CỰC KỲ QUAN TRỌNG):
-- NẾU TÀI LIỆU GỐC CÓ LỜI GIẢI: Trích xuất NGUYÊN VĂN vào "explanation". Nếu lời giải có hình minh họa/đồ thị, thêm "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
-- NẾU TÀI LIỆU GỐC KHÔNG CÓ LỜI GIẢI: Bạn tự giải chính xác và tự viết lời giải chi tiết vào "explanation". (Không tạo explanationImage).
-- NẾU CÂU HỎI CÓ HÌNH ẢNH (đồ thị, bảng biểu...): Thêm "image": "[CẦN_CHÈN_ẢNH]" vào nội dung câu hỏi đó. Mọi hình ảnh của các đáp án A, B, C, D đều coi như là ảnh của câu hỏi.
+2. Xử lý Lời giải, Hình ảnh & BẢNG BIỂU (CỰC KỲ QUAN TRỌNG):
+- NẾU CÂU HỎI CÓ HÌNH ẢNH HOẶC BẢNG BIỂU: TUYỆT ĐỐI KHÔNG tự tạo bảng bằng text hay HTML. Phải coi bảng biểu là hình ảnh. Thêm "image": "[CẦN_CHÈN_ẢNH]" vào nội dung câu hỏi. Mọi hình ảnh/bảng biểu của đáp án A, B, C, D đều gộp chung coi như là ảnh của câu hỏi.
+- NẾU TÀI LIỆU GỐC CÓ LỜI GIẢI: Trích xuất NGUYÊN VĂN vào "explanation". Nếu lời giải có hình minh họa, đồ thị hoặc BẢNG BIỂU, thêm "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
+- NẾU TÀI LIỆU KHÔNG CÓ LỜI GIẢI: Tự giải chính xác và viết lời giải chi tiết vào "explanation". (Không tạo explanationImage).
 
 3. Xử lý Đáp án (Hỗ trợ Đa Đáp Án):
-- Trích xuất đáp án chuẩn xác. Nếu có nhiều đáp án được chấp thuận (do sai đề hoặc nhiều dạng hiển thị), hãy dùng MẢNG.
+- Trích xuất đáp án chuẩn xác. Nếu có nhiều đáp án được chấp thuận, hãy dùng MẢNG.
 - VD Trắc nghiệm: "ans": [0, 1]. Trả lời ngắn: "ans": ["1,5", "1.5"].
 - Nếu chỉ có 1 đáp án: VD "ans": 0, hoặc "ans": "12,5".
 - PHẦN 3 (Trả lời ngắn): ĐÁP ÁN BẮT BUỘC PHẢI THỎA MÃN CÁC ĐIỀU KIỆN TỐI THƯỢNG SAU:
@@ -124,9 +124,8 @@
 - Phần 3: Số thập phân BẮT BUỘC dùng dấu phẩy (VD: "12,5").
 
 5. Xử lý Câu hỏi chùm (Dữ liệu dùng chung cho nhiều câu):
-- Hệ thống hiển thị từng câu độc lập và có tính năng đảo đề ngẫu nhiên.
-- Do đó, nếu đề có đoạn văn, bảng dữ liệu hoặc hình ảnh dùng chung cho một nhóm câu hỏi (VD: "Dựa vào thông tin sau để trả lời câu 15 và 16"), bạn BẮT BUỘC phải SAO CHÉP toàn bộ đoạn thông tin/hình ảnh dùng chung đó và gắn trực tiếp vào đầu trường "q" (hoặc "image") của TỪNG câu hỏi liên quan. 
-- Tuyệt đối không được ghi trổng không là "Dựa vào đoạn văn trên" khiến câu hỏi bị thiếu dữ kiện khi đứng một mình.
+- Do hệ thống đảo đề ngẫu nhiên, nếu đề có đoạn văn, bảng dữ liệu hoặc hình ảnh dùng chung cho một nhóm câu hỏi (VD: "Dựa vào thông tin sau trả lời câu 15 và 16"), BẮT BUỘC phải SAO CHÉP toàn bộ đoạn thông tin/hình ảnh đó và gắn trực tiếp vào đầu trường "q" (hoặc "image") của TỪNG câu liên quan. 
+- Tuyệt đối không được ghi trổng không là "Dựa vào đoạn văn trên".
 
 Cấu trúc JSON bắt buộc (Ví dụ):
 

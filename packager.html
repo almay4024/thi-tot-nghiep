@@ -660,7 +660,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             }
         }
 
-        // XUẤT WORD (.DOC) CÓ HIỂN THỊ ĐÁP ÁN & CÔNG THỨC TOÁN HỌC (V4.5)
+        // XUẤT WORD (.DOC) CÓ HIỂN THỊ ĐÁP ÁN & CÔNG THỨC TOÁN HỌC (Fix lỗi ảnh khổng lồ)
         function exportToWord() {
             if (!examData) return;
             const printArea = document.getElementById('print-area');
@@ -687,12 +687,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // FIX V4.5: Ép kích thước tối đa Ngang 500px, Dọc 300px
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-width: 500px; max-height: 300px; width: auto; height: auto; margin: 10px 0;">`;
+                    // TRỊ LỖI WORD BẰNG WIDTH="400"
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="400" style="margin: 10px 0;">`;
                     html += `<table style="width: 100%; margin-top: 8px;"><tr>`;
                     q.options.forEach((opt, j) => {
                         html += `<td style="width: 50%; vertical-align: top; padding-bottom: 5px;"><strong>${String.fromCharCode(65+j)}.</strong> ${opt}</td>`;
-                        if(j === 1) html += `</tr><tr>`; // Xống dòng sau 2 đáp án (chia 2 cột)
+                        if(j === 1) html += `</tr><tr>`; 
                     });
                     html += `</tr></table></div>`;
                 });
@@ -706,8 +706,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // FIX V4.5: Ép kích thước tối đa
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-width: 500px; max-height: 300px; width: auto; height: auto; margin: 10px 0;">`;
+                    // TRỊ LỖI WORD BẰNG WIDTH="400"
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="400" style="margin: 10px 0;">`;
                     html += `<ul style="list-style-type: none; padding-left: 15px; margin-top: 8px;">`;
                     q.items.forEach((item, j) => {
                         html += `<li style="margin-bottom: 5px;"><strong>${String.fromCharCode(97+j)})</strong> ${item}</li>`;
@@ -724,8 +724,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<div style="margin-top: 15px;">`;
                     html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // FIX V4.5: Ép kích thước tối đa
-                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" style="max-width: 500px; max-height: 300px; width: auto; height: auto; margin: 10px 0;">`;
+                    // TRỊ LỖI WORD BẰNG WIDTH="400"
+                    if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="400" style="margin: 10px 0;">`;
                     html += `</div>`;
                 });
             }
@@ -779,7 +779,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
             printArea.innerHTML = html;
 
-            // Xử lý MathJax TRƯỚC khi tải Word
+            // Xử lý MathJax TRƯỚC khi tải Word để công thức được render thành dạng HTML/SVG
             if(window.MathJax) {
                 MathJax.typesetClear([printArea]);
                 MathJax.typesetPromise([printArea]).then(() => {
@@ -789,7 +789,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 executeWordDownload(printArea.innerHTML);
             }
         }
-
+        
         // Tạo cục dữ liệu DOC và kích hoạt tải về
         function executeWordDownload(content) {
             let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export Word</title></head><body style='font-family: Times New Roman, serif; font-size: 13pt;'>";

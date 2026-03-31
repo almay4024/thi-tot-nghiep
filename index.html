@@ -126,7 +126,7 @@
                     </div>
                     <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Hệ Thống Thi<br>Tốt Nghiệp THPT</h1>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Định dạng mô phỏng 2026</p>
-                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 3.11</span></div>
+                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 3.12</span></div>
                     
                     <div class="mt-8 w-full">
                         <a href="packager.html" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-3 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm w-full md:w-auto">
@@ -243,7 +243,7 @@
                     </div>
                 </div>
 
-                <button onclick="toggleFullScreen()" id="btn-fullscreen" class="w-full py-3 mb-4 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 border border-slate-300 dark:border-zinc-800 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl shadow-sm transition flex justify-center items-center gap-2">
+                <button onclick="toggleFullScreen()" id="btn-fullscreen" class="hidden sm:flex w-full py-3 mb-4 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 border border-slate-300 dark:border-zinc-800 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl shadow-sm transition justify-center items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                     </svg>
@@ -955,7 +955,7 @@
                     let tBg = "hover:bg-emerald-50 dark:hover:bg-emerald-900/20", fBg = "hover:bg-red-50 dark:hover:bg-red-900/20";
                     let rowClass = "hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition-colors";
 
-                    // LOGIC HIGHLIGHT ĐÚNG/SAI CỰC KỲ NHẸ NHÀNG, KHÔNG VIỀN (VERSION 3.11)
+                    // LOGIC HIGHLIGHT ĐÚNG/SAI CỰC KỲ NHẸ NHÀNG, KHÔNG VIỀN (VERSION 3.12)
                     if (isLocked) {
                         tBg = ""; 
                         fBg = "";
@@ -1027,10 +1027,23 @@
         function saveP3Answer(idx, i) { 
             if(!userAnswers[idx]) userAnswers[idx] = ["","","",""];
             let el = document.getElementById(`p3_${idx}_${i}`); 
-            el.value = el.value.replace(/[^0-9\,\-\/]/g, ''); 
+            el.value = el.value.replace(/[^0-9\,\-]/g, ''); 
             userAnswers[idx][i] = el.value;
-            if(el.value !== "" && i < 3) document.getElementById(`p3_${idx}_${i+1}`).focus();
-            updateNavColor(idx); updateProgress(); updateCheckState();
+            
+            // Dùng setTimeout để fix triệt để lỗi giật lag bàn phím ảo trên mobile
+            if(el.value !== "" && i < 3) {
+                setTimeout(() => {
+                    let nextEl = document.getElementById(`p3_${idx}_${i+1}`);
+                    if (nextEl) nextEl.focus();
+                }, 10);
+            }
+            
+            updateNavColor(idx); 
+            updateCheckState();
+            
+            // Trì hoãn tính toán điểm để không làm khựng quá trình gõ chữ
+            clearTimeout(window.p3Timeout);
+            window.p3Timeout = setTimeout(updateProgress, 200);
         }
 
         function handleP3Key(event, idx, i) {

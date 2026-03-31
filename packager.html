@@ -41,12 +41,21 @@
     </div>
 
     <header class="bg-white dark:bg-black border-b border-slate-200 dark:border-zinc-800 px-6 py-4 shadow-sm flex-none transition-colors">
-        <div class="flex items-center">
-            <span class="text-3xl mr-3">📦</span>
-            <div>
-                <h1 class="text-2xl font-bold text-indigo-700 dark:text-indigo-400">Công Cụ Đóng Gói Đề Thi</h1>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Đóng gói ảnh Câu hỏi/Lời giải, xử lý đa đáp án, tự động tinh chỉnh mã JSON</p>
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="flex items-center">
+                <span class="text-3xl mr-3">📦</span>
+                <div>
+                    <h1 class="text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-3">
+                        Công Cụ Đóng Gói Đề Thi
+                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700 mt-1">VERSION 3.2</span>
+                    </h1>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Đóng gói ảnh Câu hỏi/Lời giải, xử lý đa đáp án, tự động tinh chỉnh mã JSON</p>
+                </div>
             </div>
+            <a href="index.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 transition shadow-sm text-sm outline-none group flex-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                Về trang Web Thi
+            </a>
         </div>
     </header>
 
@@ -86,7 +95,7 @@
 - PHẦN 3 (Trả lời ngắn): ĐÁP ÁN BẮT BUỘC PHẢI THỎA MÃN CÁC ĐIỀU KIỆN TỐI THƯỢNG SAU:
   + Độ dài tối đa: CHỈ ĐƯỢC PHÉP DÀI TỐI ĐA 4 KÝ TỰ (đã tính cả chữ số, dấu trừ "-" và dấu phẩy ",").
   + Các ví dụ HỢP LỆ: "-1,3", "1693", "-139", "3,5", "34", "-14", "4,92".
-  + Các ví dụ KHÔNG HỢP LỆ (Tuyệt đối nghiêm cấm): "12,345" (5 ký tự -> Báo lỗi), "-1,23" (5 ký tự -> Báo lỗi), "1/2" (chứa dấu gạch chéo phân số -> Cấm).
+  + Các ví dụ KHÔNG HỢP LỆ (Tuyệt đối nghiêm cấm): "12,345" (5 ký tự -&gt; Báo lỗi), "-1,23" (5 ký tự -&gt; Báo lỗi), "1/2" (chứa dấu gạch chéo phân số -&gt; Cấm).
   + Xử lý phân số/Số lẻ: Tuyệt đối không dùng phân số. Nếu kết quả là phân số hoặc số thập phân dài, bắt buộc phải làm tròn sao cho TỔNG SỐ KÝ TỰ (bao gồm cả dấu) không được vượt quá 4.
 
 4. Quy tắc Toán học và Trình bày:

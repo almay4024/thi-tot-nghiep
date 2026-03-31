@@ -242,5 +242,6 @@
             "ans": "-4",
             "explanation": "Dùng tâm tỉ cự, $2025h_{1}+2026h_{2}$ lớn nhất khi mặt phẳng $(P)$ đi qua $A$ và vuông góc với đường thẳng $IA$ (với $I$ là trung điểm của đoạn nối hai tâm). Ta tìm được VTPT của $(P)$ là $(1013; 2025; 0)$, suy ra $a=1013, c=0, d=9113$. Khi đó $T = -9(1013)+0+9113 = -4$."
         }
-    ]
+    ],
+    "subject": "Toán"
 }

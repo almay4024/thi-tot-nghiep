@@ -109,6 +109,13 @@
         @media (hover: hover) and (pointer: fine) {
             .virtual-keyboard { display: none !important; }
         }
+        /* V3.16: Phóng to công thức Toán, đặc biệt là phân số */
+        mjx-container {
+            font-size: 1.15em !important; 
+        }
+        mjx-frac {
+            font-size: 1.1em !important; /* Phóng to riêng phần phân số */
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 h-[100dvh] w-screen overflow-hidden flex flex-col justify-center items-center transition-colors duration-300">
@@ -131,7 +138,7 @@
                     </div>
                     <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Thi Tốt Nghiệp<br>THPT</h1>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Thi mô phỏng định dạng 2026</p>
-                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 3.15</span></div>
+                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 3.16</span></div>
                     
                     <div class="mt-8 w-full">
                         <a href="packager.html" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-3 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm w-full md:w-auto">
@@ -1151,23 +1158,28 @@
             let isLocked = lockedQuestions[idx] || isExamFinished;
             let q = allQuestions[idx];
             
-            btn.className = "w-full py-1.5 px-0 text-[0.7rem] md:text-xs font-bold rounded border shadow-sm transition hover:bg-slate-100 dark:hover:bg-zinc-800 outline-none";
+            // V3.16: Bỏ hover trắng mặc định để không làm mất màu trạng thái
+            btn.className = "w-full py-1.5 px-0 text-[0.7rem] md:text-xs font-bold rounded border shadow-sm transition outline-none";
+            
             if (idx === currentIndex) btn.classList.add('ring-2', 'ring-offset-1', 'ring-blue-500', 'dark:ring-offset-black');
             
             if (isLocked) {
                 let score = lockedQuestions[idx]?.score || calculateSingleScore(q);
                 let maxS = q.type === 1 ? examConfig.p1_points : (q.type === 2 ? 1.0 : examConfig.p3_points);
-                if (score === maxS) btn.classList.add('bg-emerald-500', '!text-white', 'border-emerald-600');
-                else if (score > 0) btn.classList.add('bg-amber-400', '!text-white', 'border-amber-500');
-                else btn.classList.add('bg-red-500', '!text-white', 'border-red-600');
+                // Thêm hover đậm màu cho từng trạng thái Đúng/Sai/Đúng 1 phần
+                if (score === maxS) btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600', '!text-white', 'border-emerald-600');
+                else if (score > 0) btn.classList.add('bg-amber-400', 'hover:bg-amber-500', '!text-white', 'border-amber-500');
+                else btn.classList.add('bg-red-500', 'hover:bg-red-600', '!text-white', 'border-red-600');
             } else {
                 let ok = false; 
                 if(q.type === 1) ok = userAnswers[idx] !== undefined; 
                 if(q.type === 2) ok = Object.keys(userAnswers[idx]||{}).length === 4; 
                 if(q.type === 3) ok = (userAnswers[idx]||[]).join('').trim() !== "";
                 
-                if(ok) btn.classList.add('bg-blue-100', 'dark:bg-blue-900/40', 'text-blue-800', 'dark:text-blue-400', 'border-blue-300', 'dark:border-blue-800');
-                else btn.classList.add('bg-white', 'dark:bg-black', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-zinc-800');
+                // Câu đã làm: Màu xanh nhạt -> Hover xanh đậm hơn
+                if(ok) btn.classList.add('bg-blue-100', 'hover:bg-blue-200', 'dark:bg-blue-900/40', 'dark:hover:bg-blue-900/60', 'text-blue-800', 'dark:text-blue-400', 'border-blue-300', 'dark:border-blue-800');
+                // Câu chưa làm: Nền trắng -> Hover xám nhạt
+                else btn.classList.add('bg-white', 'hover:bg-slate-100', 'dark:bg-black', 'dark:hover:bg-zinc-800', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-zinc-800');
             }
             if (flaggedQuestions[idx]) btn.classList.add('!border-2', '!border-amber-500');
         }

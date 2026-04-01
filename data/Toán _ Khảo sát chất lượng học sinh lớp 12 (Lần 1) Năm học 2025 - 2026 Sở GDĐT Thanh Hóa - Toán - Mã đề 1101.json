@@ -217,7 +217,7 @@
             "explanation": "Tại thời điểm $t=6$ vật có $v(6)=a \\Leftrightarrow -\\frac{5}{2}\\cdot 6+b=a \\Leftrightarrow b=a+15$. Gọi $k$ là thời điểm dừng hẳn, $v(k)=0 \\Leftrightarrow k=\\frac{2a}{5}+6$. Tổng quãng đường là $80=6a+\\int_{6}^{k}(-\\frac{5}{2}t+a+15)dt$. Giải phương trình được $a=10 \\Rightarrow b=25$. Vậy $a^{2}-b^{2}=100-625=-525$."
         },
         {
-            "q": "Lấy ngẫu nhiên một số tự nhiên có 5 chữ số. Xác suất để chọn được số tự nhiên có dạng $a_{1}a_{2}a_{3}a_{4}a_{5}$ trong đó $a_{1}\\le a_{2}+1\\le a_{3}-7<a_{4}\\le a_{5}+2$ bằng $a$. Giá trị của $\\frac{1}{a}$ bằng bao nhiêu (làm tròn đến hàng đơn vị)?",
+            "q": "Lấy ngẫu nhiên một số tự nhiên có 5 chữ số. Xác suất để chọn được số tự nhiên có dạng $a_{1}a_{2}a_{3}a_{4}a_{5}$ trong đó $a_{1}\\le a_{2}+1\\le a_{3}-7 < a_{4}\\le a_{5}+2$ bằng $a$. Giá trị của $\\frac{1}{a}$ bằng bao nhiêu (làm tròn đến hàng đơn vị)?",
             "ans": "506",
             "explanation": "Có 90000 số tự nhiên có 5 chữ số. Xét các điều kiện: $a_{2}+1\\le a_{3}-7 \\Rightarrow a_{2}\\le 1, a_{3}\\ge 8$. Chia thành các TH: $a_2=0, a_1=1, a_3=8$ (52 số); $a_2=0, a_1=1, a_3=9$ (42 số); $a_2=1$ (84 số). Tổng cộng có 178 số thỏa mãn. Xác suất $a=\\frac{178}{90000}=\\frac{89}{45000} \\Rightarrow \\frac{1}{a} \\approx 505,617 \\approx 506$."
         },

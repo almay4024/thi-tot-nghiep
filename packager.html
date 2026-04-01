@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager Version 4.6)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V5.0)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,10 +24,8 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; }
-        
         .paste-area:focus { outline: none; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3); border-color: #6366f1 !important; }
         .paste-area:focus .focus-overlay { opacity: 1 !important; background-color: rgba(79, 70, 229, 0.85); }
-        
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -35,17 +33,6 @@
         .dark ::-webkit-scrollbar-thumb { background: #27272a; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
         .dark body { background-color: #000000; color: #e2e8f0; }
-
-        /* CSS RIÊNG ĐỂ XUẤT PDF TRANG IN */
-        @media print {
-            body { background: white; color: black; margin: 0; padding: 0; }
-            #main-layout, #floating-theme-toggle { display: none !important; }
-            #print-area { display: block !important; position: absolute; top: 0; left: 0; width: 100%; font-family: 'Times New Roman', serif; font-size: 13pt; }
-            @page { margin: 20mm; size: A4; }
-            .print-q-img { max-height: 250px; object-fit: contain; margin: 10px auto; display: block; }
-            .print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-            .print-page-break { page-break-inside: avoid; }
-        }
         #print-area { display: none; }
     </style>
 </head>
@@ -70,15 +57,21 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Bộ Đóng Gói Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 4.6</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 5.0</span>
                             </h1>
-                            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý đa đáp án, đóng gói ảnh, Preview và xuất PDF</p>
+                            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý ảnh, Preview, Xuất Word và API GitHub</p>
                         </div>
                     </div>
-                    <a href="index.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800 transition shadow-sm text-sm outline-none group flex-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                        Về trang Web Thi
-                    </a>
+                    
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <button onclick="openGitHubSettings()" class="flex items-center justify-center p-2.5 sm:py-2 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800 transition shadow-sm outline-none" title="Cài đặt GitHub API">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <a href="index.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800 transition shadow-sm text-sm outline-none group flex-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                            Về trang Web Thi
+                        </a>
+                    </div>
                 </div>
 
                 <div class="bg-indigo-50 dark:bg-zinc-900 p-5 md:p-8 rounded-xl shadow-sm border border-indigo-200 dark:border-zinc-800 transition-colors">
@@ -172,7 +165,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                             <input type="file" id="json-upload" accept=".json" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                             <div id="drop-zone-content" class="flex flex-col items-center pointer-events-none">
                                 <svg id="drop-zone-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-10 md:w-10 text-indigo-500 dark:text-slate-400 mb-2 md:mb-3 group-hover:scale-110 transition transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3-3m3-3v12" />
                                 </svg>
                                 <p id="drop-zone-title" class="font-bold text-sm md:text-base text-indigo-800 dark:text-slate-300 mb-1">Kéo thả file .json vào đây</p>
                                 <p id="drop-zone-desc" class="text-xs md:text-sm text-indigo-600/80 dark:text-slate-500">Hoặc chạm để chọn từ thiết bị</p>
@@ -209,7 +202,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     </div>
                     
                     <div id="edit-content" class="hidden flex-col gap-6 mt-6 border-t border-slate-100 dark:border-zinc-800 pt-6 w-full">
-                        
                         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-slate-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-slate-200 dark:border-zinc-800 w-full">
                             <label class="font-bold text-sm text-slate-700 dark:text-slate-300 whitespace-nowrap flex-none">Chọn phần cần xem/sửa:</label>
                             <select id="question-selector" onchange="loadQuestionCode()" class="flex-1 w-full p-2.5 border border-slate-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-sm text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm"></select>
@@ -229,7 +221,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                                 <div id="preview-pane" class="w-full h-64 md:h-[400px] p-5 border-2 border-dashed border-slate-300 dark:border-zinc-700 rounded-xl bg-slate-50/50 dark:bg-black overflow-y-auto text-slate-800 dark:text-slate-200"></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -250,15 +241,18 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                     </div>
                     <h2 class="text-xl md:text-2xl font-bold mb-2 text-emerald-800 dark:text-emerald-300">Tuyệt vời! Đề thi đã hoàn thiện</h2>
-                    <p class="text-sm md:text-base text-emerald-600/80 dark:text-emerald-400/80 mb-6 md:mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được đóng gói.</p>
+                    <p class="text-sm md:text-base text-emerald-600/80 dark:text-emerald-400/80 mb-6 md:mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được mã hóa sẵn sàng.</p>
                     
-                    <div class="flex flex-col sm:flex-row justify-center gap-4">
-                        <button onclick="downloadFinalJson()" class="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base md:text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none">
-                            TẢI XUỐNG FILE .JSON 
+                    <div class="flex flex-col md:flex-row justify-center gap-3">
+                        <button onclick="downloadFinalJson()" class="w-full md:w-auto px-6 py-3.5 md:py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm md:text-base rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
+                            TẢI LƯU FILE .JSON 
                         </button>
-                        <button onclick="exportToWord()" class="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-base md:text-lg rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                            XUẤT FILE WORD (.DOC)
+                        <button onclick="exportToWord()" class="w-full md:w-auto px-6 py-3.5 md:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm md:text-base rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
+                            XUẤT BẢN IN WORD
+                        </button>
+                        <button id="btn-github" onclick="pushToGitHub()" class="w-full md:w-auto px-6 py-3.5 md:py-4 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold text-sm md:text-base rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            ĐẨY LÊN GITHUB
                         </button>
                     </div>
                 </div>
@@ -269,13 +263,44 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
     <div id="print-area"></div>
 
+    <div id="github-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-black rounded-2xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-zinc-800 overflow-hidden transform scale-100 transition-transform">
+            <div class="p-5 md:p-6 border-b border-slate-100 dark:border-zinc-800 flex justify-between items-center bg-slate-50 dark:bg-zinc-900/50">
+                <h3 class="font-bold text-lg text-slate-800 dark:text-white flex items-center gap-2">
+                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    Cấu hình GitHub API
+                </h3>
+                <button onclick="closeGitHubSettings()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl leading-none outline-none">&times;</button>
+            </div>
+            <div class="p-5 md:p-6 space-y-4 text-sm">
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">GitHub Token (PAT):</label>
+                    <input type="password" id="gh-token" class="w-full p-2.5 border rounded-lg bg-white dark:bg-zinc-950 dark:border-zinc-700 focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+                    <p class="text-[0.7rem] text-slate-500 mt-1.5 leading-relaxed">Vào GitHub > Settings > Developer settings > Personal access tokens (classic) > Tạo token tick vào ô <b>repo</b>.</p>
+                </div>
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">Tên tài khoản (Owner):</label>
+                    <input type="text" id="gh-owner" placeholder="vd: vuvandat0210" class="w-full p-2.5 border rounded-lg bg-white dark:bg-zinc-950 dark:border-zinc-700 focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm font-mono text-indigo-600 dark:text-indigo-400">
+                </div>
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">Tên kho chứa (Repository):</label>
+                    <input type="text" id="gh-repo" placeholder="vd: thi-tot-nghiep-2026" class="w-full p-2.5 border rounded-lg bg-white dark:bg-zinc-950 dark:border-zinc-700 focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm font-mono text-indigo-600 dark:text-indigo-400">
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 dark:border-zinc-800 flex justify-end gap-3 bg-slate-50 dark:bg-zinc-900/50">
+                <button onclick="closeGitHubSettings()" class="px-5 py-2.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-zinc-800 transition outline-none">Hủy bỏ</button>
+                <button onclick="saveGitHubSettings()" class="px-5 py-2.5 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition outline-none">Lưu thiết lập</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let examData = null;
         let imagePointers = [];
         let currentEditTarget = { part: null, index: null };
         let previewTimeout = null;
 
-        // 1. Quản lý Dark Mode
+        // 1. Quản lý Dark Mode & Theme
         function updateThemeIcons() {
             const isDark = document.documentElement.classList.contains('dark');
             document.querySelectorAll('.theme-icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
@@ -284,8 +309,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
             updateThemeIcons();
         }
 
@@ -321,20 +345,16 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
         });
-
         ['dragenter', 'dragover'].forEach(eventName => {
             dropZone.addEventListener(eventName, () => {
-                dropZone.classList.remove('border-indigo-300', 'dark:border-zinc-700', 'bg-indigo-50/50', 'dark:bg-zinc-900/50');
-                dropZone.classList.add('border-indigo-600', 'dark:border-indigo-500', 'bg-indigo-100', 'dark:bg-indigo-900/40');
+                dropZone.classList.replace('border-indigo-300', 'border-indigo-600');
+                dropZone.classList.replace('dark:border-zinc-700', 'dark:border-indigo-500');
             }, false);
         });
-
         ['dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, () => {
-                dropZone.classList.remove('border-indigo-600', 'dark:border-indigo-500', 'bg-indigo-100', 'dark:bg-indigo-900/40');
-                if (!dropZone.classList.contains('border-emerald-400')) {
-                    dropZone.classList.add('border-indigo-300', 'dark:border-zinc-700', 'bg-indigo-50/50', 'dark:bg-zinc-900/50');
-                }
+                dropZone.classList.replace('border-indigo-600', 'border-indigo-300');
+                dropZone.classList.replace('dark:border-indigo-500', 'dark:border-zinc-700');
             }, false);
         });
 
@@ -355,7 +375,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 try {
                     examData = JSON.parse(e.target.result);
                     finishLoadingJSON(file.name);
-                } catch (err) { alert("Lỗi đọc file: File JSON bị hỏng hoặc sai cấu trúc!"); }
+                } catch (err) { alert("Lỗi đọc file JSON. Hãy kiểm tra lại cấu trúc."); }
             };
             reader.readAsText(file);
         }
@@ -368,13 +388,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 const jsonStart = text.indexOf('{'), jsonEnd = text.lastIndexOf('}');
                 if(jsonStart !== -1 && jsonEnd !== -1) cleanText = text.substring(jsonStart, jsonEnd + 1);
                 examData = JSON.parse(cleanText);
-                finishLoadingJSON("Dữ liệu Paste");
+                finishLoadingJSON("Dữ liệu Paste Trực tiếp");
             } catch (err) { alert("Mã JSON không hợp lệ!\n" + err.message); }
         }
 
         function finishLoadingJSON(filename) {
             scanForImages();
-            // Đổi UI Dropzone thành công
             dropZone.className = "border-2 border-emerald-500 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/10 p-6 rounded-xl flex flex-col items-center justify-center text-center relative group cursor-pointer min-h-[140px] border-solid";
             document.getElementById('drop-zone-icon').className = "h-8 w-8 md:h-10 md:w-10 text-emerald-500 dark:text-emerald-500 mb-2 md:mb-3";
             document.getElementById('drop-zone-title').className = "font-bold text-sm md:text-base text-emerald-800 dark:text-emerald-400 mb-1";
@@ -386,7 +405,17 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             populateQuestionSelector(); 
         }
 
-        // 4. Trình Sửa Code & PREVIEW
+        // 4. Trình Sửa Code & PREVIEW (V4.2 Logic)
+        function toggleEditSection() {
+            const content = document.getElementById('edit-content');
+            const chevron = document.getElementById('edit-chevron');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden'); content.classList.add('flex'); chevron.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden'); content.classList.remove('flex'); chevron.classList.remove('rotate-180');
+            }
+        }
+
         function populateQuestionSelector() {
             const sel = document.getElementById('question-selector');
             sel.innerHTML = '<option value="root">Cấu hình chung (Tiêu đề, Thời gian...)</option>';
@@ -416,7 +445,19 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 editor.value = JSON.stringify(examData[part][parseInt(idx)], null, 4);
                 currentEditTarget = { part: part, index: parseInt(idx) };
             }
-            updatePreviewDirect(); // Load preview ngay lập tức
+            updatePreviewDirect(); 
+        }
+
+        function handleEditorTab(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const editor = e.target;
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                delayPreviewUpdate();
+            }
         }
 
         function saveQuestionCode() {
@@ -434,7 +475,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             } catch (e) { alert("Mã JSON lỗi cú pháp!\n" + e.message); }
         }
 
-        // Delay gõ chữ để không render MathJax liên tục gây lag
         function delayPreviewUpdate() {
             clearTimeout(previewTimeout);
             previewTimeout = setTimeout(updatePreviewDirect, 500);
@@ -447,27 +487,19 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             if(currentEditTarget.part === 'root') {
                 try {
                     const q = JSON.parse(text);
-                    // SỬA LỖI Ở ĐÂY: Đếm trực tiếp từ examData thay vì từ text editor
                     const p1 = examData.part1 ? examData.part1.length : 0;
                     const p2 = examData.part2 ? examData.part2.length : 0;
                     const p3 = examData.part3 ? examData.part3.length : 0;
-                    
                     pane.innerHTML = `
-                        <div class="flex flex-col items-center justify-center text-center h-full animation-fade-in">
+                        <div class="flex flex-col items-center justify-center text-center h-full">
                             <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-sm">📄</div>
                             <h3 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white mb-2">${q.title || "Chưa có tên đề"}</h3>
                             <p class="text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-6 uppercase tracking-wider">${q.subject || "Chưa xác định môn"}</p>
-                            
                             <div class="grid grid-cols-2 gap-4 text-sm w-full max-w-sm text-left bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm">
-                                <div><span class="text-slate-500 block mb-1">Thời gian thi:</span><b class="text-lg text-slate-800 dark:text-slate-200">${q.timeLimit ? q.timeLimit/60 + ' Phút' : '--'}</b></div>
-                                <div><span class="text-slate-500 block mb-1">Tổng số câu:</span><b class="text-lg text-slate-800 dark:text-slate-200">${p1 + p2 + p3} Câu</b></div>
-                                <div class="col-span-2 border-t border-slate-100 dark:border-zinc-800 pt-3 mt-1">
-                                    <span class="text-slate-500 block mb-1">Cấu trúc (P1 - P2 - P3):</span>
-                                    <b class="text-slate-800 dark:text-slate-200">${p1} Trắc nghiệm | ${p2} Đúng/Sai | ${p3} Điền số</b>
-                                </div>
+                                <div><span class="text-slate-500 block mb-1">Thời gian:</span><b class="text-lg text-slate-800 dark:text-slate-200">${q.timeLimit ? q.timeLimit/60 + ' Phút' : '--'}</b></div>
+                                <div><span class="text-slate-500 block mb-1">Tổng câu hỏi:</span><b class="text-lg text-slate-800 dark:text-slate-200">${p1 + p2 + p3} Câu</b></div>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 } catch(e) {}
                 return;
             }
@@ -484,16 +516,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
                 if(currentEditTarget.part === 'part1' && q.options) {
                     html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">`;
-                    q.options.forEach((opt, i) => {
-                        html += `<div class="flex items-start p-3 border border-slate-200 dark:border-zinc-700 rounded-xl bg-white dark:bg-black"><span class="font-bold mr-2">${String.fromCharCode(65+i)}.</span> <span>${opt}</span></div>`;
-                    });
+                    q.options.forEach((opt, i) => { html += `<div class="flex items-start p-3 border border-slate-200 dark:border-zinc-700 rounded-xl bg-white dark:bg-black"><span class="font-bold mr-2">${String.fromCharCode(65+i)}.</span> <span>${opt}</span></div>`; });
                     html += `</div>`;
                 } 
                 else if (currentEditTarget.part === 'part2' && q.items) {
                     html += `<div class="border border-slate-200 dark:border-zinc-700 rounded-xl overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-100 dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-700"><tr><th class="p-3">Phát biểu</th><th class="p-3 w-12 text-center text-emerald-600">Đ</th><th class="p-3 w-12 text-center text-red-500">S</th></tr></thead><tbody class="divide-y divide-slate-200 dark:divide-zinc-700">`;
-                    q.items.forEach((item, i) => {
-                        html += `<tr><td class="p-3"><span class="font-semibold mr-1">${String.fromCharCode(97+i)})</span> ${item}</td><td class="border-l border-slate-200 dark:border-zinc-700"></td><td class="border-l border-slate-200 dark:border-zinc-700"></td></tr>`;
-                    });
+                    q.items.forEach((item, i) => { html += `<tr><td class="p-3"><span class="font-semibold mr-1">${String.fromCharCode(97+i)})</span> ${item}</td><td class="border-l border-slate-200 dark:border-zinc-700"></td><td class="border-l border-slate-200 dark:border-zinc-700"></td></tr>`; });
                     html += `</tbody></table></div>`;
                 } 
                 else if (currentEditTarget.part === 'part3') {
@@ -507,10 +535,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 }
 
                 pane.innerHTML = html;
-                if(window.MathJax) {
-                    MathJax.typesetClear([pane]);
-                    MathJax.typesetPromise([pane]);
-                }
+                if(window.MathJax) { MathJax.typesetClear([pane]); MathJax.typesetPromise([pane]); }
             } catch (e) {
                 pane.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-rose-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Mã JSON đang lỗi cú pháp...</span></div>`;
             }
@@ -518,31 +543,23 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
         // 5. Quét và Xử Lý Hình Ảnh
         function scanForImages() {
-            imagePointers = [];
-            let hasAnyImages = false;
-
+            imagePointers = []; let hasAnyImages = false;
             const scanPart = (partArray, partName) => {
                 if (!partArray) return;
                 partArray.forEach((q, index) => {
                     let needsQImage = q.image && q.image.toString().trim() !== "" && !q.image.toString().startsWith("data:image");
                     let hasExistingQImage = q.imageUrl && q.imageUrl.toString().trim() !== "";
                     if (needsQImage || hasExistingQImage) {
-                        hasAnyImages = true;
-                        imagePointers.push({ ref: q, propKey: 'image', label: `${partName} - Câu ${index + 1} (Ảnh Câu Hỏi)`, text: q.q, existingBase64: hasExistingQImage ? q.imageUrl : null });
+                        hasAnyImages = true; imagePointers.push({ ref: q, propKey: 'image', label: `${partName} - Câu ${index + 1} (Ảnh Câu Hỏi)`, text: q.q, existingBase64: hasExistingQImage ? q.imageUrl : null });
                     }
-
                     let needsEImage = q.explanationImage && q.explanationImage.toString().includes("[CẦN_CHÈN");
                     let hasExistingEImage = q.explanationImage && q.explanationImage.toString().startsWith("data:image");
                     if (needsEImage || hasExistingEImage) {
-                        hasAnyImages = true;
-                        imagePointers.push({ ref: q, propKey: 'explanationImage', label: `${partName} - Câu ${index + 1} (Ảnh Lời Giải)`, text: q.explanation ? "Chi tiết: " + q.explanation : "Cần chèn một ảnh cho lời giải.", existingBase64: hasExistingEImage ? q.explanationImage : null });
+                        hasAnyImages = true; imagePointers.push({ ref: q, propKey: 'explanationImage', label: `${partName} - Câu ${index + 1} (Ảnh Lời Giải)`, text: q.explanation ? "Chi tiết: " + q.explanation : "Cần chèn một ảnh cho lời giải.", existingBase64: hasExistingEImage ? q.explanationImage : null });
                     }
                 });
             };
-
-            scanPart(examData.part1, "Phần 1");
-            scanPart(examData.part2, "Phần 2");
-            scanPart(examData.part3, "Phần 3");
+            scanPart(examData.part1, "Phần 1"); scanPart(examData.part2, "Phần 2"); scanPart(examData.part3, "Phần 3");
 
             if (!hasAnyImages) {
                 document.getElementById('image-tasks-container').classList.add('hidden');
@@ -558,7 +575,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             imagePointers.forEach((task, index) => {
                 let shortText = task.text.replace(/<[^>]*>?/gm, '');
                 if(shortText.length > 150) shortText = shortText.substring(0, 150) + "...";
-
                 let boxClasses = "border-dashed border-slate-300 dark:border-zinc-700 hover:border-indigo-400 bg-slate-50 dark:bg-zinc-900/50";
                 let imageContent = ``;
                 
@@ -581,49 +597,24 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 }, 0);
             });
 
-            container.classList.remove('hidden');
-            document.getElementById('download-container').classList.remove('hidden');
-            // NÂNG CẤP 4.1: Render Toán học cho danh sách cần chèn ảnh
-            if(window.MathJax) {
-                MathJax.typesetClear([list]);
-                MathJax.typesetPromise([list]);
-            }
-        } // Dòng này là cái ngoặc nhọn kết thúc của hàm renderImageTasks cũ nhé
-
-        // NÂNG CẤP 4.1: Hàm đóng mở khu vực Sửa Code
-        function toggleEditSection() {
-            const content = document.getElementById('edit-content');
-            const chevron = document.getElementById('edit-chevron');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                content.classList.add('flex');
-                chevron.classList.add('rotate-180');
-            } else {
-                content.classList.add('hidden');
-                content.classList.remove('flex');
-                chevron.classList.remove('rotate-180');
-            }
+            container.classList.remove('hidden'); document.getElementById('download-container').classList.remove('hidden');
+            if(window.MathJax) { MathJax.typesetClear([list]); MathJax.typesetPromise([list]); }
         }
 
         function handlePaste(e, index) {
-            e.preventDefault();
-            let blob = null;
+            e.preventDefault(); let blob = null;
             for (let item of (e.clipboardData || e.originalEvent.clipboardData).items) {
                 if (item.type.indexOf("image") === 0) { blob = item.getAsFile(); break; }
             }
-            if (blob) processImageToJSON(blob, index);
-            else alert("Không tìm thấy hình ảnh. Hãy chụp lại rồi dán nhé!");
+            if (blob) processImageToJSON(blob, index); else alert("Không tìm thấy hình ảnh. Hãy chụp lại rồi dán nhé!");
         }
         function handleFileUpload(event, index) { if (event.target.files[0]) processImageToJSON(event.target.files[0], index); }
 
         function processImageToJSON(blob, index) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                const base64String = event.target.result;
-                const task = imagePointers[index];
-                if (task.propKey === 'image') { task.ref.imageUrl = base64String; delete task.ref.image; } 
-                else { task.ref.explanationImage = base64String; }
-                
+                const base64String = event.target.result; const task = imagePointers[index];
+                if (task.propKey === 'image') { task.ref.imageUrl = base64String; delete task.ref.image; } else { task.ref.explanationImage = base64String; }
                 const pasteArea = document.getElementById(`paste-area-${index}`);
                 pasteArea.innerHTML = `<img id="preview-${index}" class="absolute inset-0 w-full h-full object-contain bg-white dark:bg-zinc-900 p-2 z-0" src="${base64String}"><div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 focus-overlay flex flex-col items-center justify-center text-white z-10 transition-opacity duration-200"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 mb-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span class="font-bold text-xs md:text-sm text-emerald-300">ĐÃ CẬP NHẬT ẢNH MỚI</span></div>`;
                 pasteArea.className = "paste-area w-full h-32 md:h-40 border-2 rounded-xl flex flex-col items-center justify-center cursor-pointer relative overflow-hidden group transition border-solid border-emerald-500 dark:border-emerald-600 shadow-md focus:ring-4 focus:ring-emerald-300";
@@ -638,55 +629,23 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "";
             let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "";
             let fileName = (safeSub && safeTitle) ? `${safeSub} _ ${safeTitle}.json` : (safeTitle ? `${safeTitle}.json` : (safeSub ? `${safeSub}.json` : "De_Thi_2026.json"));
-            
             const a = document.createElement("a");
             a.href = URL.createObjectURL(new Blob([JSON.stringify(examData, null, 4)], { type: "application/json" }));
             a.download = fileName.replace(/\s+/g, ' ');
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
         }
 
-        // Bắt phím Tab trong ô nhập liệu
-        function handleEditorTab(e) {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                const editor = e.target;
-                const start = editor.selectionStart;
-                const end = editor.selectionEnd;
-                // Chèn 4 dấu cách (spaces) thay cho Tab
-                editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
-                editor.selectionStart = editor.selectionEnd = start + 4;
-                delayPreviewUpdate();
-            }
-        }
-
-        // XUẤT WORD (.DOC) CÓ HIỂN THỊ ĐÁP ÁN & CÔNG THỨC TOÁN HỌC (Fix lỗi ảnh khổng lồ)
+        // 7. XUẤT WORD
         function exportToWord() {
             if (!examData) return;
             const printArea = document.getElementById('print-area');
-            
-            // Xây dựng khung HTML cho Word
-            let html = `
-                <div style="text-align: center; margin-bottom: 30px; font-family: 'Times New Roman', serif;">
-                    <h2 style="font-size: 18pt; text-transform: uppercase; margin-bottom: 5px;">${examData.title || "ĐỀ THI MÔ PHỎNG ĐỊNH DẠNG 2026"}</h2>
-                    <div style="font-weight: bold; margin-bottom: 20px; font-size: 13pt;">
-                        Môn thi: ${examData.subject || "..."} <br>
-                        <em>(Thời gian làm bài: ${examData.timeLimit ? examData.timeLimit/60 : "..."} phút)</em>
-                    </div>
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        Họ và tên thí sinh: .......................................................................... Số báo danh: ........................
-                    </div>
-                </div>
-            `;
+            let html = `<div style="text-align: center; margin-bottom: 30px; font-family: 'Times New Roman', serif;"><h2 style="font-size: 18pt; text-transform: uppercase; margin-bottom: 5px;">${examData.title || "ĐỀ THI MÔ PHỎNG ĐỊNH DẠNG 2026"}</h2><div style="font-weight: bold; margin-bottom: 20px; font-size: 13pt;">Môn thi: ${examData.subject || "..."} <br><em>(Thời gian làm bài: ${examData.timeLimit ? examData.timeLimit/60 : "..."} phút)</em></div><div style="text-align: center; margin-bottom: 20px;">Họ và tên thí sinh: .......................................................................... Số báo danh: ........................</div></div>`;
 
-            // PHẦN 1
             if (examData.part1 && examData.part1.length > 0) {
-                html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase;">PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn.</div>`;
-                html += `<div>Thí sinh trả lời từ câu 1 đến câu ${examData.part1.length}. Mỗi câu hỏi thí sinh chỉ chọn một phương án.</div>`;
+                html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase;">PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn.</div><div>Thí sinh trả lời từ câu 1 đến câu ${examData.part1.length}. Mỗi câu hỏi thí sinh chỉ chọn một phương án.</div>`;
                 examData.part1.forEach((q, i) => {
-                    html += `<div style="margin-top: 15px;">`;
-                    html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
+                    html += `<div style="margin-top: 15px;"><strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // TRỊ LỖI WORD BẰNG WIDTH="400"
                     if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="400" style="margin: 10px 0;">`;
                     html += `<table style="width: 100%; margin-top: 8px;"><tr>`;
                     q.options.forEach((opt, j) => {
@@ -697,113 +656,162 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 });
             }
 
-            // PHẦN 2
             if (examData.part2 && examData.part2.length > 0) {
-                html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 30px; margin-bottom: 10px; text-transform: uppercase;">PHẦN II. Câu trắc nghiệm đúng sai.</div>`;
-                html += `<div>Thí sinh trả lời từ câu 1 đến câu ${examData.part2.length}. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</div>`;
+                html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 30px; margin-bottom: 10px; text-transform: uppercase;">PHẦN II. Câu trắc nghiệm đúng sai.</div><div>Thí sinh trả lời từ câu 1 đến câu ${examData.part2.length}. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</div>`;
                 examData.part2.forEach((q, i) => {
-                    html += `<div style="margin-top: 15px;">`;
-                    html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
+                    html += `<div style="margin-top: 15px;"><strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // TRỊ LỖI WORD BẰNG WIDTH="400"
                     if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="400" style="margin: 10px 0;">`;
                     html += `<ul style="list-style-type: none; padding-left: 15px; margin-top: 8px;">`;
-                    q.items.forEach((item, j) => {
-                        html += `<li style="margin-bottom: 5px;"><strong>${String.fromCharCode(97+j)})</strong> ${item}</li>`;
-                    });
+                    q.items.forEach((item, j) => { html += `<li style="margin-bottom: 5px;"><strong>${String.fromCharCode(97+j)})</strong> ${item}</li>`; });
                     html += `</ul></div>`;
                 });
             }
 
-            // PHẦN 3
             if (examData.part3 && examData.part3.length > 0) {
-                html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 30px; margin-bottom: 10px; text-transform: uppercase;">PHẦN III. Câu trắc nghiệm trả lời ngắn.</div>`;
-                html += `<div>Thí sinh trả lời từ câu 1 đến câu ${examData.part3.length}.</div>`;
+                html += `<div style="font-weight: bold; font-size: 14pt; margin-top: 30px; margin-bottom: 10px; text-transform: uppercase;">PHẦN III. Câu trắc nghiệm trả lời ngắn.</div><div>Thí sinh trả lời từ câu 1 đến câu ${examData.part3.length}.</div>`;
                 examData.part3.forEach((q, i) => {
-                    html += `<div style="margin-top: 15px;">`;
-                    html += `<strong>Câu ${i+1}: </strong> ${q.q}`;
+                    html += `<div style="margin-top: 15px;"><strong>Câu ${i+1}: </strong> ${q.q}`;
                     let img = q.imageUrl || q.image;
-                    // TRỊ LỖI WORD BẰNG WIDTH="400"
                     if(img && img !== "[CẦN_CHÈN_ẢNH]") html += `<br><img src="${img}" width="400" style="margin: 10px 0;">`;
                     html += `</div>`;
                 });
             }
 
             html += `<div style="text-align: center; margin-top: 50px; font-weight: bold;">------------- HẾT -------------</div>`;
-
-            // BẢNG ĐÁP ÁN (CUỐI FILE)
-            html += `<br style="page-break-before: always; clear: both;" />`; // Ngắt trang cho MS Word
-            html += `<h2 style="text-align: center; font-size: 16pt; margin-bottom: 5px;">ĐÁP ÁN ĐỀ THI: ${examData.title || ""}</h2>`;
-            html += `<div style="text-align: center; font-weight: bold; margin-bottom: 30px; font-size: 14pt;">MÔN: ${examData.subject || "..."}</div>`;
+            html += `<br style="page-break-before: always; clear: both;" /><h2 style="text-align: center; font-size: 16pt; margin-bottom: 5px;">ĐÁP ÁN ĐỀ THI: ${examData.title || ""}</h2><div style="text-align: center; font-weight: bold; margin-bottom: 30px; font-size: 14pt;">MÔN: ${examData.subject || "..."}</div>`;
             
             if (examData.part1 && examData.part1.length > 0) {
-                html += `<h3 style="font-size: 13pt;">PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN</h3>`;
-                html += `<table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 25px;" border="1"><tr>`;
-                let cols = 10;
+                html += `<h3 style="font-size: 13pt;">PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN</h3><table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 25px;" border="1"><tr>`;
                 for(let i=0; i<examData.part1.length; i++) {
                     let ans = examData.part1[i].ans;
                     let letter = Array.isArray(ans) ? ans.map(a => String.fromCharCode(65+a)).join(' / ') : String.fromCharCode(65+ans);
                     html += `<td style="padding: 8px;"><strong>${i+1}</strong><br>${letter}</td>`;
-                    if ((i+1) % cols === 0 && i !== examData.part1.length -1) html += `</tr><tr>`;
+                    if ((i+1) % 10 === 0 && i !== examData.part1.length -1) html += `</tr><tr>`;
                 }
                 html += `</tr></table>`;
             }
 
             if (examData.part2 && examData.part2.length > 0) {
-                html += `<h3 style="font-size: 13pt;">PHẦN II. TRẮC NGHIỆM ĐÚNG/SAI</h3>`;
-                html += `<table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 25px;" border="1">`;
-                html += `<tr><th style="padding: 8px;">Câu</th><th style="padding: 8px;">Ý a</th><th style="padding: 8px;">Ý b</th><th style="padding: 8px;">Ý c</th><th style="padding: 8px;">Ý d</th></tr>`;
+                html += `<h3 style="font-size: 13pt;">PHẦN II. TRẮC NGHIỆM ĐÚNG/SAI</h3><table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 25px;" border="1"><tr><th style="padding: 8px;">Câu</th><th style="padding: 8px;">Ý a</th><th style="padding: 8px;">Ý b</th><th style="padding: 8px;">Ý c</th><th style="padding: 8px;">Ý d</th></tr>`;
                 examData.part2.forEach((q, i) => {
                     html += `<tr><td style="padding: 8px;"><strong>${i+1}</strong></td>`;
-                    for(let j=0; j<4; j++) {
-                        let text = q.ans[j] === true ? "Đ" : (q.ans[j] === false ? "S" : "");
-                        html += `<td style="padding: 8px;">${text}</td>`;
-                    }
+                    for(let j=0; j<4; j++) { let text = q.ans[j] === true ? "Đ" : (q.ans[j] === false ? "S" : ""); html += `<td style="padding: 8px;">${text}</td>`; }
                     html += `</tr>`;
                 });
                 html += `</table>`;
             }
 
             if (examData.part3 && examData.part3.length > 0) {
-                html += `<h3 style="font-size: 13pt;">PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN</h3>`;
-                html += `<table style="width: 100%; border-collapse: collapse; text-align: center;" border="1"><tr>`;
-                let cols = 5;
+                html += `<h3 style="font-size: 13pt;">PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN</h3><table style="width: 100%; border-collapse: collapse; text-align: center;" border="1"><tr>`;
                 for(let i=0; i<examData.part3.length; i++) {
                     let ans = Array.isArray(examData.part3[i].ans) ? examData.part3[i].ans.join(' / ') : examData.part3[i].ans;
                     html += `<td style="padding: 8px;"><strong>Câu ${i+1}</strong><br>${ans}</td>`;
-                    if ((i+1) % cols === 0 && i !== examData.part3.length -1) html += `</tr><tr>`;
+                    if ((i+1) % 5 === 0 && i !== examData.part3.length -1) html += `</tr><tr>`;
                 }
                 html += `</tr></table>`;
             }
 
             printArea.innerHTML = html;
-
-            // Xử lý MathJax TRƯỚC khi tải Word để công thức được render thành dạng HTML/SVG
-            if(window.MathJax) {
-                MathJax.typesetClear([printArea]);
-                MathJax.typesetPromise([printArea]).then(() => {
-                    executeWordDownload(printArea.innerHTML);
-                });
-            } else {
-                executeWordDownload(printArea.innerHTML);
-            }
+            if(window.MathJax) { MathJax.typesetClear([printArea]); MathJax.typesetPromise([printArea]).then(() => { executeWordDownload(printArea.innerHTML); });
+            } else { executeWordDownload(printArea.innerHTML); }
         }
-        
-        // Tạo cục dữ liệu DOC và kích hoạt tải về
+
         function executeWordDownload(content) {
-            let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export Word</title></head><body style='font-family: Times New Roman, serif; font-size: 13pt;'>";
-            let footer = "</body></html>";
-            let sourceHTML = header + content + footer;
-            
+            let sourceHTML = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export Word</title></head><body style='font-family: Times New Roman, serif; font-size: 13pt;'>" + content + "</body></html>";
             let blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
-            let url = URL.createObjectURL(blob);
-            let a = document.createElement("a");
-            a.href = url;
+            let url = URL.createObjectURL(blob); let a = document.createElement("a"); a.href = url;
             a.download = (examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "De_Thi") + '.doc';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+        }
+
+        // 8. TÍNH NĂNG ĐẨY LÊN GITHUB API (V5.0)
+        function openGitHubSettings() {
+            document.getElementById('gh-token').value = localStorage.getItem('gh_token') || '';
+            document.getElementById('gh-owner').value = localStorage.getItem('gh_owner') || '';
+            document.getElementById('gh-repo').value = localStorage.getItem('gh_repo') || '';
+            document.getElementById('github-modal').classList.remove('hidden');
+        }
+
+        function closeGitHubSettings() {
+            document.getElementById('github-modal').classList.add('hidden');
+        }
+
+        function saveGitHubSettings() {
+            localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
+            localStorage.setItem('gh_owner', document.getElementById('gh-owner').value.trim());
+            localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
+            closeGitHubSettings();
+        }
+
+        async function pushToGitHub() {
+            if (!examData) return;
+            const token = localStorage.getItem('gh_token');
+            const owner = localStorage.getItem('gh_owner');
+            const repo = localStorage.getItem('gh_repo');
+
+            if (!token || !owner || !repo) {
+                alert("Bạn chưa cấu hình GitHub API!\nVui lòng bấm vào nút 'Bánh răng' ở góc trên bên phải để điền thông tin trước khi đẩy file.");
+                openGitHubSettings();
+                return;
+            }
+
+            // Tạo tên file
+            let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "";
+            let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "";
+            let fileName = (safeSub && safeTitle) ? `${safeSub} _ ${safeTitle}.json` : (safeTitle ? `${safeTitle}.json` : (safeSub ? `${safeSub}.json` : "De_Thi_2026.json"));
+            fileName = fileName.replace(/\s+/g, ' ');
+
+            // Nằm trong thư mục data/ của github
+            const path = `data/${fileName}`;
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+            
+            // Encode content sang Base64 chuẩn hỗ trợ Tiếng Việt (UTF-8)
+            const contentJson = JSON.stringify(examData, null, 4);
+            const contentBase64 = btoa(unescape(encodeURIComponent(contentJson)));
+
+            const btn = document.getElementById('btn-github');
+            const originalHTML = btn.innerHTML;
+            
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ĐANG ĐẨY LÊN...`;
+            btn.disabled = true;
+
+            try {
+                // Bước 1: Get để check file tồn tại (lấy mã sha nếu có để ghi đè)
+                let sha = null;
+                const getRes = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+                if (getRes.status === 200) {
+                    const getData = await getRes.json();
+                    sha = getData.sha;
+                }
+
+                // Bước 2: Put file lên
+                const body = { message: `Packager V5.0: Upload đề ${fileName}`, content: contentBase64 };
+                if (sha) body.sha = sha; // Ghi đè file cũ
+
+                const putRes = await fetch(url, {
+                    method: 'PUT',
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                if (putRes.ok) {
+                    btn.innerHTML = `✅ ĐÃ LÊN SÓNG!`;
+                    btn.classList.replace('bg-slate-800', 'bg-emerald-500');
+                    btn.classList.replace('dark:bg-slate-700', 'dark:bg-emerald-600');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML; btn.disabled = false;
+                        btn.classList.replace('bg-emerald-500', 'bg-slate-800');
+                        btn.classList.replace('dark:bg-emerald-600', 'dark:bg-slate-700');
+                    }, 3000);
+                } else {
+                    const errData = await putRes.json();
+                    throw new Error(errData.message);
+                }
+            } catch (error) {
+                alert(`Lỗi khi đẩy lên GitHub: ${error.message}\nHãy kiểm tra lại Token, Owner và Repo trong cài đặt!`);
+                btn.innerHTML = originalHTML; btn.disabled = false;
+            }
         }
     </script>
 </body>

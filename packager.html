@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V6.0)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V6.1)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%234f46e5%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4%22/></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,7 +57,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Hệ Quản Trị Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">CMS V6.0</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 6.1</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý ảnh, Cấp ID Tự động, Sửa đề từ Cloud</p>
                         </div>
@@ -164,9 +164,18 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                         </div>
                     </div>
                     
-                    <div id="exam-id-badge" class="hidden mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-                        Mã Định Danh: <span id="exam-id-text" class="text-indigo-600 dark:text-indigo-400 tracking-wider">CHƯA CẤP</span>
+                    <div id="exam-info-bar" class="hidden mt-5 flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-slate-100 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-bold text-slate-600 dark:text-slate-400 flex-none">Trạng thái:</span>
+                            <div id="exam-status-top"></div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                            <span class="text-sm font-bold text-slate-600 dark:text-slate-400 flex-none">Mã ID:</span>
+                            <input type="text" id="exam-id-input" placeholder="VD: 01005" onchange="updateExamIdManual()" class="w-24 px-2 py-1.5 text-sm font-mono font-bold text-indigo-700 dark:text-indigo-400 border border-slate-300 dark:border-zinc-600 rounded-md bg-white dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none text-center uppercase shadow-sm">
+                            <button onclick="generateNewId()" id="btn-generate-id" class="flex-1 sm:flex-none px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-md shadow-sm transition outline-none whitespace-nowrap">
+                                TẠO MÃ MỚI
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -227,6 +236,17 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     </div>
                     <h2 id="download-title" class="text-xl md:text-2xl font-bold mb-2 text-emerald-800 dark:text-emerald-300">Tuyệt vời! Đề thi đã hoàn thiện</h2>
                     <p id="download-desc" class="text-sm md:text-base text-emerald-600/80 dark:text-emerald-400/80 mb-6 md:mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được mã hóa sẵn sàng.</p>
+                    <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 bg-white dark:bg-black p-3 rounded-lg border border-slate-200 dark:border-zinc-800 w-max mx-auto shadow-sm">
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="font-bold text-slate-600 dark:text-slate-400">Hành động:</span>
+                            <div id="exam-status-bottom"></div>
+                        </div>
+                        <div class="hidden sm:block w-px h-5 bg-slate-300 dark:bg-zinc-700"></div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="font-bold text-slate-600 dark:text-slate-400">Sử dụng Mã:</span>
+                            <span id="exam-id-bottom" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-base">CHƯA CÓ</span>
+                        </div>
+                    </div>
                     
                     <div class="flex flex-col md:flex-row justify-center gap-3">
                         <button onclick="executeExport('download')" class="w-full md:w-auto px-6 py-3.5 md:py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm md:text-base rounded-xl shadow-lg transition transform hover:-translate-y-1 outline-none flex justify-center items-center gap-2">
@@ -299,6 +319,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
     <script>
         let examData = null;
+        let originalExamId = null; // Dùng để soi xem người dùng đang sửa đề cũ hay tạo mới
         let imagePointers = [];
         let currentEditTarget = { part: null, index: null };
         let previewTimeout = null;
@@ -454,20 +475,52 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 document.getElementById('drop-zone-desc').innerText = "Hoặc chạm để chọn từ thiết bị";
             }
 
-            // V6.0: Cập nhật nhãn ID Đề
-            const badge = document.getElementById('exam-id-badge');
-            const idText = document.getElementById('exam-id-text');
-            badge.classList.remove('hidden');
-            if (examData.examId) {
-                idText.innerText = examData.examId;
-                idText.className = "text-emerald-600 dark:text-emerald-400 tracking-wider";
-            } else {
-                idText.innerText = "CHƯA CẤP (TỰ ĐỘNG CẤP KHI LƯU)";
-                idText.className = "text-amber-500 dark:text-amber-400 tracking-wider";
-            }
+            // --- V6.1: LOGIC GHI NHẬN ID GỐC ---
+            originalExamId = examData.examId || null;
+            updateExamInfoUI();
 
             document.getElementById('edit-container').classList.remove('hidden'); 
             populateQuestionSelector(); 
+        }
+
+        // ==========================================
+        // V6.1: LOGIC QUẢN LÝ MÃ ID & TRẠNG THÁI UI
+        // ==========================================
+        function updateExamInfoUI() {
+            document.getElementById('exam-info-bar').classList.remove('hidden');
+            let currentId = examData.examId || "";
+            
+            document.getElementById('exam-id-input').value = currentId;
+            document.getElementById('exam-id-bottom').innerText = currentId || "CHỜ TỰ ĐỘNG TẠO";
+            
+            // Nếu không có ID, hoặc ID khác với ID gốc lúc tải -> ĐỀ MỚI
+            let isNew = !currentId || currentId !== originalExamId;
+            
+            let statusHtml = isNew 
+                ? `<span class="px-2 py-1 text-[0.7rem] font-bold rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 shadow-sm">TẠO ĐỀ MỚI</span>` 
+                : `<span class="px-2 py-1 text-[0.7rem] font-bold rounded-md bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800 shadow-sm">GHI ĐÈ ĐỀ CŨ</span>`;
+
+            document.getElementById('exam-status-top').innerHTML = statusHtml;
+            document.getElementById('exam-status-bottom').innerHTML = statusHtml;
+        }
+
+        function updateExamIdManual() {
+            const val = document.getElementById('exam-id-input').value.trim();
+            if (val) examData.examId = val;
+            else delete examData.examId;
+            updateExamInfoUI();
+        }
+
+        async function generateNewId() {
+            const btn = document.getElementById('btn-generate-id');
+            const ogText = btn.innerText;
+            btn.innerText = "ĐANG TẠO..."; btn.disabled = true;
+            try {
+                const subjCode = getSubjectCode(examData.subject);
+                examData.examId = await getNextIdFromGitHub(subjCode);
+                updateExamInfoUI();
+            } catch (e) { alert("Lỗi tạo mã: " + e.message); } 
+            finally { btn.innerText = ogText; btn.disabled = false; }
         }
 
         // 4. Trình Sửa Code & PREVIEW
@@ -749,28 +802,19 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         async function executeExport(mode) {
             if (!examData) return;
 
-            let isOverwrite = false;
+            // V6.1: KHÔNG HỎI CONFIRM NỮA. 
+            // Soi trực tiếp: Nếu ID hiện tại trùng với ID gốc thì là GHI ĐÈ, nếu khác thì là TẠO MỚI
+            let isOverwrite = examData.examId && (examData.examId === originalExamId);
             let existingSha = null;
             let targetFileName = "";
 
-            // LOGIC SAVE VS SAVE AS
-            if (examData.examId) {
-                isOverwrite = confirm(`⚠️ ĐỀ NÀY ĐÃ CÓ MÃ ID: ${examData.examId}\n\n- Nhấn [OK] để GHI ĐÈ đề cũ (Giữ nguyên ID và File cũ trên GitHub).\n- Nhấn [Cancel] để LƯU THÀNH ĐỀ MỚI (Hệ thống sẽ cấp ID mới toanh).`);
-                if (!isOverwrite) {
-                    delete examData.examId; // Ép hệ thống tạo ID mới
-                }
-            }
-
-            // TẠO ID MỚI NẾU CHƯA CÓ
+            // TẠO ID TỰ ĐỘNG NẾU Ô INPUT ĐANG TRỐNG
             if (!examData.examId) {
                 try {
                     const subjCode = getSubjectCode(examData.subject);
                     examData.examId = await getNextIdFromGitHub(subjCode);
-                    // Cập nhật nhãn UI
-                    document.getElementById('exam-id-text').innerText = examData.examId;
-                    document.getElementById('exam-id-text').className = "text-emerald-600 dark:text-emerald-400 tracking-wider";
+                    updateExamInfoUI();
                 } catch (e) {
-                    alert("⚠️ LƯU Ý:\nKhông thể tự động lấy ID từ GitHub (Có thể bạn chưa nhập Token). Mã tạm thời sẽ được cấp là 99999.");
                     examData.examId = "99999";
                 }
             }
@@ -895,7 +939,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     html += `<tr class="hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition">
                         <td class="p-4 font-mono font-bold text-indigo-600 dark:text-indigo-400">${idBadge}</td>
                         <td class="p-4"><span class="px-2 py-1 bg-slate-200 dark:bg-zinc-800 rounded text-xs font-bold">${subjBadge}</span></td>
-                        <td class="p-4 text-slate-600 dark:text-slate-300 truncate max-w-[200px]" title="${file.name}">${file.name}</td>
+                        <td class="p-4 text-slate-600 dark:text-slate-300 break-words min-w-[250px] font-medium" title="${file.name}">${file.name}</td>
                         <td class="p-4 text-center">
                             <button onclick="loadExamFromCloud('${file.download_url}', this)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded shadow-sm outline-none">TẢI XUỐNG SỬA</button>
                         </td>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V5.2)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V5.3)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,7 +57,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Bộ Đóng Gói Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 5.2</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 5.3</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý ảnh, Preview, Xuất Word và API GitHub</p>
                         </div>
@@ -110,9 +110,13 @@
   + Các ví dụ KHÔNG HỢP LỆ (Tuyệt đối nghiêm cấm): "12,345" (5 ký tự -&gt; Báo lỗi), "-1,23" (5 ký tự -&gt; Báo lỗi), "1/2" (chứa dấu gạch chéo phân số -&gt; Cấm).
   + Xử lý phân số/Số lẻ: Tuyệt đối không dùng phân số. Nếu kết quả là phân số hoặc số thập phân dài, bắt buộc phải làm tròn sao cho TỔNG SỐ KÝ TỰ (bao gồm cả dấu) không được vượt quá 4.
 
-4. Quy tắc Toán học và Trình bày:
+4. QUY TẮC BẢO MẬT JSON VÀ TRÌNH BÀY TOÁN HỌC (LUẬT THÉP):
+- CẤM LỖI ESCAPE CHUỖI JSON: Mọi ký tự gạch chéo ngược ( \ ) trong công thức LaTeX BẮT BUỘC phải được nhân đôi ( \\ ) để tránh lỗi Bad escaped character. 
+  + Ví dụ ĐÚNG: \\frac{1}{2}, \\sqrt{x}, \\Delta, \\rightarrow
+  + Ví dụ SAI (Gây sập hệ thống): \frac{1}{2}, \sqrt{x}, \Delta
+- TUYỆT ĐỐI KHÔNG dùng dấu ngoặc kép ( " ) bên trong nội dung văn bản của câu hỏi, đáp án hay lời giải. Hãy thay thế bằng dấu ngoặc đơn ( ' ).
 - Công thức toán/lý/hóa bọc trong cặp dấu $ (VD: $x^2 + 2x = 0$).
-- BẮT BUỘC có khoảng trắng hai bên các dấu quan hệ (như &lt; , &gt; , =, \le , \ge) để tránh lỗi biên dịch. Ví dụ: $x &lt; y + 1$.
+- BẮT BUỘC có khoảng trắng hai bên các dấu quan hệ (như &lt; , &gt; , =, \\le , \\ge) để tránh lỗi biên dịch. Ví dụ: $x &lt; y + 1$.
 - Phần 2 (Đúng/Sai): mảng "items" KHÔNG kèm chữ cái "a)", "b)".
 - Phần 3: Số thập phân BẮT BUỘC dùng dấu phẩy (VD: "12,5").
 
@@ -172,11 +176,17 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                             </div>
                         </div>
 
-                        <div id="paste-container" class="border-2 border-dashed border-slate-200 dark:border-zinc-700 p-5 md:p-6 rounded-xl bg-slate-50 dark:bg-zinc-900/50 flex flex-col transition hover:border-indigo-300 dark:hover:border-zinc-600">
-                            <p class="font-bold text-sm md:text-base text-slate-700 dark:text-slate-300 mb-2 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 dark:text-indigo-400 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                                Dán trực tiếp Code JSON
-                            </p>
+                        <div id="paste-container" class="border-2 border-dashed border-slate-200 dark:border-zinc-700 p-5 md:p-6 rounded-xl bg-slate-50 dark:bg-zinc-900/50 flex flex-col transition hover:border-indigo-300 dark:hover:border-zinc-600 relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="font-bold text-sm md:text-base text-slate-700 dark:text-slate-300 flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 dark:text-indigo-400 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                                    Dán trực tiếp Code JSON
+                                </p>
+                                <button onclick="clearPasteArea()" class="text-xs md:text-sm text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 font-bold flex items-center gap-1 transition-colors outline-none bg-rose-50 dark:bg-rose-900/20 px-2.5 py-1 rounded-md border border-rose-200 dark:border-rose-800/50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 md:h-4 md:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                    XÓA TRẮNG
+                                </button>
+                            </div>
                             <textarea id="json-paste" class="w-full flex-1 p-3 border border-slate-200 dark:border-zinc-800 rounded-lg text-xs md:text-sm font-mono text-slate-600 dark:text-slate-300 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 bg-white dark:bg-black shadow-inner resize-none min-h-[100px]" placeholder='{&#10;    "timeLimit": 3000,&#10;    ...&#10;}'></textarea>
                             <button id="btn-paste-submit" onclick="processPastedJson()" class="w-full mt-3 py-2.5 bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold rounded-lg transition shadow-md flex justify-center items-center outline-none text-sm">
                                 XỬ LÝ CODE JSON
@@ -379,7 +389,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             reader.onload = function(e) {
                 try {
                     examData = JSON.parse(e.target.result);
-                    finishLoadingJSON(file.name);
+                    finishLoadingJSON(file.name, 'upload'); // Đánh dấu là nạp từ Kéo thả
                 } catch (err) { alert("Lỗi đọc file JSON. Hãy kiểm tra lại cấu trúc."); }
             };
             reader.readAsText(file);
@@ -393,18 +403,57 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 const jsonStart = text.indexOf('{'), jsonEnd = text.lastIndexOf('}');
                 if(jsonStart !== -1 && jsonEnd !== -1) cleanText = text.substring(jsonStart, jsonEnd + 1);
                 examData = JSON.parse(cleanText);
-                finishLoadingJSON("Dữ liệu Paste Trực tiếp");
+                finishLoadingJSON("Dữ liệu Paste Trực tiếp", 'paste'); // Đánh dấu là nạp từ Paste
             } catch (err) { alert("Mã JSON không hợp lệ!\n" + err.message); }
         }
 
-        function finishLoadingJSON(filename) {
+        // THÊM MỚI: Reset UI của ô Paste về mặc định
+        function resetPasteUI() {
+            const pasteContainer = document.getElementById('paste-container');
+            pasteContainer.className = "border-2 border-dashed border-slate-200 dark:border-zinc-700 p-5 md:p-6 rounded-xl bg-slate-50 dark:bg-zinc-900/50 flex flex-col transition hover:border-indigo-300 dark:hover:border-zinc-600 relative";
+            const btnSubmit = document.getElementById('btn-paste-submit');
+            btnSubmit.className = "w-full mt-3 py-2.5 bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold rounded-lg transition shadow-md flex justify-center items-center outline-none text-sm";
+            btnSubmit.innerHTML = "XỬ LÝ CODE JSON";
+        }
+
+        // THÊM MỚI: Nút xóa trắng toàn bộ Textarea
+        function clearPasteArea() {
+            document.getElementById('json-paste').value = '';
+            resetPasteUI();
+        }
+
+        function finishLoadingJSON(filename, type = 'upload') {
             scanForImages();
-            dropZone.className = "border-2 border-emerald-500 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/10 p-6 rounded-xl flex flex-col items-center justify-center text-center relative group cursor-pointer min-h-[140px] border-solid";
-            document.getElementById('drop-zone-icon').className = "h-8 w-8 md:h-10 md:w-10 text-emerald-500 dark:text-emerald-500 mb-2 md:mb-3";
-            document.getElementById('drop-zone-title').className = "font-bold text-sm md:text-base text-emerald-800 dark:text-emerald-400 mb-1";
-            document.getElementById('drop-zone-title').innerText = "Nạp dữ liệu thành công!";
-            document.getElementById('drop-zone-desc').className = "text-xs md:text-sm text-emerald-600 dark:text-emerald-500 font-semibold mt-1";
-            document.getElementById('drop-zone-desc').innerText = filename;
+            
+            const dropZone = document.getElementById('drop-zone');
+            const pasteContainer = document.getElementById('paste-container');
+            const btnPasteSubmit = document.getElementById('btn-paste-submit');
+
+            if (type === 'upload') {
+                // UI Thành công cho ô Kéo thả
+                dropZone.className = "border-2 border-emerald-500 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/10 p-6 rounded-xl flex flex-col items-center justify-center text-center relative group cursor-pointer min-h-[140px] border-solid";
+                document.getElementById('drop-zone-icon').className = "h-8 w-8 md:h-10 md:w-10 text-emerald-500 dark:text-emerald-500 mb-2 md:mb-3";
+                document.getElementById('drop-zone-title').className = "font-bold text-sm md:text-base text-emerald-800 dark:text-emerald-400 mb-1";
+                document.getElementById('drop-zone-title').innerText = "Nạp dữ liệu thành công!";
+                document.getElementById('drop-zone-desc').className = "text-xs md:text-sm text-emerald-600 dark:text-emerald-500 font-semibold mt-1";
+                document.getElementById('drop-zone-desc').innerText = filename;
+                
+                resetPasteUI(); // Trả ô Paste về màu xám bình thường
+                
+            } else if (type === 'paste') {
+                // UI Thành công cho ô Paste
+                pasteContainer.className = "border-2 border-solid border-emerald-500 dark:border-emerald-600 p-5 md:p-6 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 flex flex-col transition relative";
+                btnPasteSubmit.className = "w-full mt-3 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg transition shadow-md flex justify-center items-center outline-none text-sm";
+                btnPasteSubmit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> ĐÃ NẠP THÀNH CÔNG`;
+
+                // Trả ô Kéo thả về màu xám bình thường
+                dropZone.className = "border-2 border-dashed border-indigo-300 dark:border-zinc-700 bg-indigo-50/50 dark:bg-zinc-900/50 p-6 rounded-xl flex flex-col items-center justify-center text-center transition hover:bg-indigo-50 dark:hover:bg-zinc-900 relative group cursor-pointer min-h-[140px]";
+                document.getElementById('drop-zone-icon').className = "h-8 w-8 md:h-10 md:w-10 text-indigo-500 dark:text-slate-400 mb-2 md:mb-3 group-hover:scale-110 transition transform";
+                document.getElementById('drop-zone-title').className = "font-bold text-sm md:text-base text-indigo-800 dark:text-slate-300 mb-1";
+                document.getElementById('drop-zone-title').innerText = "Kéo thả file .json vào đây";
+                document.getElementById('drop-zone-desc').className = "text-xs md:text-sm text-indigo-600/80 dark:text-slate-500";
+                document.getElementById('drop-zone-desc').innerText = "Hoặc chạm để chọn từ thiết bị";
+            }
 
             document.getElementById('edit-container').classList.remove('hidden'); 
             populateQuestionSelector(); 

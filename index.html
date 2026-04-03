@@ -105,6 +105,10 @@
         .dark body.has-custom-bg #ready-screen {
             background-color: rgba(0, 0, 0, 0.65) !important; /* 65% Đen */
         }
+        /* Ép thời gian chuyển đổi màu nền của các khung thành 0.5 giây để khớp với ảnh nền */
+        .bg-question-area, #setup-screen, #ready-screen {
+            transition: background-color 0.5s ease !important;
+        }
 
         /* KHUNG CHỨA TỔNG - KHÔNG padding-bottom TẠI ĐÂY ĐỂ TRÁNH LỖI SỌC DƯỚI */
         .custom-safe-area {
@@ -178,7 +182,7 @@
                     </div>
                     <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Thi Tốt Nghiệp<br>THPT</h1>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Thi mô phỏng định dạng 2026</p>
-                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 4.8</span></div>
+                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 4.9</span></div>
                     
                     <div class="mt-8 w-full">
                         <a href="packager.html" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-3 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm w-full md:w-auto outline-none">
@@ -651,12 +655,14 @@
             const bgData = localStorage.getItem('bg_data');
             const layer = document.getElementById('custom-bg-layer');
             
+            // Luôn nạp ảnh vào nền (nếu có) để chuẩn bị sẵn sàng cho hiệu ứng Fade
+            if (bgData) layer.style.backgroundImage = `url(${bgData})`;
+            
             if (isEnabled && bgData) {
                 document.body.classList.add('has-custom-bg');
-                layer.style.backgroundImage = `url(${bgData})`;
             } else {
                 document.body.classList.remove('has-custom-bg');
-                layer.style.backgroundImage = 'none';
+                // Đã xóa lệnh "layer.style.backgroundImage = 'none';" ở đây để CSS kịp chạy hiệu ứng Fade Out
             }
         }
         initCustomBg();

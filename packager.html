@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V6.1)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V6.2)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%234f46e5%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4%22/></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,7 +57,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Hệ Quản Trị Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 6.1</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 6.2</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý ảnh, Cấp ID Tự động, Sửa đề từ Cloud</p>
                         </div>
@@ -236,6 +236,17 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     </div>
                     <h2 id="download-title" class="text-xl md:text-2xl font-bold mb-2 text-emerald-800 dark:text-emerald-300">Tuyệt vời! Đề thi đã hoàn thiện</h2>
                     <p id="download-desc" class="text-sm md:text-base text-emerald-600/80 dark:text-emerald-400/80 mb-6 md:mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được mã hóa sẵn sàng.</p>
+                    <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 bg-white dark:bg-black p-3 rounded-lg border border-slate-200 dark:border-zinc-800 w-max mx-auto shadow-sm">
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="font-bold text-slate-600 dark:text-slate-400">Hành động:</span>
+                            <div id="exam-status-bottom"></div>
+                        </div>
+                        <div class="hidden sm:block w-px h-5 bg-slate-300 dark:bg-zinc-700"></div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="font-bold text-slate-600 dark:text-slate-400">Sử dụng Mã:</span>
+                            <span id="exam-id-bottom" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-base">CHƯA CÓ</span>
+                        </div>
+                    </div>
                     <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 bg-white dark:bg-black p-3 rounded-lg border border-slate-200 dark:border-zinc-800 w-max mx-auto shadow-sm">
                         <div class="flex items-center gap-2 text-sm">
                             <span class="font-bold text-slate-600 dark:text-slate-400">Hành động:</span>
@@ -802,13 +813,11 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         async function executeExport(mode) {
             if (!examData) return;
 
-            // V6.1: KHÔNG HỎI CONFIRM NỮA. 
-            // Soi trực tiếp: Nếu ID hiện tại trùng với ID gốc thì là GHI ĐÈ, nếu khác thì là TẠO MỚI
+            // V6.1: Soi trực tiếp: Nếu ID trùng với ID gốc là GHI ĐÈ, nếu khác là TẠO MỚI
             let isOverwrite = examData.examId && (examData.examId === originalExamId);
             let existingSha = null;
             let targetFileName = "";
 
-            // TẠO ID TỰ ĐỘNG NẾU Ô INPUT ĐANG TRỐNG
             if (!examData.examId) {
                 try {
                     const subjCode = getSubjectCode(examData.subject);
@@ -823,29 +832,27 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             const owner = localStorage.getItem('gh_owner');
             const repo = localStorage.getItem('gh_repo');
 
-            // NẾU GHI ĐÈ TRÊN GITHUB: Cần tìm lại tên file cũ và SHA để Update
             if (isOverwrite && mode === 'github' && token) {
                  try {
                      const files = await fetchGitHubDir(owner, repo, token);
                      const existingFile = files.find(f => f.name.startsWith(`${examData.examId}_`));
                      if (existingFile) {
-                         targetFileName = existingFile.name; // Giữ nguyên tên file cũ
+                         targetFileName = existingFile.name; 
                          existingSha = existingFile.sha;
                      }
-                 } catch(e) { console.error("Lỗi khi tìm SHA để ghi đè", e); }
+                 } catch(e) { console.error("Lỗi tìm SHA", e); }
             }
 
-            // NẾU TẠO MỚI HOẶC TẢI XUỐNG: Format tên chuẩn V6.0
             if (!targetFileName) {
                 const now = new Date();
                 const timestamp = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0') + "_" + String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
                 let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "Khac";
                 let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "De_Thi";
-                // Format: [ID]_[Môn]_[Thời_gian]_[Tên_đề].json
-                targetFileName = `${examData.examId}_${safeSub}_${timestamp}_${safeTitle}.json`.replace(/\s+/g, '_');
+                
+                // BỎ replace(/\s+/g, '_') ĐỂ GIỮ NGUYÊN DẤU CÁCH TRONG TÊN FILE
+                targetFileName = `${examData.examId}_${safeSub}_${timestamp}_${safeTitle}.json`;
             }
 
-            // TIẾN HÀNH XUẤT
             if (mode === 'download') {
                 const a = document.createElement("a");
                 a.href = URL.createObjectURL(new Blob([JSON.stringify(examData, null, 4)], { type: "application/json" }));
@@ -854,19 +861,18 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             } 
             else if (mode === 'github') {
                 if (!token || !owner || !repo) {
-                    alert("Bạn chưa cấu hình GitHub API!\nVui lòng bấm vào nút 'Bánh răng' ở góc trên bên phải.");
-                    openGitHubSettings(); return;
+                    alert("Bạn chưa cấu hình GitHub API!"); openGitHubSettings(); return;
                 }
 
-                const path = `data/${targetFileName}`;
+                // DÙNG encodeURIComponent ĐỂ GITHUB KHÔNG BỊ LỖI KHI CÓ DẤU CÁCH
+                const path = `data/${encodeURIComponent(targetFileName)}`;
                 const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
                 const contentJson = JSON.stringify(examData, null, 4);
                 const contentBase64 = btoa(unescape(encodeURIComponent(contentJson)));
 
                 const btn = document.getElementById('btn-github');
                 const originalHTML = btn.innerHTML;
-                btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ĐANG ĐẨY LÊN...`;
-                btn.disabled = true;
+                btn.innerHTML = `ĐANG ĐẨY LÊN...`; btn.disabled = true;
 
                 try {
                     const body = { message: `CMS: ${isOverwrite ? 'Update' : 'Upload'} đề ${targetFileName}`, content: contentBase64 };
@@ -880,18 +886,12 @@ Cấu trúc JSON bắt buộc (Ví dụ):
 
                     if (putRes.ok) {
                         btn.innerHTML = `✅ ĐÃ LÊN SÓNG!`;
-                        btn.classList.replace('bg-slate-800', 'bg-emerald-500'); btn.classList.replace('dark:bg-slate-700', 'dark:bg-emerald-600');
-                        setTimeout(() => {
-                            btn.innerHTML = originalHTML; btn.disabled = false;
-                            btn.classList.replace('bg-emerald-500', 'bg-slate-800'); btn.classList.replace('dark:bg-emerald-600', 'dark:bg-slate-700');
-                        }, 3000);
+                        setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 3000);
                     } else {
-                        const errData = await putRes.json();
-                        throw new Error(errData.message);
+                        const errData = await putRes.json(); throw new Error(errData.message);
                     }
                 } catch (error) {
-                    alert(`Lỗi GitHub: ${error.message}`);
-                    btn.innerHTML = originalHTML; btn.disabled = false;
+                    alert(`Lỗi GitHub: ${error.message}`); btn.innerHTML = originalHTML; btn.disabled = false;
                 }
             }
         }
@@ -937,11 +937,13 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     if (match) { idBadge = match[1]; subjBadge = match[2]; }
 
                     html += `<tr class="hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition">
-                        <td class="p-4 font-mono font-bold text-indigo-600 dark:text-indigo-400">${idBadge}</td>
-                        <td class="p-4"><span class="px-2 py-1 bg-slate-200 dark:bg-zinc-800 rounded text-xs font-bold">${subjBadge}</span></td>
-                        <td class="p-4 text-slate-600 dark:text-slate-300 break-words min-w-[250px] font-medium" title="${file.name}">${file.name}</td>
-                        <td class="p-4 text-center">
-                            <button onclick="loadExamFromCloud('${file.download_url}', this)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded shadow-sm outline-none">TẢI XUỐNG SỬA</button>
+                        <td class="p-3 md:p-4 font-mono font-bold text-indigo-600 dark:text-indigo-400 align-middle text-xs md:text-sm">${idBadge}</td>
+                        <td class="p-3 md:p-4 align-middle"><span class="px-2 py-1 bg-slate-200 dark:bg-zinc-800 rounded text-[0.65rem] md:text-xs font-bold whitespace-nowrap">${subjBadge}</span></td>
+                        <td class="p-3 md:p-4 text-slate-600 dark:text-slate-300 font-medium break-words align-middle text-xs md:text-sm min-w-[250px]" title="${file.name}">
+                            ${file.name}
+                        </td>
+                        <td class="p-3 md:p-4 text-center align-middle whitespace-nowrap">
+                            <button onclick="loadExamFromCloud('${file.download_url}', this)" class="px-3 md:px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded shadow-sm outline-none whitespace-nowrap">TẢI SỬA</button>
                         </td>
                     </tr>`;
                 });

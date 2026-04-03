@@ -745,7 +745,7 @@
                     let filterHtml = "";
                     subjects.forEach(sub => {
                         let count = cachedLibraryFiles.filter(f => f.subject === sub).length;
-                        filterHtml += `<label class="flex items-center gap-2 p-1.5 md:p-2 rounded hover:bg-slate-200 dark:hover:bg-zinc-800 cursor-pointer transition"><input type="checkbox" class="w-4 h-4 accent-blue-600 filter-subject flex-none" value="${sub}" checked onchange="applyFilters()"><span class="text-sm font-semibold text-slate-700 dark:text-slate-300 flex-1 leading-tight line-clamp-1">${sub}</span><span class="text-xs bg-slate-200 dark:bg-zinc-700 text-slate-500 dark:text-slate-400 px-1.5 rounded">${count}</span></label>`;
+                        filterHtml += `<label class="flex items-start md:items-center gap-2 p-1.5 md:p-2 rounded hover:bg-slate-200 dark:hover:bg-zinc-800 cursor-pointer transition"><input type="checkbox" class="w-4 h-4 mt-0.5 md:mt-0 accent-blue-600 filter-subject flex-none" value="${sub}" checked onchange="applyFilters()"><span class="text-sm font-semibold text-slate-700 dark:text-slate-300 flex-1 leading-tight line-clamp-1">${sub}</span><span class="text-xs bg-slate-200 dark:bg-zinc-700 text-slate-500 dark:text-slate-400 px-1.5 rounded">${count}</span></label>`;
                     });
                     document.getElementById('filter-subjects-list').innerHTML = filterHtml;
                 }
@@ -822,13 +822,13 @@
         }
 
         async function loadFromLibrary(url, stableKey, btn) {
-            // Chống lỗi nếu gọi sai tham số
+            // Chống lỗi nếu thiếu tham số
             if (typeof btn === 'undefined') {
                 btn = stableKey;
                 stableKey = url;
             }
 
-            window.currentStableKey = stableKey; // LƯU BẰNG STABLE KEY 4.0
+            window.currentStableKey = stableKey; 
             const btnP = document.getElementById('btn-prepare'); 
             const originalHTML = btn ? btn.innerHTML : "TẢI ĐỀ"; 
             
@@ -873,7 +873,6 @@
                 if (btn) btn.innerHTML = originalHTML; 
             }
         }
-
         // ==========================================
         // DROPZONE: XỬ LÝ KÉO THẢ FILE TỪ MÁY
         // ==========================================

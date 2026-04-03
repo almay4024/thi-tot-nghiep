@@ -950,12 +950,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 let html = `<table class="w-full text-left text-sm"><thead class="bg-slate-100 dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-slate-400"><tr><th class="p-4 font-bold">Mã ID</th><th class="p-4 font-bold">Môn</th><th class="p-4 font-bold">Tên File</th><th class="p-4 font-bold text-center">Thao tác</th></tr></thead><tbody class="divide-y divide-slate-200 dark:divide-zinc-800 bg-white dark:bg-black">`;
                 
                 jsonFiles.forEach(file => {
-                    // Phân tích file name: 00001_Toan_2026...
-                    let idBadge = "N/A"; let subjBadge = "Khác";
-                    const match = file.name.match(/^(\d{5})_([^_]+)_/);
-                    if (match) { idBadge = match[1]; subjBadge = match[2]; }
-
-                    jsonFiles.forEach(file => {
                     let idBadge = "N/A"; let subjBadge = "Khác";
                     const match = file.name.match(/^(\w+)_(.*?)_/);
                     if (match) { idBadge = match[1]; subjBadge = match[2]; }

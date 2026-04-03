@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V6.3)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V6.4)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%234f46e5%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4%22/></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,7 +57,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Hệ Quản Trị Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 6.3</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 6.4</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý ảnh, Cấp ID Tự động, Sửa đề từ Cloud</p>
                         </div>
@@ -165,15 +165,15 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                         </div>
                     </div>
                     
-                    <div id="exam-info-bar" class="hidden mt-5 flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-slate-100 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl gap-3">
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm font-bold text-slate-600 dark:text-slate-400 flex-none">Trạng thái:</span>
+                    <div id="exam-info-bar" class="hidden mt-6 flex-wrap items-center justify-between p-5 bg-slate-100 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl gap-6 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm md:text-base font-bold text-slate-600 dark:text-slate-400 flex-none">Trạng thái:</span>
                             <div id="exam-status-top"></div>
                         </div>
-                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                            <span class="text-sm font-bold text-slate-600 dark:text-slate-400 flex-none">Mã ID:</span>
-                            <input type="text" id="exam-id-input" placeholder="VD: 01005" onchange="updateExamIdManual()" class="w-24 px-2 py-1.5 text-sm font-mono font-bold text-indigo-700 dark:text-indigo-400 border border-slate-300 dark:border-zinc-600 rounded-md bg-white dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none text-center uppercase shadow-sm">
-                            <button onclick="generateNewId()" id="btn-generate-id" class="flex-1 sm:flex-none px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-md shadow-sm transition outline-none whitespace-nowrap">
+                        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                            <span class="text-sm md:text-base font-bold text-slate-600 dark:text-slate-400 flex-none">Mã ID:</span>
+                            <input type="text" id="exam-id-input" placeholder="VD: 01005" onchange="updateExamIdManual()" class="w-28 px-3 py-2 text-sm md:text-base font-mono font-bold text-indigo-700 dark:text-indigo-400 border border-slate-300 dark:border-zinc-600 rounded-md bg-white dark:bg-black focus:ring-2 focus:ring-indigo-500 outline-none text-center uppercase shadow-sm">
+                            <button onclick="generateNewId()" id="btn-generate-id" class="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs md:text-sm font-bold rounded-md shadow-sm transition outline-none whitespace-nowrap">
                                 TẠO MÃ MỚI
                             </button>
                         </div>
@@ -237,17 +237,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                     </div>
                     <h2 id="download-title" class="text-xl md:text-2xl font-bold mb-2 text-emerald-800 dark:text-emerald-300">Tuyệt vời! Đề thi đã hoàn thiện</h2>
                     <p id="download-desc" class="text-sm md:text-base text-emerald-600/80 dark:text-emerald-400/80 mb-6 md:mb-8 font-medium">Toàn bộ dữ liệu và hình ảnh đã được mã hóa sẵn sàng.</p>
-                    <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 bg-white dark:bg-black p-3 rounded-lg border border-slate-200 dark:border-zinc-800 w-max mx-auto shadow-sm">
-                        <div class="flex items-center gap-2 text-sm">
-                            <span class="font-bold text-slate-600 dark:text-slate-400">Hành động:</span>
-                            <div id="exam-status-bottom"></div>
-                        </div>
-                        <div class="hidden sm:block w-px h-5 bg-slate-300 dark:bg-zinc-700"></div>
-                        <div class="flex items-center gap-2 text-sm">
-                            <span class="font-bold text-slate-600 dark:text-slate-400">Sử dụng Mã:</span>
-                            <span id="exam-id-bottom" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-base">CHƯA CÓ</span>
-                        </div>
-                    </div>
                     <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 bg-white dark:bg-black p-3 rounded-lg border border-slate-200 dark:border-zinc-800 w-max mx-auto shadow-sm">
                         <div class="flex items-center gap-2 text-sm">
                             <span class="font-bold text-slate-600 dark:text-slate-400">Hành động:</span>

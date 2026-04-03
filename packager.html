@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trung Tâm Xử Lý Đề Thi (Packager V5.3)</title>
+    <title>Trung Tâm Xử Lý Đề Thi (Packager V5.5)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,7 +57,7 @@
                         <div>
                             <h1 class="text-xl md:text-2xl font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-2 flex-wrap">
                                 Bộ Đóng Gói Đề Thi
-                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 5.3</span>
+                                <span class="px-2 py-0.5 bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded text-[0.65rem] font-bold tracking-wider border border-slate-300 dark:border-zinc-700">VERSION 5.5</span>
                             </h1>
                             <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Xử lý ảnh, Preview, Xuất Word và API GitHub</p>
                         </div>
@@ -720,9 +720,18 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         // 6. XUẤT ĐỀ JSON
         function downloadFinalJson() {
             if (!examData) return;
-            let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "";
-            let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "";
-            let fileName = (safeSub && safeTitle) ? `${safeSub} _ ${safeTitle}.json` : (safeTitle ? `${safeTitle}.json` : (safeSub ? `${safeSub}.json` : "De_Thi_2026.json"));
+            // V5.5: Tạo chuỗi thời gian YYYYMMDD_HHMM
+            const now = new Date();
+            const timestamp = now.getFullYear() + 
+                              String(now.getMonth() + 1).padStart(2, '0') + 
+                              String(now.getDate()).padStart(2, '0') + "_" + 
+                              String(now.getHours()).padStart(2, '0') + 
+                              String(now.getMinutes()).padStart(2, '0');
+
+            let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "Mon_Hoc";
+            let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "De_Thi";
+            
+            let fileName = `${safeSub}_${timestamp}_${safeTitle}.json`.replace(/\s+/g, '_');
             const a = document.createElement("a");
             a.href = URL.createObjectURL(new Blob([JSON.stringify(examData, null, 4)], { type: "application/json" }));
             a.download = fileName.replace(/\s+/g, ' ');
@@ -850,9 +859,18 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 return;
             }
 
-            let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "";
-            let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "";
-            let fileName = (safeSub && safeTitle) ? `${safeSub} _ ${safeTitle}.json` : (safeTitle ? `${safeTitle}.json` : (safeSub ? `${safeSub}.json` : "De_Thi_2026.json"));
+            // V5.5: Tạo chuỗi thời gian YYYYMMDD_HHMM
+            const now = new Date();
+            const timestamp = now.getFullYear() + 
+                              String(now.getMonth() + 1).padStart(2, '0') + 
+                              String(now.getDate()).padStart(2, '0') + "_" + 
+                              String(now.getHours()).padStart(2, '0') + 
+                              String(now.getMinutes()).padStart(2, '0');
+
+            let safeSub = examData.subject ? examData.subject.replace(/[\\/:*?"<>|]/g, "").trim() : "Mon_Hoc";
+            let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "De_Thi";
+            
+            let fileName = `${safeSub}_${timestamp}_${safeTitle}.json`.replace(/\s+/g, '_');
             fileName = fileName.replace(/\s+/g, ' ');
 
             const path = `data/${fileName}`;

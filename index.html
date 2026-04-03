@@ -169,7 +169,7 @@
                     </div>
                     <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white leading-tight">Thi Tốt Nghiệp<br>THPT</h1>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 font-medium text-lg">Thi mô phỏng định dạng 2026</p>
-                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 4.4</span></div>
+                    <div class="mt-2"><span class="px-2.5 py-1 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 rounded-md text-xs font-bold tracking-wider shadow-sm border border-slate-200 dark:border-zinc-700">VERSION 4.5</span></div>
                     
                     <div class="mt-8 w-full">
                         <a href="packager.html" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-3 bg-indigo-50 dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-100 dark:hover:bg-zinc-800 transition border border-indigo-200 dark:border-zinc-800 shadow-sm group text-sm w-full md:w-auto outline-none">
@@ -822,74 +822,55 @@
         }
 
         async function loadFromLibrary(url, stableKey, btn) {
+            // Chống lỗi nếu gọi sai tham số
+            if (typeof btn === 'undefined') {
+                btn = stableKey;
+                stableKey = url;
+            }
+
             window.currentStableKey = stableKey; // LƯU BẰNG STABLE KEY 4.0
             const btnP = document.getElementById('btn-prepare'); 
-            const originalHTML = btn.innerHTML; 
-            btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            const originalHTML = btn ? btn.innerHTML : "TẢI ĐỀ"; 
+            
+            if (btn) btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
             
             try {
                 const res = await fetch(url); 
                 originalConfig = await res.json();
                 
                 const dropZone = document.getElementById('drop-zone');
-                dropZone.classList.replace('border-slate-300', 'border-emerald-500'); dropZone.classList.replace('dark:border-zinc-700', 'dark:border-emerald-600');
-                dropZone.classList.replace('bg-slate-50', 'bg-emerald-50'); dropZone.classList.replace('dark:bg-zinc-900/30', 'dark:bg-emerald-900/10');
-                dropZone.classList.replace('border-dashed', 'border-solid');
+                if (dropZone) {
+                    dropZone.classList.remove('border-slate-300', 'dark:border-zinc-700', 'bg-slate-50', 'bg-slate-50/50', 'dark:bg-zinc-900/30', 'border-dashed');
+                    dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
+                }
                 
                 const title = document.getElementById('drop-zone-title');
-                title.classList.replace('text-slate-500', 'text-emerald-800'); title.classList.replace('dark:text-slate-400', 'dark:text-emerald-400');
-                title.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Đã lấy dữ liệu từ Thư viện`;
+                if (title) {
+                    title.classList.remove('text-slate-500', 'dark:text-slate-400');
+                    title.classList.add('text-emerald-800', 'dark:text-emerald-400');
+                    title.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Đã lấy dữ liệu từ Thư viện`;
+                }
                 
                 const desc = document.getElementById('drop-zone-desc');
-                desc.classList.remove('hidden'); desc.classList.add('text-emerald-600', 'dark:text-emerald-500');
-                desc.innerText = originalConfig.title || "Đề thi sẵn sàng";
+                if (desc) {
+                    desc.classList.remove('hidden'); 
+                    desc.classList.add('text-emerald-600', 'dark:text-emerald-500');
+                    desc.innerText = originalConfig.title || "Đề thi sẵn sàng";
+                }
 
-                btnP.innerText = "TẠO PHÒNG THI"; btnP.disabled = false;
-                btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
-                btnP.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-md', 'cursor-pointer');
-                closeLibraryScreen();
-            } catch (e) { alert("Lỗi tải đề! (File JSON hỏng hoặc lỗi mạng)"); } 
-            finally { btn.innerHTML = originalHTML; }
-        }
-
-        async function loadFromLibrary(url, btn) {
-            window.currentExamUrl = url; 
-            const btnP = document.getElementById('btn-prepare'); 
-            const originalHTML = btn.innerHTML; 
-            
-            btn.innerHTML = `<span class="leading-relaxed text-blue-600 font-bold">Đang tải xuống dữ liệu...</span><svg class="animate-spin h-5 w-5 text-blue-500 flex-none ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-            btn.classList.add('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
-            
-            try {
-                const res = await fetch(url); 
-                originalConfig = await res.json();
+                if (btnP) {
+                    btnP.innerText = "TẠO PHÒNG THI"; 
+                    btnP.disabled = false;
+                    btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
+                    btnP.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-md', 'cursor-pointer');
+                }
                 
-                const dropZone = document.getElementById('drop-zone');
-                dropZone.classList.remove('border-slate-300', 'dark:border-zinc-700', 'bg-slate-50', 'dark:bg-zinc-900/30', 'border-dashed');
-                dropZone.classList.add('border-emerald-500', 'dark:border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-900/10', 'border-solid');
-                
-                const title = document.getElementById('drop-zone-title');
-                title.classList.remove('text-slate-500', 'dark:text-slate-400');
-                title.classList.add('text-emerald-800', 'dark:text-emerald-400');
-                title.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Đã lấy dữ liệu từ Thư viện`;
-                
-                const desc = document.getElementById('drop-zone-desc');
-                desc.classList.remove('hidden');
-                desc.classList.add('text-emerald-600', 'dark:text-emerald-500', 'font-semibold', 'mt-1');
-                desc.innerText = originalConfig.title || "Đề thi sẵn sàng";
-
-                btnP.innerText = "TẠO PHÒNG THI"; 
-                btnP.disabled = false;
-                btnP.classList.remove('bg-slate-200', 'dark:bg-zinc-900', 'text-slate-400', 'dark:text-slate-600', 'pointer-events-none');
-                btnP.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-md', 'cursor-pointer');
-                
-                closeLibraryModal();
+                if (typeof closeLibraryScreen === 'function') closeLibraryScreen();
                 
             } catch (e) { 
-                alert("Lỗi tải đề! (File JSON bị hỏng hoặc mạng có vấn đề)"); 
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200', 'dark:ring-blue-900/50');
+                alert("Lỗi tải đề! (File JSON hỏng hoặc lỗi mạng)"); 
+            } finally { 
+                if (btn) btn.innerHTML = originalHTML; 
             }
         }
 

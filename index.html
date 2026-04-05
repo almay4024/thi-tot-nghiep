@@ -1060,7 +1060,7 @@
             document.getElementById('ready-exam-title').innerText = examConfig.title || "Bài Thi Trắc Nghiệm";
             const subEl = document.getElementById('ready-exam-subject');
             if(examConfig.subject) { 
-                subEl.innerText = examConfig.subject; 
+                subEl.innerText = getSubjectName(examConfig.subject); 
                 subEl.classList.remove('hidden'); 
             } else {
                 subEl.classList.add('hidden');

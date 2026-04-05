@@ -86,35 +86,38 @@
                         </button>
                     </div>
                     
-                    <div class="bg-white dark:bg-black p-4 md:p-5 rounded-lg border border-indigo-200 dark:border-zinc-700 text-xs md:text-sm text-slate-600 dark:text-slate-300 font-mono h-32 md:h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner select-all" id="prompt-content">Đóng vai trò là chuyên gia số hóa dữ liệu và giáo viên luyện thi Tốt nghiệp THPT. Tôi sẽ tải lên một tài liệu chứa đề thi. Nhiệm vụ của bạn là trích xuất và chuyển đổi thành tệp data.json.
+                    <div class="bg-white dark:bg-black p-4 md:p-5 rounded-lg border border-indigo-200 dark:border-zinc-700 text-xs md:text-sm text-slate-600 dark:text-slate-300 font-mono h-32 md:h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner select-all" id="prompt-content">Đóng vai trò là một chuyên gia số hóa dữ liệu giáo dục và giáo viên luyện thi THPT Quốc gia. Tôi sẽ cung cấp một tài liệu chứa đề thi. 
+Nhiệm vụ của bạn là trích xuất dữ liệu từ tài liệu đó và chuyển đổi chính xác thành một tệp định dạng JSON.
 
-1. Định danh và Tính điểm:
-- Tự động nhận diện môn học và ghi MÃ SỐ tương ứng vào trường "subject". Danh sách mã: "00" (Toán), "01" (Vật lí), "02" (Hóa học), "03" (Sinh học), "04" (Ngữ văn), "05" (Lịch sử), "06" (Địa lí), "07" (Tiếng Anh), "08" (GDKT & PL), "09" (Tin học), "10" (Công nghệ). 
-- Ghi tên đề rõ ràng vào "title" (VD: Đề thi thử Sở Hà Nội Lần 1).
-- Đọc thời gian làm bài, quy đổi ra GIÂY và ghi vào trường "timeLimit" (VD: 90 phút -> 5400). Nếu không có, mặc định là 3000.
-- Điểm Phần 1 (Mặc định cho mọi môn): "p1_points": 0.25.
-- Điểm Phần 2 (Mặc định cho mọi môn): "p2_points": [0.1, 0.25, 0.5, 1.0].
-- Điểm Phần 3 (Phụ thuộc môn học): Môn Toán đặt "p3_points": 0.5. Các môn khác đặt "p3_points": 0.25.
+Dưới đây là các quy tắc bắt buộc:
 
-2. Xử lý Hình ảnh & Lời giải (CỰC KỲ QUAN TRỌNG):
-- NẾU CÓ HÌNH ẢNH/BẢNG BIỂU: Phải coi bảng biểu là hình ảnh. TUYỆT ĐỐI KHÔNG chèn chữ "[CẦN_CHÈN_ẢNH]" vào nội dung text của câu hỏi ("q"). BẠN PHẢI TẠO MỘT TRƯỜNG MỚI ngang hàng với "q", đặt tên là "image": "[CẦN_CHÈN_ẢNH]".
-- NẾU CÓ LỜI GIẢI: Trích xuất vào "explanation". Nếu lời giải có đồ thị/ảnh, tạo trường riêng ngang hàng là "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
-- NẾU KHÔNG CÓ LỜI GIẢI: Tự giải chính xác và viết chi tiết vào "explanation".
+1. TRÍCH XUẤT THÔNG TIN CHUNG (METADATA):
+- "subject": Tự động nhận diện môn học và ghi Mã số. (00: Toán, 01: Vật lí, 02: Hóa học, 03: Sinh học, 04: Ngữ văn, 05: Lịch sử, 06: Địa lí, 07: Tiếng Anh, 08: GDKT & PL, 09: Tin học, 10: Công nghệ).
+- "title": Tên đề thi (VD: "Đề thi thử Sở Hà Nội Lần 1").
+- "timeLimit": Thời gian làm bài tính bằng GIÂY (VD: 90 phút -> 5400). Nếu trong đề không ghi, mặc định là 3000.
+- Điểm số: 
+  + "p1_points": 0.25 (Mặc định mọi môn).
+  + "p2_points": [0.1, 0.25, 0.5, 1.0] (Mặc định mọi môn).
+  + "p3_points": 0.5 đối với Toán; 0.25 đối với các môn khác.
 
-3. Xử lý Đáp án:
-- Phần 1 (Chọn 1 đáp án): Ghi số nguyên (VD: "ans": 0). Trắc nghiệm nhiều đáp án dùng mảng (VD: "ans": [0, 1]).
-- Phần 3 (Trả lời ngắn): ĐÁP ÁN BẮT BUỘC TỐI ĐA 4 KÝ TỰ (đã tính dấu "-" và ","). Ví dụ HỢP LỆ: "-1,3", "1693", "3,5". Số thập phân BẮT BUỘC dùng dấu phẩy (,).
+2. CẤU TRÚC 3 PHẦN CỦA ĐỀ THI:
+- part1 (Trắc nghiệm 4 lựa chọn): "ans" là số nguyên (0 tương ứng A, 1=B, 2=C, 3=D). 
+- part2 (Trắc nghiệm Đúng/Sai): Mảng "items" KHÔNG kèm theo các chữ cái "a), b), c), d)" ở đầu câu. "ans" là mảng boolean [true, false, true, false].
+- part3 (Trả lời ngắn): "ans" BẮT BUỘC TỐI ĐA 4 KÝ TỰ (đã tính dấu "-" và ","). Nếu là số thập phân, bắt buộc dùng dấu phẩy (,) không dùng dấu chấm (.). Ví dụ hợp lệ: "-1,5", "1693", "3,5".
+
+3. XỬ LÝ HÌNH ẢNH & LỜI GIẢI (QUAN TRỌNG):
+- Hình ảnh/Bảng biểu: Mọi bảng biểu đều phải coi là hình ảnh. TUYỆT ĐỐI KHÔNG chèn chữ "[CẦN_CHÈN_ẢNH]" vào nội dung text của câu hỏi ("q"). Phải tạo một trường mới ngang hàng với "q", đặt tên là "image": "[CẦN_CHÈN_ẢNH]".
+- Lời giải: Trích xuất vào "explanation". Nếu không có sẵn lời giải, bạn hãy tự giải chính xác và viết chi tiết vào đây.
+- Ảnh trong lời giải: Nếu lời giải có đồ thị/ảnh, tạo trường ngang hàng là "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
+- Câu hỏi chùm: SAO CHÉP toàn bộ đoạn văn bản ngữ cảnh dùng chung và gắn trực tiếp vào đầu trường "q" của TỪNG câu hỏi liên quan.
 
 4. QUY TẮC BẢO MẬT JSON VÀ TOÁN HỌC (LUẬT THÉP):
-- CẤM LỖI ESCAPE: Mọi ký tự gạch chéo ngược ( \ ) trong LaTeX BẮT BUỘC phải nhân đôi ( \\ ). Ví dụ ĐÚNG: \\frac{1}{2}, \\sqrt{x}, \\Delta. Ví dụ SAI: \frac{1}{2}.
-- CẤM LỖI THẺ HTML: BẮT BUỘC CÓ KHOẢNG TRẮNG hai bên dấu bé hơn ( < ) và lớn hơn ( > ). Ví dụ ĐÚNG: $x < y + 1$. Ví dụ SAI: $x<y+1$ (trình duyệt sẽ lỗi).
-- KHÔNG dùng dấu ngoặc kép ( " ) bên trong văn bản. Hãy dùng dấu ngoặc đơn ( ' ).
-- KHÔNG tự ý enter xuống dòng (line break) bên trong giá trị chuỗi. Nếu văn bản có nhiều đoạn, hãy dùng thẻ <br> để ngắt dòng.
-- Công thức Toán bọc trong $. Phần 2: mảng "items" KHÔNG kèm chữ cái "a)", "b)".
+- Cấm lỗi Escape LaTeX: Mọi ký tự gạch chéo ngược (\) trong LaTeX BẮT BUỘC phải nhân đôi (\\). VD ĐÚNG: \\frac{1}{2}, \\sqrt{x}. VD SAI: \frac{1}{2}.
+- Định dạng Toán: Toàn bộ công thức toán học phải được bọc trong cặp dấu $.
+- Cấm lỗi thẻ HTML: BẮT BUỘC phải có khoảng trắng ở hai bên dấu bé hơn (<) và lớn hơn (>). VD ĐÚNG: $x < y + 1$. VD SAI: $x<y+1$. 
+- Cấm dùng thẻ ngắt dòng `<br>`, hãy dùng ngắt dòng chuẩn của JSON là `\n`.
 
-5. Xử lý Câu hỏi chùm: SAO CHÉP toàn bộ đoạn thông tin dùng chung và gắn trực tiếp vào đầu trường "q" của TỪNG câu liên quan.
-
-Cấu trúc JSON bắt buộc (Ví dụ):
+5. CẤU TRÚC JSON MẪU BẮT BUỘC:
 {
     "timeLimit": 5400,
     "subject": "00",
@@ -122,10 +125,18 @@ Cấu trúc JSON bắt buộc (Ví dụ):
     "p1_points": 0.25,
     "p2_points": [0.1, 0.25, 0.5, 1.0],
     "p3_points": 0.5,
-    "part1": [ { "q": "Hỏi gì đó?", "image": "[CẦN_CHÈN_ẢNH]", "options": ["A", "B", "C", "D"], "ans": 0, "explanation": "Giải", "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]" } ],
-    "part2": [ { "q": "Hỏi?", "items": ["1", "2", "3", "4"], "ans": [true, false, true, false], "explanation": "Giải" } ],
-    "part3": [ { "q": "Hỏi?", "ans": "-1,5", "explanation": "Giải" } ]
-}</div>
+    "part1": [ 
+        { "q": "Nội dung câu hỏi?", "image": "[CẦN_CHÈN_ẢNH]", "options": ["Đáp án A", "Đáp án B", "Đáp án C", "Đáp án D"], "ans": 0, "explanation": "Chi tiết lời giải", "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]" } 
+    ],
+    "part2": [ 
+        { "q": "Nội dung câu hỏi lớn?", "items": ["Ý 1", "Ý 2", "Ý 3", "Ý 4"], "ans": [true, false, true, false], "explanation": "Chi tiết lời giải" } 
+    ],
+    "part3": [ 
+        { "q": "Nội dung câu hỏi?", "ans": "-1,5", "explanation": "Chi tiết lời giải" } 
+    ]
+}
+
+Bây giờ, hãy phân tích tài liệu tôi cung cấp và trả về DUY NHẤT mã JSON theo đúng cấu trúc trên, không kèm theo bất kỳ văn bản giải thích nào khác.</div>
                 </div>
                 
                 <div class="bg-white dark:bg-black p-5 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800 transition-colors relative">

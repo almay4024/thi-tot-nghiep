@@ -90,28 +90,29 @@
 
 1. Định danh và Tính điểm:
 - Tự động nhận diện môn học và ghi MÃ SỐ tương ứng vào trường "subject". Danh sách mã: "00" (Toán), "01" (Vật lí), "02" (Hóa học), "03" (Sinh học), "04" (Ngữ văn), "05" (Lịch sử), "06" (Địa lí), "07" (Tiếng Anh), "08" (GDKT & PL), "09" (Tin học), "10" (Công nghệ). 
-- Ví dụ: Nếu là đề Toán, ghi "subject": "00".
 - Ghi tên đề rõ ràng vào "title" (VD: Đề thi thử Sở Hà Nội Lần 1).
+- Đọc thời gian làm bài, quy đổi ra GIÂY và ghi vào trường "timeLimit" (VD: 90 phút -> 5400). Nếu không có, mặc định là 3000.
 - Điểm Phần 1 (Mặc định cho mọi môn): "p1_points": 0.25.
 - Điểm Phần 2 (Mặc định cho mọi môn): "p2_points": [0.1, 0.25, 0.5, 1.0].
 - Điểm Phần 3 (Phụ thuộc môn học): Môn Toán đặt "p3_points": 0.5. Các môn khác đặt "p3_points": 0.25.
 
-2. Xử lý Lời giải, Hình ảnh & BẢNG BIỂU (CỰC KỲ QUAN TRỌNG):
-- NẾU CÂU HỎI CÓ HÌNH ẢNH HOẶC BẢNG BIỂU: TUYỆT ĐỐI KHÔNG tự tạo bảng HTML. Phải coi bảng biểu là hình ảnh. Thêm "image": "[CẦN_CHÈN_ẢNH]" vào nội dung câu hỏi. 
-- NẾU TÀI LIỆU CÓ LỜI GIẢI: Trích xuất vào "explanation". Nếu lời giải có đồ thị/BẢNG BIỂU, thêm "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
-- NẾU KHÔNG CÓ LỜI GIẢI: Tự giải chính xác và viết lời giải chi tiết vào "explanation".
+2. Xử lý Hình ảnh & Lời giải (CỰC KỲ QUAN TRỌNG):
+- NẾU CÓ HÌNH ẢNH/BẢNG BIỂU: Phải coi bảng biểu là hình ảnh. TUYỆT ĐỐI KHÔNG chèn chữ "[CẦN_CHÈN_ẢNH]" vào nội dung text của câu hỏi ("q"). BẠN PHẢI TẠO MỘT TRƯỜNG MỚI ngang hàng với "q", đặt tên là "image": "[CẦN_CHÈN_ẢNH]".
+- NẾU CÓ LỜI GIẢI: Trích xuất vào "explanation". Nếu lời giải có đồ thị/ảnh, tạo trường riêng ngang hàng là "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]".
+- NẾU KHÔNG CÓ LỜI GIẢI: Tự giải chính xác và viết chi tiết vào "explanation".
 
 3. Xử lý Đáp án:
-- Trắc nghiệm nhiều đáp án: Dùng MẢNG (VD "ans": [0, 1]).
-- PHẦN 3 (Trả lời ngắn): ĐÁP ÁN BẮT BUỘC TỐI ĐA 4 KÝ TỰ (đã tính dấu "-" và ","). Ví dụ HỢP LỆ: "-1,3", "1693", "3,5". Số thập phân BẮT BUỘC dùng dấu phẩy.
+- Phần 1 (Chọn 1 đáp án): Ghi số nguyên (VD: "ans": 0). Trắc nghiệm nhiều đáp án dùng mảng (VD: "ans": [0, 1]).
+- Phần 3 (Trả lời ngắn): ĐÁP ÁN BẮT BUỘC TỐI ĐA 4 KÝ TỰ (đã tính dấu "-" và ","). Ví dụ HỢP LỆ: "-1,3", "1693", "3,5". Số thập phân BẮT BUỘC dùng dấu phẩy (,).
 
-4. QUY TẮC BẢO MẬT JSON VÀ TRÌNH BÀY TOÁN HỌC (LUẬT THÉP):
-- CẤM LỖI ESCAPE CHUỖI JSON: Mọi ký tự gạch chéo ngược ( \ ) trong công thức LaTeX BẮT BUỘC phải được nhân đôi ( \\ ). Ví dụ ĐÚNG: \\frac{1}{2}, \\sqrt{x}, \\Delta. Ví dụ SAI: \frac{1}{2}.
+4. QUY TẮC BẢO MẬT JSON VÀ TOÁN HỌC (LUẬT THÉP):
+- CẤM LỖI ESCAPE: Mọi ký tự gạch chéo ngược ( \ ) trong LaTeX BẮT BUỘC phải nhân đôi ( \\ ). Ví dụ ĐÚNG: \\frac{1}{2}, \\sqrt{x}, \\Delta. Ví dụ SAI: \frac{1}{2}.
+- CẤM LỖI THẺ HTML: BẮT BUỘC CÓ KHOẢNG TRẮNG hai bên dấu bé hơn ( < ) và lớn hơn ( > ). Ví dụ ĐÚNG: $x < y + 1$. Ví dụ SAI: $x<y+1$ (trình duyệt sẽ lỗi).
 - KHÔNG dùng dấu ngoặc kép ( " ) bên trong văn bản. Hãy dùng dấu ngoặc đơn ( ' ).
-- Công thức bọc trong $ (VD: $x^2 = 0$). Có khoảng trắng hai bên dấu quan hệ (Ví dụ: $x < y + 1$).
-- Phần 2: mảng "items" KHÔNG kèm chữ cái "a)", "b)".
+- KHÔNG tự ý enter xuống dòng (line break) bên trong giá trị chuỗi. Nếu văn bản có nhiều đoạn, hãy dùng thẻ <br> để ngắt dòng.
+- Công thức Toán bọc trong $. Phần 2: mảng "items" KHÔNG kèm chữ cái "a)", "b)".
 
-5. Xử lý Câu hỏi chùm: SAO CHÉP toàn bộ đoạn thông tin/hình ảnh dùng chung và gắn trực tiếp vào đầu trường "q" của TỪNG câu liên quan.
+5. Xử lý Câu hỏi chùm: SAO CHÉP toàn bộ đoạn thông tin dùng chung và gắn trực tiếp vào đầu trường "q" của TỪNG câu liên quan.
 
 Cấu trúc JSON bắt buộc (Ví dụ):
 {
@@ -121,7 +122,7 @@ Cấu trúc JSON bắt buộc (Ví dụ):
     "p1_points": 0.25,
     "p2_points": [0.1, 0.25, 0.5, 1.0],
     "p3_points": 0.5,
-    "part1": [ { "q": "Hỏi?", "image": "[CẦN_CHÈN_ẢNH]", "options": ["A", "B", "C", "D"], "ans": 0, "explanation": "Giải", "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]" } ],
+    "part1": [ { "q": "Hỏi gì đó?", "image": "[CẦN_CHÈN_ẢNH]", "options": ["A", "B", "C", "D"], "ans": 0, "explanation": "Giải", "explanationImage": "[CẦN_CHÈN_ẢNH_GIẢI_THÍCH]" } ],
     "part2": [ { "q": "Hỏi?", "items": ["1", "2", "3", "4"], "ans": [true, false, true, false], "explanation": "Giải" } ],
     "part3": [ { "q": "Hỏi?", "ans": "-1,5", "explanation": "Giải" } ]
 }</div>

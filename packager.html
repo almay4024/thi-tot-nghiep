@@ -867,11 +867,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
         async function executeExport(mode) {
             if (!examData) return;
 
-            // Tự động nhận diện hành động: Nếu ID hiện tại trùng với ID lúc load file -> GHI ĐÈ
-            let isOverwrite = examData.examId && (examData.examId === originalExamId);
-            let existingSha = null;
-            let targetFileName = "";
-
             // Nếu người dùng để trống ô ID -> Tự động cấp mã mới theo môn
             if (!examData.examId) {
                 try {
@@ -887,19 +882,23 @@ Cấu trúc JSON bắt buộc (Ví dụ):
             const owner = localStorage.getItem('gh_owner');
             const repo = localStorage.getItem('gh_repo');
 
-            // Nếu GHI ĐÈ: Tìm lại tên file cũ trên GitHub để lấy SHA
-            if (isOverwrite && mode === 'github' && token) {
+            let targetFileName = "";
+            let existingSha = null;
+
+            // SỬA LỖI ĐẺ FILE MỚI: Luôn quét kho Github xem ID này đã tồn tại chưa
+            if (mode === 'github' && token) {
                  try {
                      const files = await fetchGitHubDir(owner, repo, token);
+                     // Tìm file có bắt đầu bằng ID hiện tại (Ví dụ: 01005_)
                      const existingFile = files.find(f => f.name.startsWith(`${examData.examId}_`));
                      if (existingFile) {
-                         targetFileName = existingFile.name; 
-                         existingSha = existingFile.sha;
+                         targetFileName = existingFile.name; // Giữ y nguyên tên cũ (gồm cả thời gian cũ)
+                         existingSha = existingFile.sha;     // Bắt buộc phải có SHA thì Github mới cho ghi đè
                      }
                  } catch(e) { console.error("Lỗi tìm file cũ:", e); }
             }
 
-            // Nếu TẠO MỚI hoặc TẢI XUỐNG: Tạo tên file mới (GIỮ NGUYÊN DẤU CÁCH)
+            // Nếu chưa có file trên GitHub (Tạo mới) HOẶC người dùng đang bấm Tải Xuống file .json
             if (!targetFileName) {
                 const now = new Date();
                 const timestamp = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0') + "_" + String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
@@ -908,7 +907,6 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 let safeSub = subjName.replace(/[\\/:*?"<>|]/g, "").trim();
                 let safeTitle = examData.title ? examData.title.replace(/[\\/:*?"<>|]/g, "").trim() : "De_Thi";
                 
-                // Cấu trúc: ID_Môn_ThờiGian_TênĐề.json (Có dấu cách)
                 targetFileName = `${examData.examId}_${safeSub}_${timestamp}_${safeTitle}.json`;
             }
 
@@ -930,7 +928,8 @@ Cấu trúc JSON bắt buộc (Ví dụ):
                 btn.innerHTML = `ĐANG ĐẨY LÊN...`; btn.disabled = true;
 
                 try {
-                    const body = { message: `CMS: ${isOverwrite ? 'Update' : 'Upload'} ${targetFileName}`, content: contentBase64 };
+                    // Dùng existingSha để xác định thông điệp commit là Update hay Upload
+                    const body = { message: `CMS: ${existingSha ? 'Update' : 'Upload'} ${targetFileName}`, content: contentBase64 };
                     if (existingSha) body.sha = existingSha;
 
                     const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {

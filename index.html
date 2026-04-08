@@ -1233,7 +1233,7 @@
                     html += `
                     <label class="${optClass}">
                         <input type="radio" name="q${currentIndex}" value="${i}" ${checked} onchange="saveAnswer(${currentIndex}, ${i})" class="w-5 h-5 mr-2.5 sm:mr-3 mt-0.5 flex-none" ${isLocked ? 'disabled' : ''}>
-                        <span class="flex-1 leading-relaxed"><span class="font-bold mr-1 text-slate-700 dark:text-slate-400">${String.fromCharCode(65+i)}.</span> ${opt}</span>
+                        <span class="flex-1 leading-relaxed whitespace-pre-line"><span class="font-bold mr-1 text-slate-700 dark:text-slate-400">${String.fromCharCode(65+i)}.</span> ${opt}</span>
                     </label>`;
                 });
                 html += `</div>`;
@@ -1275,7 +1275,7 @@
 
                     html += `
                     <tr class="${rowClass}">
-                        <td class="p-3 md:p-4"><span class="font-semibold text-slate-500 mr-1.5">${String.fromCharCode(97+i)})</span> ${item}</td>
+                        <td class="p-3 md:p-4 whitespace-pre-line"><span class="font-semibold text-slate-500 mr-1.5">${String.fromCharCode(97+i)})</span> ${item}</td>
                         <td class="p-3 md:p-4 text-center border-l border-slate-200 dark:border-zinc-800 ${tBg}">
                             <label class="flex justify-center items-center h-full w-full cursor-pointer m-0"><input type="radio" name="q${currentIndex}_${i}" class="radio-custom radio-true" onchange="saveP2Answer(${currentIndex}, ${i}, true)" ${isTrue} ${isLocked ? 'disabled' : ''}></label>
                         </td>
@@ -1350,7 +1350,6 @@
             
             updateCheckState();
         }
-
         // ==========================================
         // LOGIC CHẤM ĐIỂM & XỬ LÝ DỮ LIỆU
         // ==========================================

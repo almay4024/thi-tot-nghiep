@@ -255,7 +255,7 @@
                 "Học sinh tiến hành đảo hai cực của nam châm thì thấy số chỉ của cân thay đổi 0,46 g. Học sinh tính được cảm ứng từ trong lòng của nam châm chữ U trong thí nghiệm này có độ lớn là 0,4 T."
             ],
             "ans": [
-                false,
+                true,
                 false,
                 true,
                 false

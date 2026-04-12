@@ -1584,9 +1584,12 @@
                             ${q.explanation || ''}
                          </div>`;
                 if(q.explanationImage) {
-                    // Kiểm tra cờ đảo màu cho ảnh giải thích
                     let invertExpClass = q.explanationImageInvert ? 'dark:invert' : '';
-                    html += `<img src="${q.explanationImage}" class="question-img mt-4 mx-auto ${invertExpClass}" alt="Ảnh giải thích">`;
+                    html += `<div class="flex justify-center mt-4">
+                                <div class="border border-slate-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm flex">
+                                    <img src="${q.explanationImage}" class="max-h-[40vh] w-auto object-contain bg-white dark:bg-[#e2e8f0] transition-all duration-300 ${invertExpClass}" alt="Ảnh giải thích">
+                                </div>
+                             </div>`;
                 }
             } else {
                 html += `<div class="italic opacity-80 text-slate-500 text-xs md:text-sm">Không có giải thích chi tiết cho câu hỏi này.</div>`;

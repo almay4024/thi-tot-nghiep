@@ -1207,12 +1207,17 @@
             // Giữ nguyên màu chữ, chỉ thêm whitespace-pre-line để hỗ trợ \n
             let html = `<div class="${isLocked ? 'locked transition-all duration-300' : ''}"><div class="font-medium mb-5 md:mb-6 text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-line">${q.q}</div>`;
             
-            // Giữ nguyên hình ảnh, không làm mờ hay xám
+            // ==========================================
+            // TÍNH NĂNG ẢNH ÂM BẢN CHẾ ĐỘ TỐI (Tách viền ra khung bọc)
+            // ==========================================
             let img = q.imageUrl || q.image;
             if (img && img !== "[CẦN_CHÈN_ẢNH]") {
-                // Kiểm tra cờ đảo màu
                 let invertClass = q.imageInvert ? 'dark:invert' : '';
-                html += `<img src="${img}" class="question-img mx-auto transition-all duration-300 ${invertClass}" alt="Hình ảnh câu hỏi">`;
+                html += `<div class="flex justify-center mb-5 md:mb-6">
+                            <div class="border border-slate-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm flex">
+                                <img src="${img}" class="max-h-[40vh] w-auto object-contain bg-white dark:bg-[#e2e8f0] transition-all duration-300 ${invertClass}" alt="Hình ảnh câu hỏi">
+                            </div>
+                         </div>`;
             }
 
             if(q.type === 1) {

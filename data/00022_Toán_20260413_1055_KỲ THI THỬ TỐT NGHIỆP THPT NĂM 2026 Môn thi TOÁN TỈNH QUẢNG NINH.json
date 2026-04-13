@@ -113,7 +113,7 @@
             "explanation": "Bán kính mặt cầu là $R = AB = \\sqrt{(3-1)^2 + (2-1)^2 + (-3-2)^2} = \\sqrt{4+1+25} = \\sqrt{30}$. Phương trình mặt cầu tâm $A(1;1;2)$ bán kính $R=\\sqrt{30}$ là $(x-1)^2+(y-1)^2+(z-2)^2=30$."
         },
         {
-            "q": "Doanh thu bán hàng trong 20 ngày của một cửa hàng được ghi lại ở bảng sau (đơn vị: triệu đồng):\\nTứ phân vị thứ ba của mẫu số liệu trên gần nhất với giá trị nào trong các giá trị sau?",
+            "q": "Doanh thu bán hàng trong 20 ngày của một cửa hàng được ghi lại ở bảng sau (đơn vị: triệu đồng):\nTứ phân vị thứ ba của mẫu số liệu trên gần nhất với giá trị nào trong các giá trị sau?",
             "options": [
                 "13.",
                 "12.",

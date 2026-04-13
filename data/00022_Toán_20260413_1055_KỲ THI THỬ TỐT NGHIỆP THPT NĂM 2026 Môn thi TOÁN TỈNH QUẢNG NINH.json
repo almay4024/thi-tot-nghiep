@@ -23,7 +23,7 @@
             "explanation": "Ta có: $\\log_3(x+1)=2 \\Leftrightarrow x+1=3^2 \\Leftrightarrow x+1=9 \\Leftrightarrow x=8$."
         },
         {
-            "q": "Cho hàm số $y=f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu của $f'(x)$ như sau:",
+            "q": "Cho hàm số $y=f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu của $f'(x)$ như sau:\nSố điểm cực đại của hàm số $y=f(x)$ là",
             "options": [
                 "1.",
                 "2.",

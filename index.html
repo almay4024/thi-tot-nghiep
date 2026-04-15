@@ -158,7 +158,8 @@
             font-size: 1.1em !important; /* Phóng to riêng phần phân số */
         }
         /* CSS tự chế: Đảo nền Trắng/Đen nhưng giữ nguyên màu sắc (Đỏ, Xanh...) */
-        .smart-invert {
+        /* CSS tự chế: Đảo nền Trắng/Đen nhưng giữ nguyên màu sắc (Đỏ, Xanh...) khi bật Dark Mode */
+        .dark .smart-invert {
             filter: invert(1) hue-rotate(180deg);
         }
     </style>
@@ -1216,7 +1217,7 @@
             // ==========================================
             let img = q.imageUrl || q.image;
             if (img && img !== "[CẦN_CHÈN_ẢNH]") {
-                let invertClass = q.imageInvert ? 'dark:smart-invert' : '';
+                let invertClass = q.imageInvert ? 'smart-invert' : '';
                 html += `<div class="flex justify-center mb-5 md:mb-6">
                             <div class="border border-slate-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm flex">
                                 <img src="${img}" class="max-h-[40vh] w-auto object-contain bg-white dark:bg-[#e2e8f0] transition-all duration-300 ${invertClass}" alt="Hình ảnh câu hỏi">
@@ -1588,7 +1589,7 @@
                             ${q.explanation || ''}
                          </div>`;
                 if(q.explanationImage) {
-                    let invertExpClass = q.explanationImageInvert ? 'dark:smart-invert' : '';
+                    let invertExpClass = q.explanationImageInvert ? 'smart-invert' : '';
                     html += `<div class="flex justify-center mt-4">
                                 <div class="border border-slate-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm flex">
                                     <img src="${q.explanationImage}" class="max-h-[40vh] w-auto object-contain bg-white dark:bg-[#e2e8f0] transition-all duration-300 ${invertExpClass}" alt="Ảnh giải thích">

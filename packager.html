@@ -610,7 +610,7 @@ Dưới đây là các quy tắc bắt buộc:
                 let parsedData = JSON.parse(cleanText);
                 validateExamData(parsedData); // GỌI HÀM KIỂM LỖI LOGIC
 
-                examData = parsedData; markAsModified();
+                examData = parsedData; markExamModified();
                 finishLoadingJSON("Dữ liệu Paste Trực tiếp", 'paste');
             } catch (err) { showCustomError(err.message.includes("JSON") ? "LỖI CẤU TRÚC JSON (Gãy ngoặc, thiếu phẩy...)\n\n" + err.message : err.message); }
         }
@@ -1066,7 +1066,7 @@ Dưới đây là các quy tắc bắt buộc:
                 const base64String = event.target.result; const task = imagePointers[index];
                 if (task.propKey === 'image') { task.ref.imageUrl = base64String; delete task.ref.image; } else { task.ref.explanationImage = base64String; }
                 task.existingBase64 = base64String;
-                markAsModified();
+                markExamModified();
                 
                 // Đọc trạng thái Toggle hiện tại
                 const isChecked = document.getElementById(`toggle-invert-${index}`).checked;

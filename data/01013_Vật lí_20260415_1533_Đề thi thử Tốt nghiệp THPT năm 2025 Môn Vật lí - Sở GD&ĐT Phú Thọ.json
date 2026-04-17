@@ -316,9 +316,9 @@
             "imageInvert": true
         },
         {
-            "q": "Một xilanh chứa $14 \\text{ g}$ khí nitrogen ở nhiệt độ $300 \\text{ K}$. Đun nóng đẳng áp khí đến $400 \\text{ K}$. Thể tích khí nitrogen trong xilanh bây giờ bằng bao nhiêu $m^3$ (làm tròn kết quả đến chữ số hàng phần mười)?",
+            "q": "Một xilanh chứa $0,3 \\text{ dm}^3$ khí nitrogen ở nhiệt độ $27^oC$. Đun nóng đẳng áp khí đến $127^oC$. Thể tích khí nitrogen trong xilanh bây giờ bằng bao nhiêu $\\text{dm}^3$ (làm tròn kết quả đến chữ số hàng phần mười)?",
             "ans": "0,4",
-            "explanation": "Tính theo đáp án chuẩn của Bộ GD: kết quả ghi nhận làm tròn là $0,4 \\text{ m}^3$ với giả định về áp suất ban đầu tiêu chuẩn bị thiếu dữ kiện rõ ràng trong file đề OCR."
+            "explanation": "Trạng thái 1: $V_1 = 0,3 \\text{ dm}^3$, $T_1 = 27 + 273 = 300 \\text{ K}$.\nTrạng thái 2: $T_2 = 127 + 273 = 400 \\text{ K}$.\nÁp dụng định luật Charles cho quá trình đẳng áp: $\\frac{V_1}{T_1} = \\frac{V_2}{T_2} \\Rightarrow V_2 = V_1 \\frac{T_2}{T_1} = 0,3 \\times \\frac{400}{300} = 0,4 \\text{ dm}^3$."
         },
         {
             "q": "Để đảm bảo an toàn trong quá trình sử dụng, nồi áp suất có van an toàn, cấu tạo gồm một lỗ tròn có diện tích $0,1 \\text{ cm}^2$ luôn được áp chặt bởi một lò xo có độ cứng $100 \\text{ N/m}$ và luôn bị nén 1 cm. Ban đầu khí trong nồi bằng áp suất khí quyển là $10^5 \\text{ Pa}$ và nhiệt độ $300 \\text{ K}$. Xem như khí không thoát ra ngoài ở các vị trí khác. Van an toàn bắt đầu mở ra khi khí trong nồi có nhiệt độ nhỏ nhất là bao nhiêu K (làm tròn kết quả đến chữ số hàng đơn vị)?",

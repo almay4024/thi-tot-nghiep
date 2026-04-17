@@ -1229,7 +1229,17 @@
                 let savedAns = userAnswers[currentIndex] !== undefined ? userAnswers[currentIndex] : null;
                 let correctAnsArray = Array.isArray(q.ans) ? q.ans : [q.ans];
                 
-                html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 mb-2">`;
+                // ==========================================
+                // TÍNH NĂNG SMART LAYOUT (Tự động lật 1 cột nếu đáp án quá dài)
+                // ==========================================
+                // Kiểm tra xem có đáp án nào dài hơn 45 ký tự hoặc có chứa dấu xuống dòng không
+                let hasLongOption = q.options.some(opt => opt.length > 45 || opt.includes('\n') || opt.includes('<br>'));
+                
+                // Nếu có đáp án dài -> Ép 1 cột (grid-cols-1). Nếu ngắn -> Chia 2 cột trên PC (sm:grid-cols-2)
+                let gridClass = hasLongOption ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2";
+                
+                html += `<div class="grid ${gridClass} gap-3 mt-4 mb-2 transition-all">`;
+                
                 q.options.forEach((opt, i) => {
                     let checked = savedAns === i ? 'checked' : '';
                     let optClass = "flex items-start p-3 sm:p-4 border border-slate-200 dark:border-zinc-800 rounded-xl cursor-pointer hover:bg-slate-500/10 dark:hover:bg-white/10 bg-slate-50/50 dark:bg-black/50 transition-colors";
@@ -1249,7 +1259,7 @@
                     </label>`;
                 });
                 html += `</div>`;
-            } 
+            }
             else if(q.type === 2) {
                 let savedAns = userAnswers[currentIndex] || {};
                 html += `<div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm mt-4">

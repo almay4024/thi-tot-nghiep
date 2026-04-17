@@ -12,7 +12,7 @@
     "p3_points": 0.25,
     "part1": [
         {
-            "q": "Cho biết: $\\pi = 3,14$; $T (K) = t (^\\circ C) + 273$; $R = 8,31$ J.mol$^{-1}$.K$^{-1}$; $N_A = 6,02.10^{23}$ hạt/mol.\n\nQuá trình một chất chuyển từ thể lỏng sang thể khí được gọi là quá trình",
+            "q": "Quá trình một chất chuyển từ thể lỏng sang thể khí được gọi là quá trình",
             "options": [
                 "nóng chảy.",
                 "hóa hơi.",
